@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  line-height: 1;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
