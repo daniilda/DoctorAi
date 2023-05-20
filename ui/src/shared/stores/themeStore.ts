@@ -3,7 +3,7 @@ import { makeAutoObservable } from "mobx";
 type AppTheme = "dark" | "light";
 
 export const ThemeStore = new (class {
-  public theme: AppTheme = "dark";
+  public theme: AppTheme = "light";
 
   constructor() {
     makeAutoObservable(this);
