@@ -3,15 +3,16 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
+import Main from "../../pages/Main";
 
 const router = createBrowserRouter([
   {
-    path: "/home",
-    element: <h1>hello world</h1>,
+    path: "/*",
+    element: <Main />,
   },
   {
     path: "*",
-    element: <Navigate to="/home" />,
+    element: <Navigate to="/" />,
   },
 ]);
 

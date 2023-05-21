@@ -12,23 +12,24 @@ export default {
   },
   plugins: [
     tailwindThemer({
-      themes: [
-        {
-          name: "dark",
-          extend: {
-            colors: {
-              primary: "blue",
-              text: {
-                main: "#fafafa",
-              },
-              bg: {
-                primary: "#191919",
-              },
+      defaultTheme: {
+        name: "light",
+        extend: {
+          colors: {
+            primary: "blue",
+            text: {
+              main: "#282828",
+            },
+            bg: {
+              primary: "#F6F5FC",
+              nav: "",
             },
           },
         },
+      },
+      themes: [
         {
-          name: "light",
+          name: "dark",
           extend: {
             colors: {
               primary: "red",
