@@ -1,7 +1,7 @@
 import Routes from "../shared/hoc/Routes";
-import { ThemeStore } from "../shared/stores";
 import "./base.css";
 import { observer } from "mobx-react-lite";
+import { ThemeStore } from "@/stores/themeStore";
 
 const App = observer(() => {
   return (

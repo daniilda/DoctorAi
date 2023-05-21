@@ -7,6 +7,7 @@ export default {
     screens: {
       md: "768px",
       lg: "1024px",
+      max: "1280px",
     },
     extend: {},
   },
@@ -22,24 +23,24 @@ export default {
             },
             bg: {
               primary: "#F6F5FC",
-              nav: "",
+              nav: "#ffffff",
             },
           },
         },
       },
-      themes: [
-        {
-          name: "dark",
-          extend: {
-            colors: {
-              primary: "red",
-              bg: {
-                primary: "#191919",
-              },
-            },
-          },
-        },
-      ],
+      // themes: [
+      //   {
+      //     name: "dark",
+      //     extend: {
+      //       colors: {
+      //         primary: "red",
+      //         bg: {
+      //           primary: "#191919",
+      //         },
+      //       },
+      //     },
+      //   },
+      // ],
     }),
   ],
 };
