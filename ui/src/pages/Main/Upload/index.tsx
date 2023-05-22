@@ -2,7 +2,6 @@ import Logo from "@/assets/logo.svg";
 import DragDropFile from "./components/DragDropFile";
 import { observer } from "mobx-react-lite";
 import { UploadStore } from "@/stores";
-import DocViewer, { PDFRenderer } from "react-doc-viewer";
 import Preview from "./components/Preview";
 
 const UploadPage = observer(() => {
