@@ -6,7 +6,7 @@ interface ProcessedFile extends Omit<File, "arrayBuffer"> {
 }
 
 export const UploadStore = new (class {
-  public files: ProcessedFile[] = [];
+  public files: File[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -14,29 +14,21 @@ export const UploadStore = new (class {
 
   addFiles = async (files: File[]) => {
     console.log(files);
-    const reader = new FileReader();
     for (let i = 0; i < files.length; i++) {
-      reader.readAsDataURL(files[i]);
-      reader.onload = async (v) => {
-        console.log(v);
-        const fileCopy = { ...files[i] };
-        const buffer = await files[i].arrayBuffer();
-        const uri = URL.createObjectURL(files[i]);
-        this.files.push({
-          ...fileCopy,
-          arrayBuffer: buffer.slice(0), // slice to copy the buffer
-          uri: uri.toString(),
-        });
-      };
+      this.files.push({
+        ...files[i],
+        // arrayBuffer: buffer.slice(0), // slice to copy the buffer
+        // uri: uri.toString(),
+      });
     }
   };
 
-  public pushFile(file: ProcessedFile) {
+  public pushFile(file: File) {
     console.log(this);
     this.files.push(file);
   }
 
-  public removeFile(file: ProcessedFile) {
+  public removeFile(file: File) {
     this.files = this.files.filter((f) => f !== file);
   }
 
