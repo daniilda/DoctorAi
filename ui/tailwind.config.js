@@ -17,13 +17,18 @@ export default {
         name: "light",
         extend: {
           colors: {
-            primary: "blue",
+            primary: "#6DB49B",
+            primaryLighter: "#7AC5AA",
+            error: "#BF5552",
             text: {
               main: "#282828",
+              placeholder: "#828397",
+              onPrimary: "#FFFFFF",
             },
             bg: {
               primary: "#F6F5FC",
-              nav: "#ffffff",
+              accent: "#FFFFFF",
+              nav: "#FFFFFF",
             },
           },
         },

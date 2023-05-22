@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Heading from "../../shared/components/Heading";
+import Login from "../Login";
 
 const Main = () => {
   return (
@@ -7,8 +8,7 @@ const Main = () => {
       <Heading />
       <Routes>
         <Route index element={<h1>Index</h1>} />
-        <Route path="welcome" element={<h1>Welcome</h1>} />
-        <Route path="welcome/to" element={<h1>Welcome:)</h1>} />
+        <Route path="login" element={<Login />} />
         <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
     </>
