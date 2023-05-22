@@ -11,7 +11,7 @@ const NavLink = ({ to, children }: { to: string; children: string }) => {
         to={to}
         className={`${
           pathname === to ? "text-primary" : ""
-        } hover:drop-shadow-md transition-all duration-100`}
+        } hover:drop-shadow-sm`}
       >
         {children}
       </Link>
@@ -26,7 +26,7 @@ const Heading = observer(() => {
       <div className="max-w-screen-max font-medium w-full px-2 lg:px-8 flex items-center">
         <Logo width="120" />
         <ul className="flex ml-8 gap-4 lg:gap-8 lg:ml-12 text-base">
-          <NavLink to="/">Оценка назначения</NavLink>
+          <NavLink to="/submit">Оценка назначения</NavLink>
           <NavLink to="/stats">Статистика</NavLink>
           <NavLink to="/help">Помощь</NavLink>
         </ul>
