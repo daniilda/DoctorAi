@@ -1,7 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const DragDropFile = () => {
+const DragDropFile = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
   const [drag, setDrag] = useState(false);
 
   const onDragStart = (e: React.DragEvent<HTMLFormElement>) => {
@@ -17,8 +17,7 @@ const DragDropFile = () => {
   const onDrop = (e: React.DragEvent<HTMLFormElement>) => {
     e.preventDefault();
     const files = [...e.dataTransfer.files];
-    // onFileUpload(files);
-    console.log(files);
+    onUpload(files);
     setDrag(false);
   };
 
@@ -26,8 +25,7 @@ const DragDropFile = () => {
     if (!e.target.files) return;
 
     const files = [...e.target.files];
-    console.log(files);
-    // onFileUpload(files);
+    onUpload(files);
   };
 
   return (
