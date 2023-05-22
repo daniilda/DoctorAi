@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Heading from "../../shared/components/Heading";
 import Login from "./Login";
-import SubmitPage from "./Submit";
+import UploadPage from "./Upload";
 import PrivateRoute from "@/hoc/PrivateRoute";
 
 const Main = () => {
@@ -12,14 +12,14 @@ const Main = () => {
         <Route index element={<h1>Index</h1>} />
         <Route path="login" element={<Login />} />
         <Route
-          path="submit"
+          path="upload"
           element={
             <PrivateRoute>
-              <SubmitPage />
+              <UploadPage />
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>
     </>
   );
