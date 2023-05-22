@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/react-pdf": "^6.2.0",
     "axios": "^1.4.0",
     "history": "^5.3.0",
     "mobx": "^6.9.0",
@@ -30,7 +29,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "postcss": "^8.4.23",
-    "react-pdf": "^6.2.2",
     "sass": "^1.62.1",
     "tailwindcss": "^3.3.2",
     "tailwindcss-themer": "^3.1.0",
