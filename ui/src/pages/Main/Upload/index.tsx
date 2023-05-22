@@ -6,7 +6,7 @@ import Preview from "./components/Preview";
 
 const UploadPage = observer(() => {
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col items-center h-full">
       <Logo className="max-w-md mt-20" />
       <p className="text-center max-w-md mt-4">
         Сервис поможет оценить релевантность назначений специалиста на основе
@@ -15,6 +15,9 @@ const UploadPage = observer(() => {
       <div className="flex flex-col mt-16 w-full max-w-lg items-center">
         <DragDropFile onUpload={UploadStore.addFiles} />
       </div>
+      <p className="text-center max-w-md mt-6 mb-8">
+        поддерживются форматы docx и xlsx
+      </p>
       <Preview />
     </main>
   );
