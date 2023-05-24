@@ -8,5 +8,5 @@ public sealed class EchoController : ControllerBase
 {
     [HttpGet]
     public ActionResult<string> Echo(string input)
-        => Ok(input);
+        => Ok();
 }
