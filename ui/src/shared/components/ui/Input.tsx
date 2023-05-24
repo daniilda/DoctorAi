@@ -19,9 +19,11 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className="w-full flex relative items-center">
       <input
-        className={`shadow-none w-full focus:shadow-md transition-shadow duration-200 outline-none px-4 py-4 rounded-xl placeholder:text-text-placeholder text-base
-      ${color === "primary" ? "bg-bg-primary" : "bg-bg-accent"}
-      ${error ? "outline-error" : ""} ${className}`}
+        className={`shadow-none box-border w-full focus:shadow-md transition-shadow duration-200 px-4 py-4 rounded-xl placeholder:text-text-placeholder text-base
+      ${color === "primary" ? "bg-bg-primary" : "bg-bg-accent"} ${className}`}
+        style={{
+          boxShadow: error ? "0 0 0 1px rgb(var(--colors-error))" : "",
+        }}
         onChange={(e) => onChange && onChange(e.target.value)}
         {...rest}
       />

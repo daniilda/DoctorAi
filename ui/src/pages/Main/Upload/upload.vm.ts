@@ -8,12 +8,12 @@ export class UploadStore {
 
   constructor() {
     makeAutoObservable(this);
-    console.log("init");
   }
 
   addFiles = (files: any) => {
-    console.log(files);
     for (let i = 0; i < files.length; i++) {
+      const extention = files[i].name.split(".").pop()?.toLocaleLowerCase();
+      if (extention !== "docx" && extention !== "xlsx") return;
       files[i].progress = 0;
       this.files.push(files[i]);
     }
