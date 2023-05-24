@@ -27,7 +27,7 @@ export const Input: React.FC<InputProps> = ({
       />
       {allowClear && rest.value && (
         <button
-          className="absolute w-5 text-gray-500/30 right-4 focus:outline-none top-7"
+          className="absolute w-5 text-gray-500/50 right-4 focus:outline-none top-7 hover:text-gray-500/80"
           onClick={() => onChange && onChange("")}
         >
           <ClearSvg />

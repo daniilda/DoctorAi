@@ -50,7 +50,7 @@ const DragDropFile = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
         }}
         htmlFor="file"
       >
-        Выберите / перетащите файлы
+        Выберите или перетащите файлы
       </label>
     </form>
   );
