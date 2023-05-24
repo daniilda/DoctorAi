@@ -1,4 +1,4 @@
-import { UploadStore } from "@/stores";
+import { UploadStore } from "../../upload.vm";
 import { observer } from "mobx-react-lite";
 import cl from "./styles.module.scss";
 import { Button, Input } from "@/components/ui";
@@ -6,19 +6,24 @@ import ExcelSvg from "@/assets/filetypes/excel.svg";
 import WordSvg from "@/assets/filetypes/word.svg";
 import TrashSvg from "@/assets/trash.svg";
 
-const Preview: React.FC = observer(() => {
-  if (UploadStore.files.length === 0) {
-    return <></>;
-  }
+interface PreviewProps {
+  vm: UploadStore;
+}
+
+const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
   const card = "bg-bg-accent max-w-2xl rounded-xl p-6 flex flex-col shadow-sm";
 
   return (
-    <div className={`w-full mx-auto max-w-2xl flex flex-col gap-4`}>
+    <div
+      className={`${cl.container} ${
+        vm.files.length === 0 ? cl.hidden : ""
+      } w-full mx-auto max-w-2xl flex flex-col gap-4`}
+    >
       <div className={card}>
         <h2 className="font-medium text-xl">Название отчёта</h2>
         <Input
-          value={UploadStore.title}
-          onChange={(v) => (UploadStore.title = v)}
+          value={vm.title}
+          onChange={(v) => (vm.title = v)}
           className="mt-2 text-xl !rounded-lg"
           appearance="primary"
           placeholder="Введите название"
@@ -28,7 +33,7 @@ const Preview: React.FC = observer(() => {
       <div className={card}>
         <h2 className="font-medium text-xl">Выбранные файлы</h2>
         <div className="flex flex-col">
-          {UploadStore.files.map((file: any, index: number) => (
+          {vm.files.map((file: any, index: number) => (
             <div
               key={index}
               className="flex items-center mt-2 bg-bg-primary rounded-lg p-2 px-3 shadow-sm"
@@ -48,7 +53,7 @@ const Preview: React.FC = observer(() => {
 
               <button
                 className="ml-auto focus:outline-none"
-                onClick={() => UploadStore.removeFile(file)}
+                onClick={() => vm.removeFile(file)}
               >
                 <TrashSvg className="text-gray-500/50 hover:text-gray-500/80" />
               </button>
@@ -56,7 +61,7 @@ const Preview: React.FC = observer(() => {
           ))}
         </div>
       </div>
-      <Button onClick={() => UploadStore.upload()}>Создать отчёт</Button>
+      <Button onClick={() => vm.upload()}>Создать отчёт</Button>
     </div>
   );
 });

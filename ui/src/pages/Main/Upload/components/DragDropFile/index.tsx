@@ -26,6 +26,7 @@ const DragDropFile = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
 
     const files = [...e.target.files];
     onUpload(files);
+    e.target.value = "";
   };
 
   return (
