@@ -3,6 +3,7 @@ import DragDropFile from "./components/DragDropFile";
 import { observer } from "mobx-react-lite";
 import { UploadStore } from "@/stores";
 import Preview from "./components/Preview";
+import { CSSTransition } from "react-transition-group";
 
 const UploadPage = observer(() => {
   return (
@@ -16,6 +17,7 @@ const UploadPage = observer(() => {
         <DragDropFile onUpload={UploadStore.addFiles} />
       </div>
       <p className="text-center mt-6 mb-8">поддерживются форматы docx и xlsx</p>
+
       <Preview />
     </main>
   );

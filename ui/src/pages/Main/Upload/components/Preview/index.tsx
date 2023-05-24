@@ -1,7 +1,7 @@
 import { UploadStore } from "@/stores";
 import { observer } from "mobx-react-lite";
 import cl from "./styles.module.scss";
-import { Input } from "@/components/ui";
+import { Button, Input } from "@/components/ui";
 import ExcelSvg from "@/assets/filetypes/excel.svg";
 import WordSvg from "@/assets/filetypes/word.svg";
 import TrashSvg from "@/assets/trash.svg";
@@ -13,9 +13,7 @@ const Preview: React.FC = observer(() => {
   const card = "bg-bg-accent max-w-2xl rounded-xl p-6 flex flex-col shadow-sm";
 
   return (
-    <div
-      className={`${cl.slide_in} w-full mx-auto max-w-2xl flex flex-col gap-4`}
-    >
+    <div className={`w-full mx-auto max-w-2xl flex flex-col gap-4`}>
       <div className={card}>
         <h2 className="font-medium text-xl">Название отчёта</h2>
         <Input
@@ -33,7 +31,7 @@ const Preview: React.FC = observer(() => {
           {UploadStore.files.map((file: any, index: number) => (
             <div
               key={index}
-              className="flex items-center mt-2 bg-bg-primary rounded-lg p-2 px-3"
+              className="flex items-center mt-2 bg-bg-primary rounded-lg p-2 px-3 shadow-sm"
             >
               {file.type ===
               "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
@@ -58,6 +56,7 @@ const Preview: React.FC = observer(() => {
           ))}
         </div>
       </div>
+      <Button onClick={() => UploadStore.upload()}>Создать отчёт</Button>
     </div>
   );
 });

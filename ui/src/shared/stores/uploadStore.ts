@@ -1,5 +1,6 @@
 // Тайпскрипту очень плохо при работе с файлами, поэтому я его освобождаю
 import { makeAutoObservable } from "mobx";
+import { UploadEndpoint } from "../../api/endpoints";
 
 export const UploadStore = new (class {
   public files: any = [];
@@ -24,5 +25,9 @@ export const UploadStore = new (class {
 
   public clearFiles() {
     this.files = [];
+  }
+
+  public upload() {
+    UploadEndpoint.upload(this.files, this.title);
   }
 })();
