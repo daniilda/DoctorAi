@@ -5,17 +5,16 @@ import { Input } from "@/components/ui";
 import ExcelSvg from "@/assets/filetypes/excel.svg";
 import WordSvg from "@/assets/filetypes/word.svg";
 import TrashSvg from "@/assets/trash.svg";
-import { toJS } from "mobx";
 
 const Preview: React.FC = observer(() => {
   if (UploadStore.files.length === 0) {
     return <></>;
   }
-  console.log(toJS(UploadStore.files));
   const card = "bg-bg-accent max-w-2xl rounded-xl p-6 flex flex-col shadow-sm";
+
   return (
     <div
-      className={`${cl.slide_in} w-full h-full mx-auto max-w-2xl flex flex-col gap-6`}
+      className={`${cl.slide_in} w-full mx-auto max-w-2xl flex flex-col gap-4`}
     >
       <div className={card}>
         <h2 className="font-medium text-xl">Название отчёта</h2>
@@ -31,7 +30,7 @@ const Preview: React.FC = observer(() => {
       <div className={card}>
         <h2 className="font-medium text-xl">Выбранные файлы</h2>
         <div className="flex flex-col">
-          {UploadStore.files.map((file, index) => (
+          {UploadStore.files.map((file: any, index: number) => (
             <div
               key={index}
               className="flex items-center mt-2 bg-bg-primary rounded-lg p-2 px-3"
