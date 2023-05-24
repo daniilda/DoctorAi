@@ -1,4 +1,4 @@
-import { api } from "@/utils/api";
+import api from "@/utils/api";
 
 interface UploadResult {
   id: string;
@@ -11,7 +11,7 @@ export const UploadEndpoint = new (class {
       formData.append("FileCollection", file);
     });
     formData.append("ReportName", title);
-    const result = await api.form("/report/create", formData);
+    const result = await api("post", "/report/create", formData);
     return { id: result } as UploadResult;
   }
 })();
