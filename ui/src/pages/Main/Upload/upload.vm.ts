@@ -3,25 +3,27 @@ import { makeAutoObservable } from "mobx";
 import { UploadEndpoint } from "../../../api/endpoints";
 
 export class UploadStore {
-  public files: any = [];
+  public files: File[] = [];
   public title = "";
+  public status: "idle" | "uploading" | "success" | "error" | "analyzing" =
+    "idle";
+  public progress = 0;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  addFiles = (files: any) => {
+  addFiles = (files: File[]) => {
     for (let i = 0; i < files.length; i++) {
-      const extention = files[i].name.split(".").pop()?.toLocaleLowerCase();
+      const extention = files[i].name.split(".").pop()?.toLowerCase();
       if (extention !== "docx" && extention !== "xlsx") return;
-      files[i].progress = 0;
       this.files.push(files[i]);
     }
     // this.files = [...this.files, ...files];
   };
 
-  public removeFile(file: any) {
-    this.files = this.files.filter((f: any) => f !== file);
+  public removeFile(file: File) {
+    this.files = this.files.filter((f: File) => f !== file);
   }
 
   public clearFiles() {
@@ -29,7 +31,14 @@ export class UploadStore {
   }
 
   public async upload() {
-    return await UploadEndpoint.upload(this.files, this.title);
+    this.status = "uploading";
+    await UploadEndpoint.upload(this.files, this.title, (progress: number) => {
+      this.progress = progress;
+      if (progress === 100) {
+        this.status === "analyzing";
+      }
+    });
+    this.status = "success";
   }
 
   public dispose = () => {};
