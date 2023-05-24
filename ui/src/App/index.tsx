@@ -1,5 +1,6 @@
 import Routes from "../shared/hoc/Routes";
 import "./base.css";
+import "./transitions.css";
 import { observer } from "mobx-react-lite";
 import { ThemeStore } from "@/stores/themeStore";
 

@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { UploadStore } from "./upload.vm";
 import Preview from "./components/Preview";
 import { useViewModel } from "@/utils/useViewModel";
+import { CSSTransition } from "react-transition-group";
 
 const UploadPage = observer(() => {
   const vm = useViewModel(() => new UploadStore());
@@ -18,7 +19,14 @@ const UploadPage = observer(() => {
         <DragDropFile onUpload={vm.addFiles} />
       </div>
       <p className="text-center mt-6 mb-8">поддерживются форматы docx и xlsx</p>
-      <Preview vm={vm} />
+      <CSSTransition
+        in={vm.files.length > 0}
+        timeout={300}
+        classNames="slide-up"
+        unmountOnExit
+      >
+        <Preview vm={vm} />
+      </CSSTransition>
     </main>
   );
 });
