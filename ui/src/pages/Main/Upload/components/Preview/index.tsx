@@ -39,11 +39,11 @@ const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
             >
               {file.type ===
               "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
-                <WordSvg className="w-8 h-8 mr-2" />
+                <WordSvg className="h-full mr-2" />
               ) : (
-                <ExcelSvg className="w-8 h-8 mr-2" />
+                <ExcelSvg className="h-full mr-2" />
               )}
-              <div className="flex flex-col">
+              <div className="flex flex-col flex-1">
                 <p className="text-base">{file.name}</p>
                 <p className="text-text-placeholder">
                   {Math.round(file.size / 1024) + " КБайт"}
@@ -51,7 +51,7 @@ const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
               </div>
 
               <button
-                className="ml-auto focus:outline-none"
+                className="focus:outline-none"
                 onClick={() => vm.removeFile(file)}
               >
                 <TrashSvg className="text-gray-500/50 hover:text-gray-500/80" />
@@ -61,6 +61,7 @@ const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
         </div>
       </div>
       <Button
+        className="max-w-xs mx-auto w-full"
         onClick={() => {
           if (vm.title.length === 0) {
             setError(true);

@@ -34,7 +34,7 @@ const Heading = observer(() => {
           className="ml-auto flex gap-2 text-primary items-center"
           onClick={() => navigate("/login")}
         >
-          Вход
+          <p className="collapse md:visible">Вход</p>
           <LoginSvg />
         </button>
       </div>
