@@ -1,36 +1,27 @@
+import axios, { AxiosResponse } from "axios";
 import { getStoredAuthToken, removeStoredAuthToken } from "./authToken";
 import history from "./browserHistory";
 
-const url = import.meta.env.VITE_API_URL;
+axios.defaults.baseURL = "http://188.72.108.108";
+axios.defaults.headers.common["Authorization"] = getStoredAuthToken()
+  ? `Bearer ${getStoredAuthToken()}`
+  : undefined;
 
-export const api = {
-  async get(path: string) {
-    const response = await fetch(`${url}${path}`, {
-      headers: {
-        Authorization: `Bearer ${getStoredAuthToken()}`,
-      },
-    });
-    return await response.json();
-  },
-  async post(path: string, body: any) {
-    const response = await fetch(`${url}${path}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${getStoredAuthToken()}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    return await response.json();
-  },
-  async form(path: string, formData: FormData) {
-    const response = await fetch(`${url}${path}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${getStoredAuthToken()}`,
-      },
-      body: formData,
-    });
-    return await response.json();
-  },
-};
+const api = (method: "get" | "post", path: string, variables?: any) =>
+  new Promise((resolve, reject) => {
+    axios[method](path, variables)
+      .then((response: AxiosResponse) => resolve(response.data))
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.status === 401) {
+            removeStoredAuthToken();
+            history.push("/login");
+          }
+          reject(error.response.data);
+        } else {
+          reject(error);
+        }
+      });
+  });
+
+export default api;
