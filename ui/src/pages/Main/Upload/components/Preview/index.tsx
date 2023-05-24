@@ -67,7 +67,7 @@ const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
             return;
           }
           setError(false);
-          // vm.upload();
+          vm.upload();
         }}
       >
         Создать отчёт

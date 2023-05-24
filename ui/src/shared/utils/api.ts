@@ -7,9 +7,14 @@ axios.defaults.headers.common["Authorization"] = getStoredAuthToken()
   ? `Bearer ${getStoredAuthToken()}`
   : undefined;
 
-const api = (method: "get" | "post", path: string, variables?: any) =>
+const api = (
+  method: "get" | "post",
+  path: string,
+  variables?: any,
+  config?: any
+) =>
   new Promise((resolve, reject) => {
-    axios[method](path, variables)
+    axios[method](path, variables, config)
       .then((response: AxiosResponse) => resolve(response.data))
       .catch((error) => {
         if (error.response) {
