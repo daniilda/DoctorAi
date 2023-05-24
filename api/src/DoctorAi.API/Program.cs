@@ -1,3 +1,4 @@
+using DoctorAi.API.Infrastructure.Authorization.Extensions;
 using FluentMigrator.Runner;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSimpleAuthorization();
 
 var app = builder.Build();
 
