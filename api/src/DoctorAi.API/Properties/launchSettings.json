@@ -8,7 +8,8 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DAI_API_PG_CONNECTION": "UserID=root;Password=16010105Dan;Host=178.170.196.160;Port=5432;Database=doctorai;Pooling=true;MinPoolSize=0;MaxPoolSize=100;ConnectionLifetime=0;"
       }
     },
     "Migration": {
@@ -18,7 +19,8 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DAI_API_PG_CONNECTION": "UserID=root;Password=16010105Dan;Host=178.170.196.160;Port=5432;Database=doctorai;Pooling=true;MinPoolSize=0;MaxPoolSize=100;ConnectionLifetime=0;"
       },
       "commandLineArgs": "migrate"
     }

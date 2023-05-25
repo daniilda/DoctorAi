@@ -8,7 +8,7 @@ public static class DiExtensions
 {
     private const string EnvironmentConnectionStringVariable = "DAI_API_PG_CONNECTION";
 
-    public static IServiceCollection AddLinq2DbAppConnection(IServiceCollection services)
+    public static IServiceCollection AddLinq2DbAppConnection(this IServiceCollection services)
     {
         var dataOptions = new DataOptions().UsePostgreSQL(TryGetConnectionString());
         var concreteDataOptions = new DataOptions<AppDataConnection>(dataOptions);

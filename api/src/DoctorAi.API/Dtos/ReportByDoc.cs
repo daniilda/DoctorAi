@@ -6,3 +6,8 @@ public class ReportByDoc : ReportDocMeta
 
     public PatientReportMeta[] Patients { get; init; } = Array.Empty<PatientReportMeta>();
 }
+
+public class ReportByDocDb
+{
+
+}
