@@ -7,7 +7,7 @@ import { ThemeStore } from "@/stores/themeStore";
 const App = observer(() => {
   return (
     <div
-      className={`${ThemeStore.theme} text-text-main bg-bg-primary w-full min-h-full flex flex-col overflow-x-hidden`}
+      className={`${ThemeStore.theme} items-center text-text-main bg-bg-primary w-full min-h-full flex flex-col overflow-x-hidden`}
     >
       <Routes />
     </div>

@@ -13,10 +13,13 @@ interface PreviewProps {
 
 const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
   const [error, setError] = useState(false);
-  const card = "bg-bg-accent max-w-2xl rounded-xl p-6 flex flex-col shadow-sm";
+  const card =
+    "w-full bg-bg-accent max-w-2xl rounded-xl p-6 flex flex-col shadow-sm";
 
   return (
-    <div className={`w-full mx-auto max-w-2xl flex flex-col gap-4`}>
+    <div
+      className={`w-full mx-auto max-w-2xl flex flex-col items-center gap-4`}
+    >
       <div className={card}>
         <h2 className="font-medium text-xl">Название отчёта</h2>
         <Input
@@ -61,7 +64,7 @@ const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
         </div>
       </div>
       <Button
-        className="max-w-xs mx-auto w-full"
+        className="w-full lg:max-w-xs"
         onClick={() => {
           if (vm.title.length === 0) {
             setError(true);

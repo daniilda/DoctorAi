@@ -9,10 +9,13 @@ const Login = () => {
     return;
   };
   return (
-    <div className="flex flex-col items-center">
-      <Logo className="max-w-md mt-20" />
-      <form className="flex flex-col mt-16 w-96 gap-4" onSubmit={onFormSubmit}>
-        <h2 className="text-center font-bold text-3xl mb-4">Войти на сайт</h2>
+    <div className="flex flex-col items-center w-full px-4">
+      <Logo className="max-w-xs sm:max-w-md mt-20" />
+      <form
+        className="flex flex-col mt-16 w-full sm:max-w-[368px] gap-4 px-6"
+        onSubmit={onFormSubmit}
+      >
+        <h2 className="text-center font-bold text-3xl mb-4">Вход на сайт</h2>
         <Input
           id="email"
           name="email"
