@@ -1,6 +1,6 @@
 // Тайпскрипту очень плохо при работе с файлами, поэтому я его освобождаю
 import { makeAutoObservable } from "mobx";
-import { UploadEndpoint } from "../../../api/endpoints";
+import { UploadEndpoint } from "@/api/endpoints";
 
 export class UploadStore {
   public files: File[] = [];

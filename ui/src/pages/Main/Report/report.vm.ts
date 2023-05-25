@@ -1,4 +1,4 @@
-import { DocMeta, ReportEndpoint, ReportResult } from "../../../api/endpoints";
+import { DocMeta, ReportEndpoint, ReportResult } from "@/api/endpoints";
 import { makeAutoObservable } from "mobx";
 
 export class ReportStore {
