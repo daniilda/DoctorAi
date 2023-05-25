@@ -1,7 +1,7 @@
 import api from "@/utils/api";
 import { setStoredAuthToken } from "@/utils/authToken";
 
-interface AuthResult {
+export interface UserResult {
   id: string;
   username: string;
   firstName: string;
@@ -20,12 +20,12 @@ export const AuthEndpoint = new (class {
     if (!result) return null;
     console.log(result);
     setStoredAuthToken(result as string);
-    return await this.getAuth();
+    return await this.getUser();
   }
 
-  async getAuth() {
+  async getUser() {
     const result = await api.get("/api/v1/sauth/user");
     if (!result) return null;
-    return result as AuthResult;
+    return result as UserResult;
   }
 })();
