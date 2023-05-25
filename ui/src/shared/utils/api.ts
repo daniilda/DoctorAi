@@ -3,25 +3,26 @@ import { getStoredAuthToken, removeStoredAuthToken } from "./authToken";
 import history from "./browserHistory";
 
 axios.defaults.baseURL = "http://188.72.108.108";
-axios.defaults.headers.common["Authorization"] = getStoredAuthToken()
-  ? `Bearer ${getStoredAuthToken()}`
-  : undefined;
+// axios.defaults.headers.common["Authorization"] = getStoredAuthToken()
+//   ? `Bearer ${getStoredAuthToken()}`
+//   : undefined;
 
-const api = (
-  method: "get" | "post",
-  path: string,
-  variables?: any,
-  config?: any
-) =>
+const get = (path: string, config?: any) =>
   new Promise((resolve, reject) => {
-    axios[method](path, variables, config)
+    axios
+      .get(path, {
+        headers: {
+          Authorization: getStoredAuthToken()
+            ? `Bearer ${getStoredAuthToken()}`
+            : undefined,
+        },
+        ...config,
+      })
       .then((response: AxiosResponse) => resolve(response.data))
       .catch((error) => {
         if (error.response) {
-          if (error.response.status === 401) {
-            removeStoredAuthToken();
-            history.push("/login");
-          }
+          removeStoredAuthToken();
+          history.push("/login");
           reject(error.response.data);
         } else {
           reject(error);
@@ -29,4 +30,30 @@ const api = (
       });
   });
 
-export default api;
+const post = (path: string, variables?: any, config?: any) =>
+  new Promise((resolve, reject) => {
+    axios
+      .post(path, variables, {
+        headers: {
+          Authorization: getStoredAuthToken()
+            ? `Bearer ${getStoredAuthToken()}`
+            : undefined,
+        },
+        ...config,
+      })
+      .then((response: AxiosResponse) => resolve(response.data))
+      .catch((error) => {
+        if (error.response) {
+          removeStoredAuthToken();
+          history.push("/login");
+          reject(error.response.data);
+        } else {
+          reject(error);
+        }
+      });
+  });
+
+export default {
+  get,
+  post,
+};
