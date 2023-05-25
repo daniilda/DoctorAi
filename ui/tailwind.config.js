@@ -22,8 +22,14 @@ export default {
             error: "#BF5552",
             text: {
               main: "#282828",
+              secondary: "#5C5C5C",
               placeholder: "#828397",
               onPrimary: "#FFFFFF",
+            },
+            status: {
+              ok: "#6DB49B",
+              warning: "#DE8839",
+              error: "#BF5552",
             },
             bg: {
               primary: "#F6F5FC",

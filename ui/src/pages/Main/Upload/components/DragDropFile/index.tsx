@@ -44,15 +44,16 @@ const DragDropFile = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
         multiple
         onChange={(e) => onFileUpload(e)}
       />
-      <label
-        className="font-medium transition-colors hover:bg-primaryLighter bg-primary max-w-md w -full text-text-onPrimary text-2xl py-4 px-8 rounded-lg cursor-pointer hover:shadow-md"
+      <div
+        className="font-medium text-center text-lg lg:text-2xl transition-colors hover:bg-primaryLighter bg-primary max-w-md w-full text-text-onPrimary rounded-lg hover:shadow-md"
         style={{
           border: drag ? "2px dashed gray" : "",
         }}
-        htmlFor="file"
       >
-        Выберите или перетащите файлы
-      </label>
+        <label className="py-4 cursor-pointer px-6 flex" htmlFor="file">
+          Выберите или перетащите файлы
+        </label>
+      </div>
     </form>
   );
 };
