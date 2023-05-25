@@ -7,7 +7,7 @@ const ProgressBar = ({ value }: { value: number }) => (
       }}
     ></div>
     <p className="absolute font-medium text-text-onPrimary text-2xl inset-0 flex items-center justify-center">
-      {value}%
+      {value === 100 ? "Происходит анализ" : `${value}%`}
     </p>
   </div>
 );
