@@ -6,6 +6,7 @@ import Preview from "./components/Preview";
 import { useViewModel } from "@/utils/useViewModel";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import ProgressBar from "./components/ProgressBar";
+import { Checkmark } from "@/components/ui";
 
 const UploadPage = observer(() => {
   const vm = useViewModel(() => new UploadStore());
@@ -27,6 +28,15 @@ const UploadPage = observer(() => {
               </p>
               <ProgressBar value={vm.progress} />
             </div>
+          </CSSTransition>
+        ) : vm.status !== "success" ? (
+          <CSSTransition
+            key="idle"
+            timeout={300}
+            classNames="appear"
+            unmountOnExit
+          >
+            <Checkmark color="rgb(var(--colors-status-ok))" />
           </CSSTransition>
         ) : (
           <CSSTransition
