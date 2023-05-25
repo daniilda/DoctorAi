@@ -1,6 +1,6 @@
 namespace DoctorAi.API.Dtos;
 
-public enum DirectionState
+public enum AppointmentState
 {
     Unset,
     Set,

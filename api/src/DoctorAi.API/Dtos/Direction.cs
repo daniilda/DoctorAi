@@ -6,5 +6,5 @@ public class Direction
 
     public string Name { get; init; } = null!;
 
-    public DirectionState State { get; init; }
+    public AppointmentState State { get; init; }
 }
