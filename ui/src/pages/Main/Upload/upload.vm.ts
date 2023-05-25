@@ -8,6 +8,7 @@ export class UploadStore {
   public status: "idle" | "uploading" | "success" | "error" | "analyzing" =
     "idle";
   public progress = 0;
+  public reportId: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -32,12 +33,17 @@ export class UploadStore {
 
   public async upload() {
     this.status = "uploading";
-    await UploadEndpoint.upload(this.files, this.title, (progress: number) => {
-      this.progress = progress;
-      if (progress === 100) {
-        this.status === "analyzing";
+    const result = await UploadEndpoint.upload(
+      this.files,
+      this.title,
+      (progress: number) => {
+        this.progress = progress;
+        if (progress === 100) {
+          this.status === "analyzing";
+        }
       }
-    });
+    );
+    this.reportId = result.id;
     this.status = "success";
   }
 

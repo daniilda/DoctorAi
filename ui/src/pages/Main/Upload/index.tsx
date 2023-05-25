@@ -7,12 +7,31 @@ import { useViewModel } from "@/utils/useViewModel";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import ProgressBar from "./components/ProgressBar";
 import { Checkmark } from "@/components/ui";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UploadPage = observer(() => {
   const vm = useViewModel(() => new UploadStore());
+  const [navigating, setNavigating] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(vm.status);
+    if (vm.status === "success") {
+      setTimeout(() => {
+        setNavigating(true);
+      }, 2200);
+      setTimeout(() => {
+        navigate(`/report/${vm.reportId}`);
+      }, 2500);
+    }
+  }, [vm.status]);
   return (
-    <main className="flex flex-col items-center min-h-full">
-      <Logo className="max-w-md mt-20" />
+    <main
+      className={`flex flex-col items-center w-full px-6 pb-6 min-h-full ${
+        navigating ? "appear-exit-active" : ""
+      }`}
+    >
+      <Logo className="sm:max-w-md mt-8 md:mt-20 w-full" />
       <SwitchTransition>
         {vm.status === "uploading" ? (
           <CSSTransition
@@ -29,14 +48,17 @@ const UploadPage = observer(() => {
               <ProgressBar value={vm.progress} />
             </div>
           </CSSTransition>
-        ) : vm.status !== "success" ? (
+        ) : vm.status === "success" ? (
           <CSSTransition
             key="idle"
             timeout={300}
             classNames="appear"
             unmountOnExit
           >
-            <Checkmark color="rgb(var(--colors-status-ok))" />
+            <div className="flex flex-col items-center mt-8 gap-6 font-medium text-2xl">
+              <h2>Файлы успешно загружены!</h2>
+              <Checkmark color="rgb(var(--colors-status-ok))" size={64} />
+            </div>
           </CSSTransition>
         ) : (
           <CSSTransition

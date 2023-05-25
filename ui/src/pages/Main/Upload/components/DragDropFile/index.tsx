@@ -31,6 +31,7 @@ const DragDropFile = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
 
   return (
     <form
+      className="w-full"
       onDragStart={(e) => onDragStart(e)}
       onDragLeave={(e) => onDragLeave(e)}
       onDragOver={(e) => onDragStart(e)}
@@ -45,12 +46,15 @@ const DragDropFile = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
         onChange={(e) => onFileUpload(e)}
       />
       <div
-        className="font-medium text-center text-lg lg:text-2xl transition-colors hover:bg-primaryLighter bg-primary max-w-md w-full text-text-onPrimary rounded-lg hover:shadow-md"
+        className="font-medium text-center text-lg lg:text-2xl transition-colors hover:bg-primaryLighter bg-primary w-full text-text-onPrimary rounded-lg hover:shadow-md"
         style={{
           border: drag ? "2px dashed gray" : "",
         }}
       >
-        <label className="py-4 cursor-pointer px-6 flex" htmlFor="file">
+        <label
+          className="py-4 justify-center w-full cursor-pointer px-6 flex"
+          htmlFor="file"
+        >
           Выберите или перетащите файлы
         </label>
       </div>
