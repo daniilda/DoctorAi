@@ -7,6 +7,8 @@ const AuthStore = new (class {
   constructor() {
     makeAutoObservable(this);
   }
+
+  public login(username: string, password: string) {}
 })();
 
 export default AuthStore;

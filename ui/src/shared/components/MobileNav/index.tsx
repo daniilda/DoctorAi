@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import ReportNewSvg from "./assets/report_new.svg";
 import ReportsSvg from "./assets/reports.svg";
+import AuthStore from "@/stores/authStore";
+import { observer } from "mobx-react-lite";
 
-const MobileNav = () => {
+const MobileNav = observer(() => {
+  if (!AuthStore.isAuthenticated) {
+    return <></>;
+  }
   return (
     <>
       <div className="fixed left-0 bottom-0 right-0 h-16 bg-bg-nav flex">
@@ -15,7 +20,7 @@ const MobileNav = () => {
         </Link>
         <span className="h-full py-[5px] w-[1px] bg-text-placeholder/30"></span>
         <Link
-          to="/reports"
+          to="/report/1"
           className="flex items-center justify-center gap-2 flex-1"
         >
           <ReportsSvg width={28} />
@@ -26,6 +31,6 @@ const MobileNav = () => {
       <div className="h-16"></div>
     </>
   );
-};
+});
 
 export default MobileNav;

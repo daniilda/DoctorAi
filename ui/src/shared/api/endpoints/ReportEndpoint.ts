@@ -31,7 +31,7 @@ export interface ReportResult {
 const mockReport = () => {
   const mockReport: ReportResult = {
     id: "1",
-    reportName: "Report 1",
+    reportName: "Статистика Общая май 2023",
     createdAt: "2021-08-01T00:00:00.000Z",
     creatorId: "1",
     isReady: true,
