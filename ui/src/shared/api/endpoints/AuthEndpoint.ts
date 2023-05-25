@@ -1,6 +1,7 @@
 import api from "@/utils/api";
+import { setStoredAuthToken } from "@/utils/authToken";
 
-interface UserResult {
+interface AuthResult {
   id: string;
   username: string;
   firstName: string;
@@ -10,8 +11,21 @@ interface UserResult {
   picUrl: string;
 }
 
-export const UserEndpoint = new (class {
+export const AuthEndpoint = new (class {
   async login(username: string, password: string) {
-    return { id: result } as UserResult;
+    const result = await api.post("/api/v1/sauth/login", {
+      username,
+      password,
+    });
+    if (!result) return null;
+    console.log(result);
+    setStoredAuthToken(result as string);
+    return await this.getAuth();
+  }
+
+  async getAuth() {
+    const result = await api.get("/api/v1/sauth/user");
+    if (!result) return null;
+    return result as AuthResult;
   }
 })();
