@@ -6,6 +6,7 @@ const Download = ({ pdf, docx }: { pdf?: string; docx?: string }) => {
     <div className="flex flex-wrap ml-auto gap-4 w-full lg:w-fit">
       <Button
         appearance="main"
+        fontSize="lg"
         className="flex items-center px-4 gap-1 justify-center w-full md:w-auto"
       >
         <DownloadSvg />
@@ -13,6 +14,7 @@ const Download = ({ pdf, docx }: { pdf?: string; docx?: string }) => {
       </Button>
       <Button
         appearance="main"
+        fontSize="lg"
         className="flex items-center px-4 gap-1 justify-center w-full md:w-auto"
       >
         <DownloadSvg />
