@@ -28,12 +28,14 @@ const Login = () => {
       >
         <h2 className="text-center font-bold text-3xl mb-4">Вход на сайт</h2>
         <Input
+          id="username"
           name="username"
           onChange={setUsername}
           required
-          placeholder="Введите имя"
+          placeholder="Введите почту"
         />
         <Input
+          id="password"
           name="password"
           type="password"
           onChange={setPassword}
