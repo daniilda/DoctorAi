@@ -21,7 +21,7 @@ const DoctorCard = ({
   role: string;
   onClick: () => void;
 }) => {
-  const { textColor, bgColor, text } = useRating(rating);
+  const { color, backgroundColor, text } = useRating(rating);
 
   return (
     <div className={`${cardWithHover} gap-1 ${cl.card}`} onClick={onClick}>
@@ -29,10 +29,16 @@ const DoctorCard = ({
         <h3 className="text-xl text-text-secondary">{role}</h3>
         <h1 className="text-3xl font-bold mb-4">{name}</h1>
         <div
-          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto text-${textColor}`}
+          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto`}
+          style={{
+            color: color,
+          }}
         >
           <span
-            className={`text-xl font-medium px-4 py-2 rounded-lg bg-${bgColor}`}
+            className={`text-xl font-medium px-4 py-2 rounded-lg`}
+            style={{
+              backgroundColor,
+            }}
           >
             {text}
           </span>

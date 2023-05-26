@@ -12,7 +12,7 @@ const NavLink = ({ to, children }: { to: string; children: string }) => {
       <Link
         to={to}
         className={`${
-          pathname === to ? "text-primary" : "text-text-main"
+          pathname.includes(to) ? "text-primary" : "text-text-main"
         } hover:drop-shadow-sm`}
       >
         {children}
@@ -31,9 +31,9 @@ const Heading = observer(() => {
             <Logo />
           </div>
           <ul className="ml-8 gap-4 lg:gap-8 lg:ml-12 text-base hidden md:flex">
-            <NavLink to="/upload">Оценка назначения</NavLink>
-            <NavLink to="/dashboard">Отчёты</NavLink>
-            <NavLink to="/help">Помощь</NavLink>
+            <NavLink to="upload">Оценка назначения</NavLink>
+            <NavLink to="dashboard">Отчёты</NavLink>
+            <NavLink to="report/1">Помощь</NavLink>
           </ul>
           {AuthStore.authState === "anonymous" && (
             <button
