@@ -11,7 +11,7 @@ const MobileNav = observer(() => {
   }
   return (
     <>
-      <div className="fixed left-0 bottom-0 right-0 h-16 bg-bg-nav flex">
+      <div className="fixed left-0 border-t-text-placeholder/30 border-t-[1px] bottom-0 right-0 h-16 bg-bg-nav/70 backdrop-blur-md flex">
         <Link
           to="/upload"
           className={`flex items-center justify-center gap-2 flex-1 ${

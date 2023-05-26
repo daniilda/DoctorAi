@@ -46,9 +46,9 @@ const DragDropFile = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
         onChange={(e) => onFileUpload(e)}
       />
       <div
-        className="font-medium text-center text-lg lg:text-2xl transition-colors hover:bg-primaryLighter bg-primary w-full text-text-onPrimary rounded-lg hover:shadow-md"
+        className="select-none font-medium text-center text-lg lg:text-2xl transition-colors hover:bg-primaryLighter bg-primary w-full text-text-onPrimary rounded-lg hover:shadow-md"
         style={{
-          border: drag ? "2px dashed gray" : "",
+          border: drag ? "2px dashed gray" : "2px dashed transparent",
         }}
       >
         <label

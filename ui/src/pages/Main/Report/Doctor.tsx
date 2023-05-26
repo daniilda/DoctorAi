@@ -7,6 +7,7 @@ import toFullName from "@/utils/toFullName";
 import useRating from "@/utils/useRating";
 import { Patient } from "@/api/endpoints";
 import Download from "@/components/Download";
+import { useEffect } from "react";
 
 const PatientCard = (p: Patient) => {
   return (
@@ -20,10 +21,13 @@ const PatientCard = (p: Patient) => {
 };
 
 const Doctor = observer(({ vm }: { vm: ReportStore }) => {
-  if (!vm.selectedDoctor) return <></>;
-  const [ratingTextColor, ratingBgColor, ratingText] = useRating(
-    vm.selectedDoctor.rate
+  const { textColor, bgColor, text, color } = useRating(
+    vm.selectedDoctor?.rate
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="grid gap-3 w-full">
@@ -35,28 +39,29 @@ const Doctor = observer(({ vm }: { vm: ReportStore }) => {
           onClick={() => (vm.selectedDoctor = null)}
         >
           <ChevronSvg width="20" className="rotate-180 mr-2" />
-          <p className="text-2xl">Отчёт</p>
+          <p className="text-xl">{vm.report?.reportName}</p>
         </Button>
       </div>
       <div
-        className={`${card} flex-wrap items-center gap-4 border-b-4 border-b-${ratingTextColor}`}
+        className={`${card} flex-wrap items-center gap-4`}
+        style={{
+          borderBottom: `4px solid ${color}`,
+        }}
       >
         <div className="flex flex-col justify-center flex-1 gap-1">
-          <h3 className={`text-${ratingTextColor}`}>
-            {vm.selectedDoctor.position}
-          </h3>
+          <h3 className={`text-${textColor}`}>{vm.selectedDoctor?.position}</h3>
           <h2 className="text-2xl font-bold">
-            {toFullName(vm.selectedDoctor)}
+            {toFullName(vm.selectedDoctor ?? {})}
           </h2>
         </div>
         <div
-          className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg bg-${ratingBgColor} text-${ratingTextColor}`}
+          className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg bg-${bgColor} text-${textColor}`}
         >
-          {ratingText}
+          {text}
         </div>
         <Download />
       </div>
-      {vm.selectedDoctor.patients.map((p) => (
+      {vm.selectedDoctor?.patients.map((p) => (
         <PatientCard {...p} />
       ))}
     </div>

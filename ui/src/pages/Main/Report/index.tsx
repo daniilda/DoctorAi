@@ -11,7 +11,7 @@ const Report = observer(() => {
   const { id } = useParams();
   const vm = useViewModel(() => new ReportStore(id ?? ""));
   return (
-    <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-6 lg:mt-8 gap-3 appear pb-4">
+    <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:mt-6 lg:mt-8 gap-3 appear pb-4">
       <SwitchTransition>
         {vm.selectedDoctor === null ? (
           <CSSTransition
