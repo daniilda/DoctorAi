@@ -21,8 +21,10 @@ const get = (path: string, config?: any) =>
       .then((response: AxiosResponse) => resolve(response.data))
       .catch((error) => {
         if (error.response) {
-          removeStoredAuthToken();
-          history.push("/login");
+          if (error.response.status === 401) {
+            removeStoredAuthToken();
+            history.push("/login");
+          }
           reject(error.response.data);
         } else {
           reject(error);
@@ -44,8 +46,10 @@ const post = (path: string, variables?: any, config?: any) =>
       .then((response: AxiosResponse) => resolve(response.data))
       .catch((error) => {
         if (error.response) {
-          removeStoredAuthToken();
-          history.push("/login");
+          if (error.response.status === 401) {
+            removeStoredAuthToken();
+            history.push("/login");
+          }
           reject(error.response.data);
         } else {
           reject(error);

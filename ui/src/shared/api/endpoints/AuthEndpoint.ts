@@ -13,13 +13,17 @@ export interface UserResult {
 
 export const AuthEndpoint = new (class {
   async login(username: string, password: string) {
-    const result = await api.post("/api/v1/sauth/login", {
-      username,
-      password,
-    });
-    if (!result) return null;
-    setStoredAuthToken(result as string);
-    return await this.getUser();
+    try {
+      const result = await api.post("/api/v1/sauth/login", {
+        username,
+        password,
+      });
+      if (!result) return null;
+      setStoredAuthToken(result as string);
+      return await this.getUser();
+    } catch {
+      return null;
+    }
   }
 
   async getUser() {

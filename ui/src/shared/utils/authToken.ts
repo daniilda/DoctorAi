@@ -1,5 +1,4 @@
 import AuthStore from "@/stores/authStore";
-import { toJS } from "mobx";
 
 export const getStoredAuthToken = () => localStorage.getItem("authToken");
 
@@ -11,5 +10,4 @@ export const removeStoredAuthToken = () => {
   if (AuthStore.authState === "authorized") {
     AuthStore.authState = "anonymous";
   }
-  console.log(toJS(AuthStore.authState));
 };
