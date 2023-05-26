@@ -31,7 +31,7 @@ const StatCard = ({
   bottomText?: string;
   withGraph?: boolean;
 }) => {
-  const { result, textColor, text } = useRating(progress / 10);
+  const { result, color, text } = useRating(progress / 10);
   return (
     <div className={`${cardNoPadding} min-h-[200px] relative`}>
       {/* bg */}
@@ -54,7 +54,9 @@ const StatCard = ({
         <h3 className="text-lg font-medium">{topText}</h3>
         <h2 className="text-2xl font-bold">{middleText}</h2>
         <h1 className="font-bold text-5xl mt-auto pt-2">{progress}%</h1>
-        <p className={`text-${textColor} font-medium`}>{bottomText ?? text}</p>
+        <p className={`font-medium`} style={{ color }}>
+          {bottomText ?? text}
+        </p>
       </div>
     </div>
   );
@@ -102,10 +104,9 @@ const Dashboard = observer(() => {
         />
       </div>
       <div className="flex flex-wrap p-8 bg-primary/70 rounded-xl items-center mt-4 gap-4">
-        <h2 className="text-2xl font-medium text-text-onPrimary">
+        <h2 className="text-3xl font-medium text-text-onPrimary">
           Сформированные отчёты
         </h2>
-        <Download />
       </div>
       {vm.reports.map((r, index) => (
         <div

@@ -21,9 +21,7 @@ const PatientCard = (p: Patient) => {
 };
 
 const Doctor = observer(({ vm }: { vm: ReportStore }) => {
-  const { textColor, bgColor, text, color } = useRating(
-    vm.selectedDoctor?.rate
-  );
+  const { text, color, backgroundColor } = useRating(vm.selectedDoctor?.rate);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -49,13 +47,14 @@ const Doctor = observer(({ vm }: { vm: ReportStore }) => {
         }}
       >
         <div className="flex flex-col justify-center flex-1 gap-1">
-          <h3 className={`text-${textColor}`}>{vm.selectedDoctor?.position}</h3>
+          <h3 style={{ color }}>{vm.selectedDoctor?.position}</h3>
           <h2 className="text-2xl font-bold">
             {toFullName(vm.selectedDoctor ?? {})}
           </h2>
         </div>
         <div
-          className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg bg-${bgColor} text-${textColor}`}
+          className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg`}
+          style={{ backgroundColor, color }}
         >
           {text}
         </div>

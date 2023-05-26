@@ -26,7 +26,7 @@ const UploadPage = observer(() => {
   }, [vm.status]);
   return (
     <main
-      className={`flex flex-col items-center w-full px-6 pb-6 min-h-full ${
+      className={`appear flex flex-col items-center w-full px-6 pb-6 min-h-full ${
         navigating ? "appear-exit-active" : ""
       }`}
     >
