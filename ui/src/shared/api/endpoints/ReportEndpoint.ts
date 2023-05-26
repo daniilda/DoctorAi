@@ -92,6 +92,7 @@ const mockReport = () => {
 
 export const ReportEndpoint = new (class {
   async getReport(id: string) {
+    return mockReport();
     const result = await api.get(`/report/${id}`);
     console.log(result);
     return result as ReportResult;
