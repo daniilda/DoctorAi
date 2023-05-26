@@ -16,9 +16,9 @@ const AuthStore = new (class {
     if (user) {
       this.user = user;
       this.authState = "authorized";
-    } else {
-      this.authState = "anonymous";
+      return true;
     }
+    return false;
   }
 
   public logout() {

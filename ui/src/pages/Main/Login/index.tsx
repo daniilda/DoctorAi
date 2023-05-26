@@ -8,13 +8,20 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
   const onFormSubmit = async (e: any) => {
     e.preventDefault();
-    await AuthStore.login(username, password);
-
-    navigate("/upload");
-    return;
+    setError(false);
+    if (!username || !password) {
+      setError(true);
+      return;
+    }
+    const success = await AuthStore.login(username, password);
+    if (!success) {
+      setError(true);
+    }
+    if (success) navigate("/upload");
   };
 
   return (
@@ -26,16 +33,16 @@ const Login = () => {
       >
         <h2 className="text-center font-bold text-3xl mb-4">Вход на сайт</h2>
         <Input
+          error={error}
           name="username"
           onChange={setUsername}
-          required
           placeholder="Введите имя"
         />
         <Input
+          error={error}
           name="password"
           type="password"
           onChange={setPassword}
-          required
           placeholder="Введите пароль"
         />
         <Button className="mt-4">Войти</Button>
