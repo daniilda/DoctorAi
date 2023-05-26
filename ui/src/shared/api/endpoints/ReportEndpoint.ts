@@ -1,5 +1,13 @@
 import api from "@/utils/api";
 
+export interface Patient {
+  id: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  diagnosis: string;
+}
+
 export interface DocMeta {
   id: string;
   firstName: string;
@@ -8,13 +16,7 @@ export interface DocMeta {
   position: string;
   rate: number;
   reportId: string;
-  patients: {
-    id: string;
-    firstName: string;
-    middleName: string;
-    lastName: string;
-    diagnosis: string;
-  }[];
+  patients: Patient[];
 }
 
 export interface ReportResult {

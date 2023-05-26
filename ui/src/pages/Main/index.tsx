@@ -5,6 +5,7 @@ import UploadPage from "./Upload";
 import PrivateRoute from "@/hoc/PrivateRoute";
 import Report from "./Report";
 import MobileNav from "@/components/MobileNav";
+import Dashboard from "./Dashboard";
 
 const Main = () => {
   return (
@@ -19,6 +20,14 @@ const Main = () => {
           element={
             <PrivateRoute>
               <UploadPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
             </PrivateRoute>
           }
         />
