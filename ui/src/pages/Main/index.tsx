@@ -5,7 +5,6 @@ import UploadPage from "./Upload";
 import PrivateRoute from "@/hoc/PrivateRoute";
 import Report from "./Report";
 import MobileNav from "@/components/MobileNav";
-import { CSSTransition } from "react-transition-group";
 
 const Main = () => {
   return (
@@ -25,7 +24,7 @@ const Main = () => {
         />
         <Route path="*" element={<Navigate to="upload" />} />
       </Routes>
-      <div className="visible ">
+      <div className="visible md:hidden">
         <MobileNav />
       </div>
     </>

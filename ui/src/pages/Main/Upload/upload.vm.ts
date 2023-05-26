@@ -42,9 +42,13 @@ export class UploadStore {
           this.status === "analyzing";
         }
       }
-    );
-    this.reportId = result.id;
-    this.status = "success";
+    ).catch(() => {
+      this.status = "error";
+    });
+    if (result) {
+      this.reportId = result.id;
+      this.status = "success";
+    }
   }
 
   public dispose = () => {};

@@ -4,7 +4,7 @@ import { makeAutoObservable } from "mobx";
 
 const AuthStore = new (class {
   public user: UserResult | null = null;
-  public isAuthenticated = false;
+  public authState: "loading" | "anonymous" | "authorized" = "loading";
 
   constructor() {
     makeAutoObservable(this);
@@ -15,24 +15,28 @@ const AuthStore = new (class {
     const user = await AuthEndpoint.login(username, password);
     if (user) {
       this.user = user;
-      this.isAuthenticated = true;
+      this.authState = "authorized";
+    } else {
+      this.authState = "anonymous";
     }
   }
 
   public logout() {
     this.user = null;
-    this.isAuthenticated = false;
+    this.authState = "anonymous";
     removeStoredAuthToken();
   }
 
   public async checkAuth() {
-    const user = await AuthEndpoint.getUser();
-    if (user) {
-      this.user = user;
-      this.isAuthenticated = true;
-    } else {
+    try {
+      const user = await AuthEndpoint.getUser();
+      if (user) {
+        this.user = user;
+        this.authState = "authorized";
+      }
+    } catch {
       this.user = null;
-      this.isAuthenticated = false;
+      this.authState = "anonymous";
     }
   }
 })();

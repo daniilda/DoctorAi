@@ -1,6 +1,6 @@
-import { AuthEndpoint } from "@/api/endpoints/AuthEndpoint";
 import Logo from "@/assets/logo.svg";
 import { Button, Input } from "@/components/ui";
+import AuthStore from "@/stores/authStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,11 +11,9 @@ const Login = () => {
 
   const onFormSubmit = async (e: any) => {
     e.preventDefault();
-    const result = await AuthEndpoint.login(username, password);
-    if (result) {
-      navigate("/upload");
-    }
+    await AuthStore.login(username, password);
 
+    navigate("/upload");
     return;
   };
 

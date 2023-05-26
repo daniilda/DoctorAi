@@ -15,7 +15,6 @@ const UploadPage = observer(() => {
   const [navigating, setNavigating] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(vm.status);
     if (vm.status === "success") {
       setTimeout(() => {
         setNavigating(true);
@@ -58,6 +57,18 @@ const UploadPage = observer(() => {
             <div className="flex flex-col items-center mt-8 gap-6 font-medium text-2xl">
               <h2>Файлы успешно загружены!</h2>
               <Checkmark color="rgb(var(--colors-status-ok))" size={64} />
+            </div>
+          </CSSTransition>
+        ) : vm.status === "error" ? (
+          <CSSTransition
+            key="error"
+            timeout={300}
+            classNames="appear"
+            unmountOnExit
+          >
+            <div className="flex flex-col w-full items-center mt-8 gap-6 font-medium text-2xl">
+              <h2>Произошла ошибка :(</h2>
+              <ProgressBar value={vm.progress} error />
             </div>
           </CSSTransition>
         ) : (
