@@ -2,6 +2,8 @@ import Logo from "@/assets/logo.svg";
 import LoginSvg from "./assets/login.svg";
 import { observer } from "mobx-react-lite";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import AuthStore from "@/stores/authStore";
+import avatarSrc from "./assets/avatar.png";
 
 const NavLink = ({ to, children }: { to: string; children: string }) => {
   const { pathname } = useLocation();
@@ -33,13 +35,32 @@ const Heading = observer(() => {
             <NavLink to="/dashboard">Отчёты</NavLink>
             <NavLink to="/help">Помощь</NavLink>
           </ul>
-          <button
-            className="ml-auto flex gap-2 text-primary items-center"
-            onClick={() => navigate("/login")}
-          >
-            <p>Вход</p>
-            <LoginSvg />
-          </button>
+          {AuthStore.authState === "anonymous" && (
+            <button
+              className="ml-auto flex gap-2 text-primary items-center"
+              onClick={() => navigate("/login")}
+            >
+              <p>Вход</p>
+              <LoginSvg />
+            </button>
+          )}
+          {AuthStore.authState === "authorized" && (
+            <>
+              <div className="flex items-center ml-auto gap-2 md:gap-3">
+                <img
+                  src={avatarSrc}
+                  alt="avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+                <div className="flex flex-col justify-between">
+                  Елена Блиновская
+                  <p className="text-text-secondary font-normal">
+                    Главный врач
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </nav>
       {/* measurer */}

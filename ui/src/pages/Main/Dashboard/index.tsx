@@ -33,7 +33,7 @@ const StatCard = ({
 }) => {
   const { result, textColor, text } = useRating(progress / 10);
   return (
-    <div className={`${cardNoPadding} h-52 relative`}>
+    <div className={`${cardNoPadding} min-h-[200px] relative`}>
       {/* bg */}
       <div
         className={`absolute top-10 left-0 w-full h-full bg-no-repeat bg-contain bg-center`}
@@ -53,7 +53,7 @@ const StatCard = ({
       <div className="relative flex flex-col p-4">
         <h3 className="text-lg font-medium">{topText}</h3>
         <h2 className="text-2xl font-bold">{middleText}</h2>
-        <h1 className="font-bold text-5xl mt-auto">{progress}%</h1>
+        <h1 className="font-bold text-5xl mt-auto pt-2">{progress}%</h1>
         <p className={`text-${textColor} font-medium`}>{bottomText ?? text}</p>
       </div>
     </div>
@@ -67,7 +67,7 @@ const Dashboard = observer(() => {
     <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:mt-6 lg:mt-8 gap-3 appear pb-4">
       <div className={`${card} flex-wrap gap-4 items-center`}>
         <div className="flex flex-col">
-          <h2 className="text-2xl font-bold">Сводка за неделю</h2>
+          <h2 className="text-3xl font-bold">Сводка за неделю</h2>
         </div>
         <Download />
       </div>
