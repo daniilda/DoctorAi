@@ -15,7 +15,7 @@ export const UploadEndpoint = new (class {
       formData.append("FileCollection", file);
     });
     formData.append("ReportName", title);
-    const result = await api("post", "/report/create", formData, {
+    const result = await api.post("/report/create", formData, {
       onUploadProgress: (progressEvent: ProgressEvent) => {
         const progress = Math.round(
           (progressEvent.loaded / progressEvent.total) * 100

@@ -1,4 +1,6 @@
 import ChevronSvg from "@/assets/chevron.svg";
+import DownloadSvg from "@/assets/download.svg";
+import { Button } from "@/components/ui";
 import cl from "./styles.module.scss";
 import { card, cardWithHover } from "./tailwind";
 import { observer } from "mobx-react-lite";
@@ -59,10 +61,26 @@ const DoctorCard = ({
 const Overview = observer(({ vm }: { vm: ReportStore }) => {
   return (
     <div className="grid lg:grid-cols-2 gap-3">
-      <div className={`lg:col-span-2 ${card}`}>
-        <div className="flex flex-col">
+      <div className={`lg:col-span-2 ${card} flex-wrap gap-4`}>
+        <div className="flex flex-col flex-1">
           <p className="text-text-secondary text-xl">Отчёт №{vm.report?.id}</p>
           <h1 className="text-3xl font-bold">{vm.report?.reportName}</h1>
+        </div>
+        <div className="flex flex-wrap ml-auto gap-2 w-full lg:w-fit">
+          <Button
+            appearance="main"
+            className="flex items-center px-4 gap-1 justify-center w-full md:w-auto"
+          >
+            <DownloadSvg />
+            Скачать DOCX
+          </Button>
+          <Button
+            appearance="main"
+            className="flex items-center px-4 gap-1 justify-center w-full md:w-auto"
+          >
+            <DownloadSvg />
+            Скачать PDF
+          </Button>
         </div>
       </div>
       {vm.report?.docMetas.map((doc, index) => (
