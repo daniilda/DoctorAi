@@ -1,6 +1,6 @@
 import ChevronSvg from "@/assets/chevron.svg";
 import DownloadSvg from "@/assets/download.svg";
-import { Button } from "@/components/ui";
+import { Button, Dropdown } from "@/components/ui";
 import cl from "./styles.module.scss";
 import { card, cardWithHover } from "./tailwind";
 import { observer } from "mobx-react-lite";
@@ -82,6 +82,13 @@ const Overview = observer(({ vm }: { vm: ReportStore }) => {
             Скачать PDF
           </Button>
         </div>
+      </div>
+      <div className="lg:col-span-2 flex">
+        <Dropdown
+          items={["1", "2", "3"]}
+          value="testing"
+          onChange={console.log}
+        />
       </div>
       {vm.report?.docMetas.map((doc, index) => (
         <DoctorCard

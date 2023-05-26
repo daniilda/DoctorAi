@@ -18,7 +18,6 @@ export const AuthEndpoint = new (class {
       password,
     });
     if (!result) return null;
-    console.log(result);
     setStoredAuthToken(result as string);
     return await this.getUser();
   }

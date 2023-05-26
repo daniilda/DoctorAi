@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ReportNewSvg from "./assets/report_new.svg";
 import ReportsSvg from "./assets/reports.svg";
 import AuthStore from "@/stores/authStore";
 import { observer } from "mobx-react-lite";
 
 const MobileNav = observer(() => {
-  if (!AuthStore.isAuthenticated) {
+  const { pathname } = useLocation();
+  if (AuthStore.authState !== "authorized") {
     return <></>;
   }
   return (
@@ -13,7 +14,10 @@ const MobileNav = observer(() => {
       <div className="fixed left-0 bottom-0 right-0 h-16 bg-bg-nav flex">
         <Link
           to="/upload"
-          className="flex items-center justify-center gap-2 flex-1"
+          className={`flex items-center justify-center gap-2 flex-1 ${
+            pathname.includes("/upload") ? "text-primary" : ""
+          }
+          )}`}
         >
           <ReportNewSvg width={28} />
           <span className="font-medium">Новый отчёт</span>
@@ -21,7 +25,10 @@ const MobileNav = observer(() => {
         <span className="h-full py-[5px] w-[1px] bg-text-placeholder/30"></span>
         <Link
           to="/report/1"
-          className="flex items-center justify-center gap-2 flex-1"
+          className={`flex items-center justify-center gap-2 flex-1 ${
+            pathname.includes("/report/") ? "text-primary" : ""
+          }
+          )}`}
         >
           <ReportsSvg width={28} />
           <span className="font-medium">Все отчёты</span>
