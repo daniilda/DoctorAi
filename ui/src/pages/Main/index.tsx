@@ -1,26 +1,41 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Heading from "../../shared/components/Heading";
 import Login from "./Login";
-import SubmitPage from "./Submit";
+import UploadPage from "./Upload";
 import PrivateRoute from "@/hoc/PrivateRoute";
+import Report from "./Report";
+import MobileNav from "@/components/MobileNav";
+import Dashboard from "./Dashboard";
 
 const Main = () => {
   return (
     <>
       <Heading />
       <Routes>
-        <Route index element={<h1>Index</h1>} />
+        {/* <Route index element={<Navigate to="upload" />} /> */}
         <Route path="login" element={<Login />} />
+        <Route path="report/:id" element={<Report />} />
         <Route
-          path="submit"
+          path="upload"
           element={
             <PrivateRoute>
-              <SubmitPage />
+              <UploadPage />
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route
+          path="dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="upload" />} />
       </Routes>
+      <div className="visible md:hidden">
+        <MobileNav />
+      </div>
     </>
   );
 };

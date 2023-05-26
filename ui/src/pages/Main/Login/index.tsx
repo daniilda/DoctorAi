@@ -1,30 +1,42 @@
 import Logo from "@/assets/logo.svg";
 import { Button, Input } from "@/components/ui";
+import AuthStore from "@/stores/authStore";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const onFormSubmit = (e: any) => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+
+  const onFormSubmit = async (e: any) => {
     e.preventDefault();
-    const email = e.target.children.title.value;
-    const password = e.target.children.title.value;
-    return;
+    setError(false);
+    if (!username || !password) {
+      setError(true);
+      return;
+    }
+    const success = await AuthStore.login(username, password);
+    if (!success) {
+      setError(true);
+    }
+    if (success) navigate("/upload");
   };
+
   return (
-    <div className="flex flex-col items-center">
-      <Logo className="max-w-md mt-20" />
-      <form className="flex flex-col mt-16 w-96 gap-4" onSubmit={onFormSubmit}>
-        <h2 className="text-center font-bold text-3xl mb-4">Войти на сайт</h2>
+    <div className="flex flex-col items-center w-full px-4">
+      <Logo className="max-w-xs sm:max-w-md mt-20" />
+      <form
+        className="flex flex-col mt-16 w-full sm:max-w-[368px] gap-4 px-6"
+        onSubmit={onFormSubmit}
+      >
+        <h2 className="text-center font-bold text-3xl mb-4">Вход на сайт</h2>
+        <Input error={error} onChange={setUsername} placeholder="Введите имя" />
         <Input
-          id="email"
-          name="email"
-          type="email"
-          required
-          placeholder="Введите почту"
-        />
-        <Input
-          id="password"
-          name="password"
+          error={error}
           type="password"
-          required
+          onChange={setPassword}
           placeholder="Введите пароль"
         />
         <Button className="mt-4">Войти</Button>

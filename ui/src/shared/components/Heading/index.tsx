@@ -2,6 +2,8 @@ import Logo from "@/assets/logo.svg";
 import LoginSvg from "./assets/login.svg";
 import { observer } from "mobx-react-lite";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import AuthStore from "@/stores/authStore";
+import avatarSrc from "./assets/avatar.png";
 
 const NavLink = ({ to, children }: { to: string; children: string }) => {
   const { pathname } = useLocation();
@@ -10,7 +12,7 @@ const NavLink = ({ to, children }: { to: string; children: string }) => {
       <Link
         to={to}
         className={`${
-          pathname === to ? "text-primary" : ""
+          pathname === to ? "text-primary" : "text-text-main"
         } hover:drop-shadow-sm`}
       >
         {children}
@@ -22,23 +24,48 @@ const NavLink = ({ to, children }: { to: string; children: string }) => {
 const Heading = observer(() => {
   const navigate = useNavigate();
   return (
-    <nav className="min-h-[64px] overflow-hidden bg-bg-nav flex justify-center">
-      <div className="max-w-screen-max font-medium w-full px-2 lg:px-8 flex items-center">
-        <Logo width="120" />
-        <ul className="flex ml-8 gap-4 lg:gap-8 lg:ml-12 text-base">
-          <NavLink to="/submit">Оценка назначения</NavLink>
-          <NavLink to="/stats">Статистика</NavLink>
-          <NavLink to="/help">Помощь</NavLink>
-        </ul>
-        <button
-          className="ml-auto flex gap-2 text-primary items-center"
-          onClick={() => navigate("/login")}
-        >
-          Вход
-          <LoginSvg />
-        </button>
-      </div>
-    </nav>
+    <>
+      <nav className="h-16 z-10 fixed flex w-full overflow-hidden bg-bg-nav/70 backdrop-blur-md justify-center shadow-sm">
+        <div className="max-w-screen-max font-medium w-full items-center flex px-4 lg:px-8">
+          <div className="min-w-[120px] max-w-[120px] overflow-hidden">
+            <Logo />
+          </div>
+          <ul className="ml-8 gap-4 lg:gap-8 lg:ml-12 text-base hidden md:flex">
+            <NavLink to="/upload">Оценка назначения</NavLink>
+            <NavLink to="/dashboard">Отчёты</NavLink>
+            <NavLink to="/help">Помощь</NavLink>
+          </ul>
+          {AuthStore.authState === "anonymous" && (
+            <button
+              className="ml-auto flex gap-2 text-primary items-center"
+              onClick={() => navigate("/login")}
+            >
+              <p>Вход</p>
+              <LoginSvg />
+            </button>
+          )}
+          {AuthStore.authState === "authorized" && (
+            <>
+              <div className="flex items-center ml-auto gap-2 md:gap-3">
+                <img
+                  src={avatarSrc}
+                  alt="avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+                <div className="flex flex-col justify-between">
+                  Елена Блиновская
+                  <p className="text-text-secondary font-normal">
+                    Главный врач
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </nav>
+      {/* measurer */}
+      <div className="h-16"></div>
+    </>
   );
 });
 

@@ -5,9 +5,10 @@ import React from "react";
 
 const PrivateRoute: React.FC<React.PropsWithChildren<unknown>> = observer(
   ({ children }) => {
-    const { isAuthenticated } = AuthStore;
+    const { authState } = AuthStore;
 
-    if (!isAuthenticated) return <Navigate to="/login" />;
+    if (authState === "loading") return <></>;
+    if (authState === "anonymous") return <Navigate to="/login" />;
 
     return <>{children}</>;
   }
