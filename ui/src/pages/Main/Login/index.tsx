@@ -32,15 +32,9 @@ const Login = () => {
         onSubmit={onFormSubmit}
       >
         <h2 className="text-center font-bold text-3xl mb-4">Вход на сайт</h2>
+        <Input error={error} onChange={setUsername} placeholder="Введите имя" />
         <Input
           error={error}
-          name="username"
-          onChange={setUsername}
-          placeholder="Введите имя"
-        />
-        <Input
-          error={error}
-          name="password"
           type="password"
           onChange={setPassword}
           placeholder="Введите пароль"

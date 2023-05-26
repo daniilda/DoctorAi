@@ -29,7 +29,7 @@ const Heading = observer(() => {
         </div>
         <ul className="ml-8 gap-4 lg:gap-8 lg:ml-12 text-base hidden md:flex">
           <NavLink to="/upload">Оценка назначения</NavLink>
-          <NavLink to="/stats">Отчёты</NavLink>
+          <NavLink to="/dashboard">Отчёты</NavLink>
           <NavLink to="/help">Помощь</NavLink>
         </ul>
         <button

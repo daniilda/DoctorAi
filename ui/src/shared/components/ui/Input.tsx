@@ -6,6 +6,8 @@ interface InputProps
   onChange?: (text: string) => void;
   error?: boolean;
   allowClear?: boolean;
+  icon?: JSX.Element;
+  rounded?: "lg" | "xl";
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -13,16 +15,21 @@ export const Input: React.FC<InputProps> = ({
   onChange,
   className,
   error,
+  icon,
   allowClear,
+  rounded = "xl",
   ...rest
 }) => {
   return (
-    <div className="w-full flex relative items-center">
+    <div className={`w-full flex relative items-center ${className ?? ""}`}>
+      {icon && (
+        <div className="absolute left-3 pointer-events-none">{icon}</div>
+      )}
       <input
-        className={`shadow-none box-border w-full focus:shadow-md transition-shadow duration-200 px-4 py-4 rounded-xl placeholder:text-text-placeholder text-base outline-none
-      ${color === "primary" ? "bg-bg-primary" : "bg-bg-accent"} ${
-          className ?? ""
-        }`}
+        className={`shadow-none box-border w-full focus:shadow-md transition-shadow duration-200 px-4 py-4 rounded-${rounded} placeholder:text-text-placeholder text-base outline-none
+        ${icon ? "pl-14" : ""}
+        ${allowClear ? "pr-12" : ""}
+        ${color === "primary" ? "bg-bg-primary" : "bg-bg-accent"}`}
         style={{
           boxShadow: error ? "0 0 0 1px rgb(var(--colors-error))" : "",
         }}
@@ -31,7 +38,7 @@ export const Input: React.FC<InputProps> = ({
       />
       {allowClear && rest.value && (
         <button
-          className="absolute w-5 text-gray-500/50 right-4 focus:outline-none top-7 hover:text-gray-500/80"
+          className="absolute w-5 text-gray-500/50 right-4 focus:outline-none hover:text-gray-500/80"
           onClick={() => onChange && onChange("")}
         >
           <ClearSvg />

@@ -1,11 +1,14 @@
 import ChevronSvg from "@/assets/chevron.svg";
-import DownloadSvg from "@/assets/download.svg";
-import { Button, Dropdown } from "@/components/ui";
+import SearchSvg from "@/assets/search.svg";
+import { Button, Dropdown, Input } from "@/components/ui";
 import cl from "./styles.module.scss";
 import { card, cardWithHover } from "./tailwind";
 import { observer } from "mobx-react-lite";
 import { ReportStore, SortOption } from "./report.vm";
 import { useState } from "react";
+import toFullName from "@/utils/toFullName";
+import useRating from "@/utils/useRating";
+import Download from "@/components/Download";
 
 const DoctorCard = ({
   name,
@@ -18,34 +21,18 @@ const DoctorCard = ({
   role: string;
   onClick: () => void;
 }) => {
-  const [ratingTextColor, ratingBgColor, ratingText] = (() => {
-    if (rating === 10)
-      return ["text-status-ok", "bg-status-ok/10", "Полное соответствие"];
-    if (rating > 5)
-      return [
-        "text-status-warning",
-        "bg-status-warning/10",
-        rating > 10 ? "Дополнительные назначения" : "Несоответствие",
-      ];
-    if (rating > 0 && rating <= 5)
-      return [
-        "text-status-error",
-        "bg-status-error/10",
-        "Частичное соответствие",
-      ];
-    else return ["text-text-secondary", "bg-bg-accent", "Стандарт отсутствует"];
-  })();
+  const [ratingTextColor, ratingBgColor, ratingText] = useRating(rating);
 
   return (
-    <div className={`${cardWithHover} ${cl.card}`} onClick={onClick}>
+    <div className={`${cardWithHover} gap-1 ${cl.card}`} onClick={onClick}>
       <div className="flex flex-col flex-1">
         <h3 className="text-xl text-text-secondary">{role}</h3>
         <h1 className="text-3xl font-bold mb-4">{name}</h1>
         <div
-          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto ${ratingTextColor}`}
+          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto text-${ratingTextColor}`}
         >
           <span
-            className={`text-xl font-medium px-4 py-2 rounded-lg ${ratingBgColor}`}
+            className={`text-xl font-medium px-4 py-2 rounded-lg bg-${ratingBgColor}`}
           >
             {ratingText}
           </span>
@@ -60,6 +47,8 @@ const DoctorCard = ({
 };
 
 const Overview = observer(({ vm }: { vm: ReportStore }) => {
+  const [searchValue, setSearchValue] = useState("");
+
   return (
     <div className="grid lg:grid-cols-2 gap-3">
       <div className={`lg:col-span-2 ${card} flex-wrap gap-4`}>
@@ -67,26 +56,11 @@ const Overview = observer(({ vm }: { vm: ReportStore }) => {
           <p className="text-text-secondary text-xl">Отчёт №{vm.report?.id}</p>
           <h1 className="text-3xl font-bold">{vm.report?.reportName}</h1>
         </div>
-        <div className="flex flex-wrap ml-auto gap-2 w-full lg:w-fit">
-          <Button
-            appearance="main"
-            className="flex items-center px-4 gap-1 justify-center w-full md:w-auto"
-          >
-            <DownloadSvg />
-            Скачать DOCX
-          </Button>
-          <Button
-            appearance="main"
-            className="flex items-center px-4 gap-1 justify-center w-full md:w-auto"
-          >
-            <DownloadSvg />
-            Скачать PDF
-          </Button>
-        </div>
+        <Download pdf={""} docx={""} />
       </div>
-      <div className="lg:col-span-2 flex">
+      <div className="lg:col-span-2 flex flex-wrap-reverse gap-2">
         <Dropdown
-          className="min-w-[300px]"
+          className="w-full md:flex-1"
           items={
             [
               "По алфавиту А-Я",
@@ -98,11 +72,19 @@ const Overview = observer(({ vm }: { vm: ReportStore }) => {
           value={vm.selectedSort}
           onChange={(v) => (vm.selectedSort = v)}
         />
+        <Input
+          allowClear
+          placeholder="Специализация"
+          value={searchValue}
+          onChange={setSearchValue}
+          icon={<SearchSvg className="text-text-placeholder/70" />}
+          className="border-text-accent border-[1px] rounded-xl ml-auto md:flex-1 font-medium"
+        />
       </div>
       {vm.report?.docMetas.map((doc, index) => (
         <DoctorCard
           key={index}
-          name={`${doc.lastName} ${doc.firstName} ${doc.middleName}`}
+          name={toFullName(doc)}
           rating={doc.rate}
           role={doc.position}
           onClick={() => (vm.selectedDoctor = doc)}

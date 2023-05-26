@@ -28,7 +28,7 @@ export function Dropdown<T = string>({
       }`}
     >
       <div
-        className={`h-12 px-4 flex border-text-accent border-[1px] rounded-xl justify-between items-center gap-4 ${
+        className={`h-full min-h-[56px] px-4 flex border-text-accent border-[1px] rounded-xl justify-between items-center gap-4 ${
           expanded ? "rounded-b-none" : ""
         }`}
         onClick={() => {
