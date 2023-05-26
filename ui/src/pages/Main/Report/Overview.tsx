@@ -4,7 +4,8 @@ import { Button, Dropdown } from "@/components/ui";
 import cl from "./styles.module.scss";
 import { card, cardWithHover } from "./tailwind";
 import { observer } from "mobx-react-lite";
-import { ReportStore } from "./report.vm";
+import { ReportStore, SortOption } from "./report.vm";
+import { useState } from "react";
 
 const DoctorCard = ({
   name,
@@ -85,9 +86,17 @@ const Overview = observer(({ vm }: { vm: ReportStore }) => {
       </div>
       <div className="lg:col-span-2 flex">
         <Dropdown
-          items={["1", "2", "3"]}
-          value="testing"
-          onChange={console.log}
+          className="min-w-[300px]"
+          items={
+            [
+              "По алфавиту А-Я",
+              "По алфавиту Я-А",
+              "Сначала без соответствия",
+              "Сначала с соответствием",
+            ] as SortOption[]
+          }
+          value={vm.selectedSort}
+          onChange={(v) => (vm.selectedSort = v)}
         />
       </div>
       {vm.report?.docMetas.map((doc, index) => (

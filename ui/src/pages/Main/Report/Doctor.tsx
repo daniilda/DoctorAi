@@ -7,6 +7,7 @@ const Doctor = observer(({ vm }: { vm: ReportStore }) => {
   return (
     <div className="flex flex-col gap-3">
       <Button
+        rounded="xl"
         appearance="secondary"
         className="flex items-center pl-4"
         onClick={() => (vm.selectedDoctor = null)}
