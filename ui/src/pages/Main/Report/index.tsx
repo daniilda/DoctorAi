@@ -16,7 +16,7 @@ const Report = observer(() => {
         {vm.selectedDoctor === null ? (
           <CSSTransition
             key="report"
-            timeout={300}
+            timeout={150}
             classNames="slide-left"
             unmountOnExit
           >
@@ -25,7 +25,7 @@ const Report = observer(() => {
         ) : (
           <CSSTransition
             key="doctor"
-            timeout={300}
+            timeout={150}
             classNames="slide-right"
             unmountOnExit
           >
