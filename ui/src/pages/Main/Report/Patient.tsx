@@ -8,6 +8,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import { ReportStore } from "@/stores/reportStore";
 import cl from "./styles.module.scss";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { toJS } from "mobx";
 
 const parseAppointment = (state: number): [color: string, text: string] => {
   switch (state) {
@@ -191,9 +192,9 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
         {vm.selectedPatient?.reportAppointments
           .filter((v) => {
             if (sort.length === 0) return true;
-            if (v.appointmentState === 1 && !sort.includes("correct"))
-              return false;
-            if (v.appointmentState === 3 && !sort.includes("incorrect"))
+            if (v.appointmentState === 1 && sort.includes("correct"))
+              return true;
+            if (v.appointmentState === 3 && sort.includes("incorrect"))
               return false;
             return sort.includes("extra");
           })
