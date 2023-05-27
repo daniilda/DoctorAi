@@ -102,3 +102,19 @@ $slide-transform-ms: 150ms;
     opacity: 1;
   }
 }
+
+.hide {
+  animation: hide calc($transition-duration * 2) $cubic-bezier;
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}

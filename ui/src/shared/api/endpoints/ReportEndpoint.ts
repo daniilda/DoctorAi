@@ -59,7 +59,6 @@ export interface Dashboard {
 export const ReportEndpoint = new (class {
   async getReport(id: string) {
     const result = await api.get(`/report/${id}`);
-    console.log(result);
     return result as ReportResult;
   }
 

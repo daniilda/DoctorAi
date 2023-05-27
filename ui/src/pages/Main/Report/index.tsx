@@ -50,7 +50,7 @@ const Report = observer(() => {
 
   return (
     <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:mt-6 lg:mt-8 gap-3 appear pb-4">
-      {!vm.report?.isReady && (
+      {vm.report && !vm.report.isReady && (
         <div className="w-full p-6 rounded-xl bg-status-warning/10 flex flex-col gap-4 shadow-sm mb-2 flex-wrap">
           <div className="flex items-center flex-wrap gap-3">
             <ClockSvg className="text-status-warning w-10" />
