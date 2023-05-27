@@ -1,6 +1,6 @@
 // Тайпскрипту очень плохо при работе с файлами, поэтому я его освобождаю
 import { makeAutoObservable } from "mobx";
-import { UploadEndpoint } from "@/api/endpoints";
+import { ReportEndpoint, UploadEndpoint } from "@/api/endpoints";
 import { ReportStore } from "@/stores/reportStore";
 
 export class UploadStore {
@@ -44,16 +44,14 @@ export class UploadStore {
         }
       }
     ).catch(() => {
-      // this.status = "error";
+      this.status = "error";
     });
-    this.status = "success";
-    ReportStore.getReport("test");
-    // if (result) {
-    //   this.reportId = result.id;
-    //   this.status = "success";
-    //   const report = await ReportEndpoint.getReport(result.id);
-    //   ReportStore.report = report;
-    // }
+    if (result) {
+      this.reportId = result.id;
+      const report = await ReportEndpoint.getReport(result.id);
+      this.status = "success";
+      ReportStore.report = report;
+    }
   }
 
   public dispose = () => {

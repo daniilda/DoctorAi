@@ -21,7 +21,7 @@ const Report = observer(() => {
     return () => {
       vm.selectedDoctor = null;
     };
-  }, []);
+  }, [id, vm]);
 
   const onPatientSelect = (p: PatientModel) => {
     setDoctorClass("slide-left");
