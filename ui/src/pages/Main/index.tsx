@@ -14,7 +14,14 @@ const Main = () => {
       <Routes>
         {/* <Route index element={<Navigate to="upload" />} /> */}
         <Route path="login" element={<Login />} />
-        <Route path="report/:id" element={<Report />} />
+        <Route
+          path="report/:id"
+          element={
+            <PrivateRoute>
+              <Report />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="upload"
           element={
@@ -31,7 +38,7 @@ const Main = () => {
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<Navigate to="upload" />} />
+        <Route path="*" element={<Navigate to="dashboard" />} />
       </Routes>
       <div className="visible md:hidden">
         <MobileNav />
