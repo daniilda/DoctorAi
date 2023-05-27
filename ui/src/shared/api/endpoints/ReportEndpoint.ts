@@ -1,11 +1,21 @@
 import api from "@/utils/api";
 
+export interface Apointment {
+  id: string;
+  name: string;
+  state: string;
+}
+
 export interface Patient {
   id: string;
   firstName: string;
   middleName: string;
   lastName: string;
   diagnosis: string;
+  rate?: number;
+  reportAppointments: Apointment[];
+  pdfUrl: string;
+  docxUrl: string;
 }
 
 export interface DocMeta {
@@ -14,9 +24,11 @@ export interface DocMeta {
   middleName: string;
   lastName: string;
   position: string;
-  rate: number;
-  reportId: string;
-  patients: Patient[];
+  rate?: number;
+  reportPatients: Patient[];
+  division: string;
+  pdfUrl: string;
+  docxUrl: string;
 }
 
 export interface ReportResult {
@@ -25,70 +37,38 @@ export interface ReportResult {
   createdAt: string;
   creatorId: string;
   isReady: boolean;
-  docMetas?: DocMeta[];
+  reportDocs?: DocMeta[];
   pdfUrl: string;
   docxUrl: string;
 }
 
-const mockReport = () => {
-  const mockReport: ReportResult = {
-    id: "1",
-    reportName: "Статистика Общая май 2023",
-    createdAt: "2021-08-01T00:00:00.000Z",
-    creatorId: "1",
-    isReady: true,
-    docMetas: [
-      {
-        id: "1",
-        firstName: "Евгений",
-        middleName: "Александрович",
-        lastName: "Мастакин",
-        position: "Врач аллерголог-иммунолог",
-        rate: 10,
-        reportId: "1",
-        patients: [
-          {
-            id: "1",
-            firstName: "John",
-            middleName: "Doe",
-            lastName: "Smith",
-            diagnosis: "Covid-19",
-          },
-          {
-            id: "2",
-            firstName: "John",
-            middleName: "Doe",
-            lastName: "Smith",
-            diagnosis: "Covid-19",
-          },
-        ],
-      },
-      {
-        id: "2",
-        firstName: "John",
-        middleName: "Doe",
-        lastName: "Smith",
-        position: "Doctor",
-        rate: 4,
-        reportId: "1",
-        patients: [
-          {
-            id: "3",
-            firstName: "John",
-            middleName: "Doe",
-            lastName: "Smith",
-            diagnosis: "Covid-19",
-          },
-        ],
-      },
-    ],
-    pdfUrl:
-      "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-    docxUrl:
-      "https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx",
-  };
-  return mockReport;
-};
+// {
+//   "avgPerc": 0,
+//   "topDivisionName": "string",
+//   "topDivisionPerc": 0,
+//   "lastDivisionName": "string",
+//   "lastDivisionPerc": 0,
+//   "top1": "string",
+//   "top1Val": 0,
+//   "top2": "string",
+//   "top2Val": 0,
+//   "top3": "string",
+//   "top3Val": 0
+// }
+
+export interface Dashboard {
+  avgPerc: number;
+  topDivisionName: string;
+  topDivisionPerc: number;
+  lastDivisionName: string;
+  lastDivisionPerc: number;
+  top1: string;
+  top1Val: number;
+  top2: string;
+  top2Val: number;
+  top3: string;
+  top3Val: number;
+}
 
 export const ReportEndpoint = new (class {
   async getReport(id: string) {
@@ -99,5 +79,9 @@ export const ReportEndpoint = new (class {
 
   async getReports() {
     return (await api.get(`/report/list`)) as ReportResult[];
+  }
+
+  async getDashboard() {
+    return (await api.get("/report/dashboard")) as Dashboard;
   }
 })();
