@@ -23,7 +23,9 @@ const get = (path: string, config?: any) =>
         if (error.response) {
           if (error.response.status === 401) {
             removeStoredAuthToken();
-            history.push("/login");
+            if (window && window.location) {
+              window.location.replace("/login");
+            }
           }
           reject(error.response.data);
         } else {
@@ -48,7 +50,9 @@ const post = (path: string, variables?: any, config?: any) =>
         if (error.response) {
           if (error.response.status === 401) {
             removeStoredAuthToken();
-            history.push("/login");
+            if (window && window.location) {
+              window.location.replace("/login");
+            }
           }
           reject(error.response.data);
         } else {

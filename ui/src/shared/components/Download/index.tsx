@@ -10,6 +10,7 @@ const Download = ({
   docx?: string;
   wide?: boolean;
 }) => {
+  if (!pdf && !docx) return <></>;
   return (
     <div
       className={`flex flex-wrap ml-auto gap-4 w-full ${

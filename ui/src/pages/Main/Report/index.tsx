@@ -30,7 +30,7 @@ const Report = observer(() => {
       if (vm.report && !vm.report?.isReady) {
         vm.getReport(vm.report.id, false);
       }
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [vm]);

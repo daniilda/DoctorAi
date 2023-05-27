@@ -28,8 +28,13 @@ export const ReportStore = new (class {
       this.selectedDoctor = null;
       this.selectedPatient = null;
     }
-    this.report = await ReportEndpoint.getReport(id);
-    this.sortItems(this.selectedSort, this.reverseOrder);
+    try {
+      this.report = await ReportEndpoint.getReport(id);
+      this.sortItems(this.selectedSort, this.reverseOrder);
+    } catch (e) {
+      console.log(e);
+      window.location.replace("/login");
+    }
   };
 
   get selectedSort() {

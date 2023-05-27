@@ -22,6 +22,7 @@ const Main = () => {
             </PrivateRoute>
           }
         />
+        <Route path="preview/:id" element={<Report />} />
         <Route
           path="upload"
           element={
