@@ -66,7 +66,7 @@ const Dashboard = observer(() => {
   const vm = useViewModel(() => new DashboardStore());
 
   return (
-    <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:mt-6 lg:mt-8 gap-3 appear pb-4">
+    <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:my-6 lg:my-8 gap-3 appear pb-4">
       <div className={`${card} flex-wrap gap-4 items-center`}>
         <div className="flex flex-col">
           <h2 className="text-3xl font-bold">Сводка за неделю</h2>

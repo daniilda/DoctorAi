@@ -1,4 +1,4 @@
-import { DocMeta, ReportResult } from "@/api/endpoints";
+import { DocMeta, ReportEndpoint, ReportResult } from "@/api/endpoints";
 import { makeAutoObservable } from "mobx";
 
 export type SortOption =
@@ -7,7 +7,7 @@ export type SortOption =
   | "Сначала с соответствием"
   | "Сначала без соответствия";
 
-export const GlobalReportStore = new (class {
+export const ReportStore = new (class {
   public report: ReportResult | null = null;
   public selectedDoctor: DocMeta | null = null;
   public selectedSort: SortOption = "По алфавиту А-Я";
@@ -17,5 +17,10 @@ export const GlobalReportStore = new (class {
 
   public dispose = () => {
     return;
+  };
+
+  public getReport = async (id: string) => {
+    this.report = null;
+    this.report = await ReportEndpoint.getReport(id);
   };
 })();
