@@ -192,10 +192,8 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
         {vm.selectedPatient?.reportAppointments
           .filter((v) => {
             if (sort.length === 0) return true;
-            if (v.appointmentState === 1 && sort.includes("correct"))
-              return true;
-            if (v.appointmentState === 3 && sort.includes("incorrect"))
-              return false;
+            if (v.appointmentState === 1) return sort.includes("correct");
+            if (v.appointmentState === 3) return sort.includes("incorrect");
             return sort.includes("extra");
           })
           .map((v, index) => (
