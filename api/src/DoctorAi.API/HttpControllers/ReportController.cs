@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security.Claims;
 using ClosedXML.Excel;
 using DoctorAi.API.Dtos;
@@ -134,7 +135,7 @@ public sealed class ReportController : ControllerBase
 
         await _db.CommitTransactionAsync();
 
-        return reportId;
+        return Ok(reportId);
     }
 
     [HttpGet]
@@ -392,7 +393,7 @@ public sealed class ReportController : ControllerBase
             LastName = patLastName,
             FirstName = patFirstName,
             MiddleName = patMiddleName,
-            Date = DateOnly.Parse(patDateOfBirth),
+            Date = DateOnly.Parse(patDateOfBirth, CultureInfo.GetCultureInfo("ru-RU")),
             Diagnosis = diag,
             Code = code,
             Sex = patSex,
