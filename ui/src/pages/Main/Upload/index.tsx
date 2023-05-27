@@ -25,7 +25,7 @@ const UploadPage = observer(() => {
         navigate(`/report/${vm.reportId}`);
       }, 2500);
     }
-  }, [vm.status]);
+  }, [vm.status, navigate, vm.reportId]);
 
   return (
     <main

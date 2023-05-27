@@ -29,8 +29,7 @@ export const Input: React.FC<InputProps> = ({
         className={`shadow-none box-border w-full focus:shadow-md transition-shadow duration-200 px-4 py-4 rounded-${rounded} placeholder:text-text-placeholder text-base outline-none disabled:text-text-disabled
         ${icon ? "pl-14" : ""}
         ${allowClear ? "pr-12" : ""}
-        ${color === "primary" ? "bg-bg-primary" : "bg-bg-accent"}
-        ${className ?? ""}}`}
+        ${color === "primary" ? "bg-bg-primary" : "bg-bg-accent"}`}
         style={{
           boxShadow: error ? "0 0 0 1px rgb(var(--colors-error))" : "",
         }}

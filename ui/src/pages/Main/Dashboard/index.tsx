@@ -147,9 +147,9 @@ const Dashboard = observer(() => {
   }, [vm.reports]);
 
   return (
-    <div
+    <main
       className={`${
-        navigating && "hide"
+        navigating ? "hide" : ""
       } flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:my-6 lg:my-8 gap-3 appear pb-4`}
     >
       <div
@@ -275,7 +275,7 @@ const Dashboard = observer(() => {
                 </Button>
               </div>
             ))}
-    </div>
+    </main>
   );
 });
 

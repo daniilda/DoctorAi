@@ -14,23 +14,21 @@ const MobileNav = observer(() => {
       <div className="fixed left-0 border-t-text-placeholder/30 border-t-[1px] bottom-0 right-0 h-16 bg-bg-nav/70 backdrop-blur-md flex">
         <Link
           to="/upload"
-          className={`flex items-center justify-center gap-2 flex-1 ${
+          className={`flex items-center justify-center gap-2 w-full ${
             pathname.includes("/upload") ? "text-primary" : ""
-          }
-          )}`}
+          }`}
         >
-          <ReportNewSvg width={28} />
+          <ReportNewSvg width={24} />
           <span className="font-medium">Новый отчёт</span>
         </Link>
         <span className="h-full py-[5px] w-[1px] bg-text-placeholder/30"></span>
         <Link
           to="/dashboard"
-          className={`flex items-center justify-center gap-2 flex-1 ${
+          className={`flex items-center justify-center gap-2 w-full ${
             pathname.includes("/dashboard") ? "text-primary" : ""
-          }
-          )}`}
+          }`}
         >
-          <ReportsSvg width={28} />
+          <ReportsSvg width={24} />
           <span className="font-medium">Все отчёты</span>
         </Link>
       </div>
