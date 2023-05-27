@@ -83,9 +83,7 @@ const ReportCard = ({
     className={`${r.isReady ? cardWithHover : card} ${
       cl.card
     } gap-4 items-center`}
-    onClick={() => {
-      r.isReady && onClick();
-    }}
+    onClick={onClick}
   >
     <div className="flex flex-1 flew-wrap flex-col md:flex-row gap-4">
       <div className="flex flex-col">
@@ -96,11 +94,9 @@ const ReportCard = ({
       </div>
       {r.isReady && <Download wide pdf={r.pdfUrl} docx={r.docxUrl} />}
     </div>
-    {r.isReady && (
-      <div className="flex items-center ml-auto">
-        <ChevronSvg className={cl.card__chevron} />
-      </div>
-    )}
+    <div className="flex items-center ml-auto">
+      <ChevronSvg className={cl.card__chevron} />
+    </div>
   </div>
 );
 

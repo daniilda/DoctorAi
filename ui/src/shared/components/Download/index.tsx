@@ -19,7 +19,7 @@ const Download = ({
       <Button
         appearance="main"
         fontSize="lg"
-        className="flex items-center px-4 gap-1 justify-center w-full md:w-auto"
+        className="flex items-center px-4 gap-1 h-[52px] justify-center w-full md:w-auto"
         onClick={(e) => {
           e.stopPropagation();
           if (docx) window.open(docx);
@@ -31,7 +31,7 @@ const Download = ({
       <Button
         appearance="main"
         fontSize="lg"
-        className="flex items-center px-4 gap-1 justify-center w-full md:w-auto"
+        className="flex items-center px-4 gap-1 h-[52px] justify-center w-full md:w-auto"
         onClick={(e) => {
           e.stopPropagation();
           if (pdf) window.open(pdf);

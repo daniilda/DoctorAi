@@ -68,9 +68,9 @@ const Overview = observer(() => {
           <h1 className="text-3xl font-bold">{vm.report?.reportName}</h1>
           <p className="text-text-secondary text-md">{vm.report?.id}</p>
         </div>
-        <Download pdf={vm.report?.pdfUrl} docx={vm.report?.docxUrl} />
+        <Download pdf={vm.report?.pdfUrl} docx={vm.report?.docxUrl} wide />
       </div>
-      <div className="lg:col-span-2 flex flex-wrap-reverse gap-2">
+      <div className="lg:col-span-2 flex flex-wrap-reverse gap-2 md:gap-3">
         <div className="flex md:flex-1 gap-1 w-full">
           <Dropdown
             className="flex-1 w-full"

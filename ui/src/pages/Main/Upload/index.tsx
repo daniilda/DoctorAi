@@ -68,7 +68,7 @@ const UploadPage = observer(() => {
               <div className="flex flex-col mt-16 w-full max-w-lg items-center">
                 <DragDropFile onUpload={vm.addFiles} />
               </div>
-              <p className="text-center text-text-placeholder mt-6 mb-8">
+              <p className="text-center text-text-placeholder mt-4 mb-8">
                 поддерживются форматы docx и xlsx
               </p>
             </div>
