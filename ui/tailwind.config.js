@@ -40,19 +40,6 @@ export default {
           },
         },
       },
-      // themes: [
-      //   {
-      //     name: "dark",
-      //     extend: {
-      //       colors: {
-      //         primary: "red",
-      //         bg: {
-      //           primary: "#191919",
-      //         },
-      //       },
-      //     },
-      //   },
-      // ],
     }),
   ],
 };

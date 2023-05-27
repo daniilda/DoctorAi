@@ -13,7 +13,7 @@ const useRating = (rating?: number): useRatingResult => {
       color: "rgb(var(--colors-secondary))",
       backgroundColor: "rgba(var(--colors-bg-primary), 0.8)",
     };
-  if (rating === 10) {
+  if (rating === 100) {
     return {
       text: "Полное соответствие",
       result: "ok",
@@ -21,14 +21,14 @@ const useRating = (rating?: number): useRatingResult => {
       backgroundColor: "rgba(var(--colors-status-ok), 0.1)",
     };
   }
-  if (rating >= 8)
+  if (rating >= 90)
     return {
       text: "Частичное соответствие",
       result: "ok",
-      color: "rgb(var(--colors-status-warning))",
-      backgroundColor: "rgba(var(--colors-status-warning), 0.1)",
+      color: "rgb(var(--colors-status-ok))",
+      backgroundColor: "rgba(var(--colors-status-ok), 0.1)",
     };
-  if (rating > 5)
+  if (rating > 60)
     return {
       text: "Слабое соответствие",
       result: "warning",

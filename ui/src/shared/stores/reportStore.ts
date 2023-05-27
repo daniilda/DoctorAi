@@ -27,7 +27,6 @@ export const ReportStore = new (class {
     this.report = await ReportEndpoint.getReport(id);
     this.selectedDoctor = null;
     this.sortItems(this.selectedSort, this.reverseOrder);
-    console.log(this.report);
   };
 
   get selectedSort() {
@@ -49,30 +48,31 @@ export const ReportStore = new (class {
   }
 
   private sortItems(value: SortOption, reverse: boolean) {
-    if (!this.report || !this.report.docMetas) return [];
+    if (!this.report || !this.report.reportDocs) return [];
     switch (value) {
       case "По алфавиту":
-        this.report.docMetas.sort((a, b) => {
+        this.report.reportDocs.sort((a, b) => {
           if (a.lastName > b.lastName) return 1;
           else if (a.lastName < b.lastName) return -1;
           return 0;
         });
         break;
       case "По специальности":
-        this.report.docMetas.sort((a, b) => {
+        this.report.reportDocs.sort((a, b) => {
           if (a.position > b.position) return 1;
           else if (a.position < b.position) return -1;
           return 0;
         });
         break;
       case "По соответствию":
-        this.report.docMetas.sort((a, b) => {
+        this.report.reportDocs.sort((a, b) => {
+          if (!a.rate || !b.rate) return 0;
           if (a.rate < b.rate) return 1;
           else if (a.rate > b.rate) return -1;
           return 0;
         });
         break;
     }
-    if (reverse) this.report.docMetas.reverse();
+    if (reverse) this.report.reportDocs.reverse();
   }
 })();

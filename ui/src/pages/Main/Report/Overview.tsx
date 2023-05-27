@@ -18,7 +18,7 @@ const DoctorCard = ({
   onClick,
 }: {
   name: string;
-  rating: number;
+  rating?: number;
   role: string;
   onClick: () => void;
 }) => {
@@ -43,7 +43,7 @@ const DoctorCard = ({
           >
             {text}
           </span>
-          <span className="text-xl font-medium">{rating} / 10</span>
+          <span className="text-xl font-medium">{rating} / 100</span>
         </div>
       </div>
       <div className="flex items-center">
@@ -59,7 +59,7 @@ const Overview = observer(() => {
 
   useEffect(() => {
     return;
-  }, [vm.report?.docMetas]);
+  }, [vm.report?.reportDocs]);
 
   return (
     <div className="grid lg:grid-cols-2 gap-3">
@@ -103,8 +103,8 @@ const Overview = observer(() => {
           className="border-text-accent border-[1px] rounded-xl ml-auto md:flex-1 font-medium"
         />
       </div>
-      {vm.report?.docMetas?.length !== 0 &&
-        vm.report?.docMetas
+      {vm.report?.reportDocs?.length !== 0 &&
+        vm.report?.reportDocs
           ?.filter((v) => {
             if (!searchValue) return true;
             return toFullName(v)
@@ -116,7 +116,7 @@ const Overview = observer(() => {
               key={index}
               name={toFullName(doc)}
               rating={doc.rate}
-              role={doc.position}
+              role={`${doc.division && doc.division}, ${doc.position}`}
               onClick={() => (vm.selectedDoctor = doc)}
             />
           ))}
