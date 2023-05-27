@@ -1,10 +1,10 @@
 import ChevronSvg from "@/assets/chevron.svg";
 import SearchSvg from "@/assets/search.svg";
-import { Button, Dropdown, Input } from "@/components/ui";
+import { Dropdown, Input } from "@/components/ui";
 import cl from "./styles.module.scss";
 import { card, cardWithHover } from "./tailwind";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toFullName from "@/utils/toFullName";
 import useRating from "@/utils/useRating";
 import Download from "@/components/Download";
@@ -56,6 +56,8 @@ const Overview = observer(() => {
   const vm = ReportStore;
   const [searchValue, setSearchValue] = useState("");
 
+  useEffect(() => {}, [vm.report?.docMetas]);
+
   return (
     <div className="grid lg:grid-cols-2 gap-3">
       <div className={`lg:col-span-2 ${card} flex-wrap gap-4`}>
@@ -88,15 +90,22 @@ const Overview = observer(() => {
           className="border-text-accent border-[1px] rounded-xl ml-auto md:flex-1 font-medium"
         />
       </div>
-      {vm.report?.docMetas.map((doc, index) => (
-        <DoctorCard
-          key={index}
-          name={toFullName(doc)}
-          rating={doc.rate}
-          role={doc.position}
-          onClick={() => (vm.selectedDoctor = doc)}
-        />
-      ))}
+      {vm.report?.docMetas
+        .filter((v) => {
+          if (!searchValue) return true;
+          return toFullName(v)
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+        })
+        .map((doc, index) => (
+          <DoctorCard
+            key={index}
+            name={toFullName(doc)}
+            rating={doc.rate}
+            role={doc.position}
+            onClick={() => (vm.selectedDoctor = doc)}
+          />
+        ))}
     </div>
   );
 });

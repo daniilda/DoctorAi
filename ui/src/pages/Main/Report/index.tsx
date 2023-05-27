@@ -12,11 +12,13 @@ const Report = observer(() => {
   const vm = ReportStore;
 
   useEffect(() => {
-    if (id === vm.report?.id) {
-      return;
+    if (id && id !== vm.report?.id) {
+      vm.getReport(id);
     }
-    vm.getReport(id!);
-  });
+    return () => {
+      vm.selectedDoctor = null;
+    };
+  }, []);
 
   return (
     <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:mt-6 lg:mt-8 gap-3 appear pb-4">
