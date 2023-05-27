@@ -57,7 +57,7 @@ const StatCard = ({
             )}
           </div>
           <div className="relative flex flex-col p-4">
-            <h3 className="text-lg font-medium">{topText}</h3>
+            <h3 className="text-lg">{topText}</h3>
             <h2 className="text-2xl font-bold">{middleText}</h2>
             <h1 className="font-bold text-5xl mt-auto pt-2">{progress}%</h1>
             <p className={`font-medium`} style={{ color }}>
@@ -82,13 +82,13 @@ const ReportCard = ({
   onClick: () => void;
 }) => (
   <div
-    className={`${cardWithHover} ${cl.card} gap-4 items-center`}
+    className={`${cardWithHover} ${cl.card} gap-4 items-center select-none`}
     onClick={onClick}
   >
     <div className="flex flex-1 flew-wrap flex-col md:flex-row gap-4">
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-1">
         <h2 className="text-2xl font-bold">{r.reportName}</h2>
-        <p className="text-text-secondary text-sm font-medium">
+        <p className="text-text-secondary text-sm">
           {new Date(r.createdAt).toLocaleString()}
         </p>
       </div>
@@ -155,7 +155,7 @@ const Dashboard = observer(() => {
       <div
         className={`${card} flex flex-wrap gap-4 items-center justify-between`}
       >
-        <h2 className="text-3xl font-bold">Общая сводка</h2>
+        <h2 className="text-3xl font-bold select-none">Общая сводка</h2>
         <Button
           rounded="xl"
           className="items-center px-4 gap-2 hidden md:flex"
@@ -166,7 +166,7 @@ const Dashboard = observer(() => {
         </Button>
       </div>
       {!(vm.wasLoaded && vm.dashboard === null) && (
-        <div className="grid md:grid-cols-3 gap-3">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <StatCard
             withGraph
             progress={vm.dashboard?.avgPerc}

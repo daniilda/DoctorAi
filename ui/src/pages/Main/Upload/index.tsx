@@ -55,20 +55,22 @@ const UploadPage = observer(() => {
               <Checkmark color="rgb(var(--colors-status-ok))" size={64} />
             </div>
           ) : vm.status === "error" ? (
-            <div className="flex flex-col w-full items-center mt-8 gap-6 font-medium text-2xl">
-              <h2>Произошла ошибка :(</h2>
+            <div className="flex flex-col w-full items-center mt-8 gap-6">
+              <h2 className="font-medium text-2xl">
+                Ошибка: указан невереный файл
+              </h2>
               <ProgressBar value={vm.progress} error />
             </div>
           ) : (
             <div className="flex flex-col">
-              <p className="text-center max-w-md mt-4">
+              <p className="text-center max-w-md mt-4 select-none">
                 Сервис поможет оценить релевантность назначений специалиста на
                 основе данных из медицинской карточки пациента
               </p>
               <div className="flex flex-col mt-16 w-full max-w-lg items-center">
                 <DragDropFile onUpload={vm.addFiles} />
               </div>
-              <p className="text-center text-text-placeholder mt-4 mb-8">
+              <p className="text-center text-text-placeholder mt-4 mb-8 select-none">
                 поддерживются форматы docx и xlsx
               </p>
             </div>

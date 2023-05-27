@@ -26,11 +26,11 @@ const DoctorCard = ({
 
   return (
     <div className={`${cardWithHover} gap-1 ${cl.card}`} onClick={onClick}>
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 select-none">
         <h3 className="text-xl text-text-secondary">{role}</h3>
         <h1 className="text-3xl font-bold mb-4">{name}</h1>
         <div
-          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto select-none`}
+          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto`}
           style={{
             color: color,
           }}
@@ -63,8 +63,8 @@ const Overview = observer(() => {
 
   return (
     <div className="grid lg:grid-cols-2 gap-3">
-      <div className={`lg:col-span-2 ${card} flex-wrap gap-4`}>
-        <div className="flex flex-col flex-1 gap-2">
+      <div className={`lg:col-span-2 ${card} flex-wrap gap-4 items-center`}>
+        <div className="flex flex-col flex-1 gap-1">
           <h1 className="text-3xl font-bold">{vm.report?.reportName}</h1>
           <p className="text-text-secondary text-md">
             {vm.report?.createdAt &&

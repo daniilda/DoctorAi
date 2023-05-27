@@ -19,7 +19,7 @@ const MobileNav = observer(() => {
           }`}
         >
           <ReportNewSvg width={24} />
-          <span className="font-medium">Новый отчёт</span>
+          <span className="font-medium select-none">Новый отчёт</span>
         </Link>
         <span className="h-full py-[5px] w-[1px] bg-text-placeholder/30"></span>
         <Link
@@ -29,7 +29,7 @@ const MobileNav = observer(() => {
           }`}
         >
           <ReportsSvg width={24} />
-          <span className="font-medium">Все отчёты</span>
+          <span className="font-medium select-none">Все отчёты</span>
         </Link>
       </div>
       {/* measurer */}
