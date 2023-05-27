@@ -65,15 +65,27 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
   return (
     <div className="grid gap-3 w-full">
       <div className="flex flex-col gap-3">
-        <Button
-          rounded="xl"
-          appearance="secondary"
-          className="flex items-center pl-4"
-          onClick={onReturn}
-        >
-          <ChevronSvg width="20" className="rotate-180 mr-2" />
-          <p className="text-xl">{toFullName(vm.selectedDoctor ?? {})}</p>
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <div
+            className="gap-2 text-text-secondary hover:text-text-main cursor-pointer select-none hidden md:flex"
+            onClick={() => {
+              onReturn();
+              vm.selectedDoctor = null;
+            }}
+          >
+            <ChevronSvg width="20" className="rotate-180" />
+            <p className="text-2xl">{vm.report?.reportName}</p>
+          </div>
+          <div
+            className="gap-2 text-text-secondary hover:text-text-main cursor-pointer select-none flex"
+            onClick={() => {
+              onReturn();
+            }}
+          >
+            <ChevronSvg width="20" className="rotate-180" />
+            <p className="text-2xl">{toFullName(vm.selectedDoctor ?? {})}</p>
+          </div>
+        </div>
       </div>
       <div
         className={`${card} flex-wrap items-center gap-4`}
@@ -86,7 +98,7 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
             {vm.selectedPatient?.diagnosis}
           </h3>
           <h2 className="text-2xl font-bold">
-            {toFullName(vm.selectedDoctor ?? {})}
+            {toFullName(vm.selectedPatient ?? {})}
           </h2>
         </div>
         <div

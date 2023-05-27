@@ -69,15 +69,15 @@ const Doctor = observer(
     return (
       <div className="grid gap-3 w-full">
         <div className="flex flex-col gap-3">
-          <Button
-            rounded="xl"
-            appearance="secondary"
-            className="flex items-center pl-4"
-            onClick={() => (vm.selectedDoctor = null)}
-          >
-            <ChevronSvg width="20" className="rotate-180 mr-2" />
-            <p className="text-xl">{vm.report?.reportName}</p>
-          </Button>
+          <div className="flex cursor-pointer items-center gap-2">
+            <div
+              className="flex gap-2 text-text-secondary hover:text-text-main"
+              onClick={() => (vm.selectedDoctor = null)}
+            >
+              <ChevronSvg width="20" className="rotate-180" />
+              <p className="text-2xl">{vm.report?.reportName}</p>
+            </div>
+          </div>
         </div>
         <div
           className={`${card} flex-wrap items-center gap-4`}

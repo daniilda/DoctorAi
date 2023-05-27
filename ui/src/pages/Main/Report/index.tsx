@@ -20,6 +20,7 @@ const Report = observer(() => {
     }
     return () => {
       vm.selectedDoctor = null;
+      vm.selectedPatient = null;
     };
   }, [id, vm]);
 
