@@ -51,6 +51,9 @@ public class ReportDocDb
     [Column("position")]
     public string Position { get; set; } = null!;
 
+    [Column("division")]
+    public string Division { get; set; } = null!;
+
     [Column("rate")]
     public int? Rate { get; set; }
 
@@ -68,6 +71,9 @@ public class ReportPatientDb
     [PrimaryKey]
     public Guid Id { get; set; }
 
+    [Column("sex")]
+    public string Sex { get; set; } = null!;
+
     [Column("first_name")]
     public string FirstName { get; set; } = null!;
 
@@ -76,6 +82,12 @@ public class ReportPatientDb
 
     [Column("last_name")]
     public string LastName { get; set; } = null!;
+
+    [Column("code")]
+    public string Code { get; set; } = null!;
+
+    [Column("date_of_birth")]
+    public DateOnly? Date { get; set; }
 
     [Column("diagnosis")]
     public string Diagnosis { get; set; } = null!;

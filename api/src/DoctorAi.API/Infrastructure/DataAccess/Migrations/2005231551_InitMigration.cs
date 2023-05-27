@@ -25,8 +25,8 @@ public sealed class InitMigration : Migration
             .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime)
             .WithColumn("creator_id").AsGuid().Indexed()
             .WithColumn("is_ready").AsBoolean().WithDefaultValue(false)
-            .WithColumn("pdf_url").AsString()
-            .WithColumn("docx_url").AsString();
+            .WithColumn("pdf_url").AsString().Nullable()
+            .WithColumn("docx_url").AsString().Nullable();
 
         Create
             .Table("reports_patient")
@@ -34,9 +34,12 @@ public sealed class InitMigration : Migration
             .WithColumn("first_name").AsString()
             .WithColumn("middle_name").AsString()
             .WithColumn("last_name").AsString()
+            .WithColumn("date_of_birth").AsDate()
+            .WithColumn("code").AsString()
+            .WithColumn("sex").AsString()
             .WithColumn("diagnosis").AsString()
-            .WithColumn("pdf_url").AsString()
-            .WithColumn("docx_url").AsString();
+            .WithColumn("pdf_url").AsString().Nullable()
+            .WithColumn("docx_url").AsString().Nullable();
 
         Create
             .Table("reports_doc")
@@ -45,7 +48,8 @@ public sealed class InitMigration : Migration
             .WithColumn("middle_name").AsString()
             .WithColumn("last_name").AsString()
             .WithColumn("position").AsString().Indexed()
-            .WithColumn("rate").AsInt32()
+            .WithColumn("division").AsString().Indexed()
+            .WithColumn("rate").AsInt32().Nullable()
             .WithColumn("pdf_url").AsString()
             .WithColumn("docx_url").AsString();
 
@@ -53,7 +57,7 @@ public sealed class InitMigration : Migration
             .Table("reports_appointment")
             .WithColumn("id").AsGuid().PrimaryKey()
             .WithColumn("name").AsString()
-            .WithColumn("state").AsInt32();
+            .WithColumn("state").AsInt32().Nullable();
 
         Create
             .Table("reports_link")
