@@ -1,6 +1,6 @@
 import api from "@/utils/api";
 
-export interface Apointment {
+export interface Appointment {
   id: string;
   name: string;
   state: string;
@@ -13,7 +13,7 @@ export interface Patient {
   lastName: string;
   diagnosis: string;
   rate?: number;
-  reportAppointments: Apointment[];
+  reportAppointments: Appointment[];
   pdfUrl: string;
   docxUrl: string;
 }
@@ -41,20 +41,6 @@ export interface ReportResult {
   pdfUrl: string;
   docxUrl: string;
 }
-
-// {
-//   "avgPerc": 0,
-//   "topDivisionName": "string",
-//   "topDivisionPerc": 0,
-//   "lastDivisionName": "string",
-//   "lastDivisionPerc": 0,
-//   "top1": "string",
-//   "top1Val": 0,
-//   "top2": "string",
-//   "top2Val": 0,
-//   "top3": "string",
-//   "top3Val": 0
-// }
 
 export interface Dashboard {
   avgPerc: number;

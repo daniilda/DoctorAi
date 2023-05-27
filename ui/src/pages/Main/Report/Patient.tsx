@@ -4,17 +4,17 @@ import { Button } from "@/components/ui";
 import { card } from "./tailwind";
 import toFullName from "@/utils/toFullName";
 import useRating from "@/utils/useRating";
-import { Patient } from "@/api/endpoints";
+import { Appointment } from "@/api/endpoints";
 import Download from "@/components/Download";
 import { useEffect } from "react";
 import { ReportStore } from "@/stores/reportStore";
 
-const DiagnosisCard = (p: Patient) => {
+const AppointmentCard = (a: Appointment) => {
   return (
     <div className={`${card} flex-wrap items-center justify-between gap-4`}>
       <div className="flex flex-col gap-1">
         <p className="text-primary">Пациент</p>
-        <h2 className="text-2xl font-bold">{toFullName(p)}</h2>
+        <h2 className="text-2xl font-bold">{a.name}</h2>
       </div>
     </div>
   );
@@ -59,7 +59,10 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
         >
           {text}
         </div>
-        <Download />
+        <Download
+          pdf={vm.selectedPatient?.pdfUrl}
+          docx={vm.selectedPatient?.docxUrl}
+        />
       </div>
       {/* {vm.selectedPatient?..map((p, index) => (
         <DiagnosisCard key={index} {...p} />

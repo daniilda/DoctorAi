@@ -97,7 +97,10 @@ const Doctor = observer(
           >
             {text}
           </div>
-          <Download />
+          <Download
+            pdf={vm.selectedDoctor?.pdfUrl}
+            docx={vm.selectedDoctor?.docxUrl}
+          />
         </div>
         {vm.selectedDoctor?.reportPatients.map((p, index) => (
           <PatientCard key={index} p={p} onClick={() => onPatientClick(p)} />
