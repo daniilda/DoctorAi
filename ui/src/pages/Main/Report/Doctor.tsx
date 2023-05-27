@@ -39,13 +39,11 @@ const PatientCard = ({ p, onClick }: { p: Patient; onClick: () => void }) => {
   // })();
   return (
     <div
-      className={`${cardWithHover} ${cl.card} items-center justify-between gap-4`}
+      className={`${cardWithHover} ${cl.card} items-center justify-between gap-4 select-none`}
       onClick={onClick}
     >
       <div className="flex flex-col gap-1">
         <h2 className="text-2xl font-bold">{toFullName(p)}</h2>
-        {/* сделай так чтобы менялось окончания в зависимости от числа p.reportAppointments.length */}
-
         <p className="text-primary text-lg">
           {pluralize(p.reportAppointments.length)}
         </p>
@@ -69,7 +67,7 @@ const Doctor = observer(
     return (
       <div className="grid gap-3 w-full">
         <div className="flex flex-col gap-3">
-          <div className="flex cursor-pointer items-center gap-2">
+          <div className="flex cursor-pointer items-center gap-2 select-none">
             <div
               className="flex gap-2 text-text-secondary hover:text-text-main"
               onClick={() => (vm.selectedDoctor = null)}

@@ -88,10 +88,28 @@ $slide-transform-ms: 150ms;
   transition: all $slide-transform-ms ease-out;
 }
 
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity $slide-transform-ms $cubic-bezier;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity $slide-transform-ms $cubic-bezier;
+}
+
 // additional
 
 .appear {
-  animation: appear $transition-duration $cubic-bezier;
+  animation: appear $slide-transform-ms $cubic-bezier;
 }
 
 @keyframes appear {

@@ -39,7 +39,7 @@ const Heading = observer(() => {
           <div className="min-w-[120px] max-w-[120px] overflow-hidden">
             <Logo />
           </div>
-          <ul className="ml-8 gap-4 lg:gap-8 lg:ml-12 text-base hidden md:flex">
+          <ul className="ml-8 gap-4 lg:gap-8 lg:ml-12 text-base hidden md:flex select-none">
             <NavLink to="upload">Оценка назначения</NavLink>
             <NavLink to="dashboard">Отчёты</NavLink>
           </ul>
@@ -62,7 +62,7 @@ const Heading = observer(() => {
                   <img
                     src={AuthStore.user?.picUrl}
                     alt="avatar"
-                    className="w-10 h-10 rounded-full"
+                    className="w-10 h-10 rounded-full select-none"
                   />
                   <div className="flex flex-col justify-between">
                     {AuthStore.user?.firstName} {AuthStore.user?.lastName}
