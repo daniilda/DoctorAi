@@ -116,11 +116,8 @@ const Dashboard = observer(() => {
   };
 
   useEffect(() => {
-    console.log("listening");
-    const interval = setInterval(() => {
-      vm.updateDashboard();
-    }, 30000);
-
+    const interval = setInterval(vm.updateDashboard, 30000);
+    vm.updateDashboard();
     return () => {
       clearInterval(interval);
     };
