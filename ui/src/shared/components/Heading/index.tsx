@@ -56,10 +56,10 @@ const Heading = observer(() => {
           {AuthStore.authState === "authorized" && (
             <>
               <div
-                className="flex relative items-center ml-auto cursor-pointer"
+                className="flex relative items-center ml-auto"
                 onClick={() => setExpanded((p) => !p)}
               >
-                <div className="items-center hidden md:flex gap-2 lg:gap-3">
+                <div className="items-center hidden md:flex gap-2 lg:gap-3 cursor-pointer">
                   <img
                     src={AuthStore.user?.picUrl}
                     alt="avatar"
@@ -72,11 +72,11 @@ const Heading = observer(() => {
                     </p>
                   </div>
                 </div>
-                <div className="w-10 h-10 p-2 rounded-full bg-text-secondary/5 text-primary block md:hidden">
+                <div className="w-10 h-10 p-2 rounded-full text-primary block md:hidden cursor-pointer">
                   <ProfileSvg />
                 </div>
                 {expanded && (
-                  <div className="absolute top-16 right-0 min-w-full md:w-48 bg-bg-nav backdrop-blur-md rounded-md shadow-md">
+                  <div className="absolute top-16 right-0 min-w-full md:w-48 bg-bg-nav backdrop-blur-md rounded-lg shadow-md">
                     <ul className="flex flex-col gap-2 p-2">
                       <li className="gap-2 items-center flex md:hidden w-max p-1">
                         <img
@@ -91,11 +91,11 @@ const Heading = observer(() => {
                           </p>
                         </div>
                       </li>
-                      <li className="hover:bg-bg-primary hidden md:flex rounded-md p-2">
+                      <li className="hover:bg-bg-primary hidden md:flex rounded-md p-2 cursor-pointer">
                         Профиль
                       </li>
                       <li
-                        className="hover:bg-bg-primary rounded-md p-2"
+                        className="hover:bg-bg-primary rounded-md p-2 cursor-pointer"
                         onClick={() => AuthStore.logout()}
                       >
                         Выход

@@ -1,9 +1,21 @@
 import { Button } from "@/components/ui";
 import DownloadSvg from "@/assets/download.svg";
 
-const Download = ({ pdf, docx }: { pdf?: string; docx?: string }) => {
+const Download = ({
+  pdf,
+  docx,
+  wide,
+}: {
+  pdf?: string;
+  docx?: string;
+  wide?: boolean;
+}) => {
   return (
-    <div className="flex flex-wrap ml-auto gap-4 w-full lg:w-fit">
+    <div
+      className={`flex flex-wrap ml-auto gap-4 w-full ${
+        wide ? "md:w-fit" : "lg:w-fit"
+      }`}
+    >
       <Button
         appearance="main"
         fontSize="lg"

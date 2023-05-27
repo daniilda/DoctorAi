@@ -3,11 +3,8 @@ import useRating from "@/utils/useRating";
 import OkBg from "./assets/spiral_ok.svg";
 import BadBg from "./assets/spiral_bad.svg";
 import WarningBg from "./assets/spiral_warning.svg";
-import { useParams } from "react-router-dom";
 import { useViewModel } from "@/utils/useViewModel";
 import { DashboardStore } from "./dashboard.vm";
-import { useEffect } from "react";
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 
 const cardNoPadding =
@@ -71,7 +68,7 @@ const Dashboard = observer(() => {
         <div className="flex flex-col">
           <h2 className="text-3xl font-bold">Сводка за неделю</h2>
         </div>
-        <Download />
+        <Download wide />
       </div>
       <div className="grid md:grid-cols-3 gap-3">
         <StatCard withGraph progress={74} topText="Все отделения" />
@@ -117,7 +114,7 @@ const Dashboard = observer(() => {
             <p className="text-primary">Отчёт №{index + 1}</p>
             <h2 className="text-2xl font-bold">{r.reportName}</h2>
           </div>
-          <Download />
+          <Download wide />
         </div>
       ))}
     </div>

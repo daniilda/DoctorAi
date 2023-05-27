@@ -9,6 +9,7 @@ import toFullName from "@/utils/toFullName";
 import useRating from "@/utils/useRating";
 import Download from "@/components/Download";
 import { ReportStore, SortOption } from "@/stores/reportStore";
+import OrderSvg from "./assets/order.svg";
 
 const DoctorCard = ({
   name,
@@ -70,21 +71,29 @@ const Overview = observer(() => {
         <Download pdf={""} docx={""} />
       </div>
       <div className="lg:col-span-2 flex flex-wrap-reverse gap-2">
-        <Dropdown
-          className="w-full md:flex-1"
-          items={
-            [
-              "По алфавиту А-Я",
-              "По алфавиту Я-А",
-              "По специальности А-Я",
-              "По специальности Я-А",
-              "Сначала без соответствия",
-              "Сначала с соответствием",
-            ] as SortOption[]
-          }
-          value={vm.selectedSort}
-          onChange={(v) => (vm.selectedSort = v)}
-        />
+        <div className="flex md:flex-1 gap-1 w-full">
+          <Dropdown
+            className="flex-1 w-full"
+            items={
+              [
+                "По алфавиту",
+                "По соответствию",
+                "По специальности",
+              ] as SortOption[]
+            }
+            value={vm.selectedSort}
+            onChange={(v) => (vm.selectedSort = v)}
+          />
+          <div
+            className="w-[56px] h-[56px] shadow-none hover:shadow-sm transition-shadow rounded-xl border-text-accent border-[1px] cursor-pointer flex justify-center items-center p-4 bg-bg-accent text-text-secondary hover:text-text-primary"
+            style={{
+              rotate: vm.reverseOrder ? "180deg" : "0deg",
+            }}
+            onClick={() => (vm.reverseOrder = !vm.reverseOrder)}
+          >
+            <OrderSvg />
+          </div>
+        </div>
         <Input
           allowClear
           placeholder="Специализация"
