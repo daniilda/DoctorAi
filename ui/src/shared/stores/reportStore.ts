@@ -22,10 +22,13 @@ export const ReportStore = new (class {
     return;
   };
 
-  public getReport = async (id: string) => {
-    this.report = null;
+  public getReport = async (id: string, clearPrevious = true) => {
+    if (clearPrevious) {
+      this.report = null;
+      this.selectedDoctor = null;
+      this.selectedPatient = null;
+    }
     this.report = await ReportEndpoint.getReport(id);
-    this.selectedDoctor = null;
     this.sortItems(this.selectedSort, this.reverseOrder);
   };
 
