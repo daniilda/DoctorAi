@@ -3,7 +3,6 @@ import useRating from "@/utils/useRating";
 import OkBg from "./assets/spiral_ok.svg";
 import BadBg from "./assets/spiral_bad.svg";
 import WarningBg from "./assets/spiral_warning.svg";
-import { useViewModel } from "@/utils/useViewModel";
 import { DashboardStore } from "./dashboard.vm";
 import { observer } from "mobx-react-lite";
 import LoadingEllipsis from "@/components/LoadingEllipsis/LoadingEllipsis";
@@ -108,6 +107,9 @@ const Dashboard = observer(() => {
   const [notReadyReportsExpanded, setNotReadyReportsExpanded] = useState(false);
   const [navigating, setNavigating] = useState(false);
 
+  const [readyReports, setReadyReports] = useState<ReportResult[]>([]);
+  const [notReadyReports, setNotReadyReports] = useState<ReportResult[]>([]);
+
   const navigateTo = (path: string) => {
     setNavigating(true);
     setTimeout(() => {
@@ -123,13 +125,36 @@ const Dashboard = observer(() => {
     };
   }, [vm]);
 
+  useEffect(() => {
+    setReadyReports(
+      vm.reports
+        .filter((r) => r.isReady)
+        .sort((a, b) => {
+          const aDate = new Date(a.createdAt);
+          const bDate = new Date(b.createdAt);
+          return bDate.getTime() - aDate.getTime();
+        })
+    );
+    setNotReadyReports(
+      vm.reports
+        .filter((r) => !r.isReady)
+        .sort((a, b) => {
+          const aDate = new Date(a.createdAt);
+          const bDate = new Date(b.createdAt);
+          return bDate.getTime() - aDate.getTime();
+        })
+    );
+  }, [vm.reports]);
+
   return (
     <div
       className={`${
         navigating && "hide"
       } flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:my-6 lg:my-8 gap-3 appear pb-4`}
     >
-      <div className={`${card} flex-wrap gap-4 items-center justify-between`}>
+      <div
+        className={`${card} flex flex-wrap gap-4 items-center justify-between`}
+      >
         <h2 className="text-3xl font-bold">Общая сводка</h2>
         <Button
           rounded="xl"
@@ -139,42 +164,43 @@ const Dashboard = observer(() => {
           <PlusSvg className="w-6 h-6" />
           Новый отчёт
         </Button>
-        {/* <Download wide pdf={vm.dashboard?.pdfUrl} docx={vm.dashboard?.docxUrl} /> */}
       </div>
-      <div className="grid md:grid-cols-3 gap-3">
-        <StatCard
-          withGraph
-          progress={vm.dashboard?.avgPerc}
-          topText="Все отделения"
-        />
-        <StatCard
-          withGraph
-          progress={vm.dashboard?.topDivisionPerc}
-          topText="Лучший результат"
-          bottomText={vm.dashboard?.topDivisionName}
-        />
-        <StatCard
-          withGraph
-          progress={vm.dashboard?.lastDivisionPerc}
-          topText="Худший результат"
-          bottomText={vm.dashboard?.lastDivisionName}
-        />
-        <StatCard
-          middleText={vm.dashboard?.top1}
-          progress={vm.dashboard?.top1Val}
-          topText="1 место"
-        />
-        <StatCard
-          middleText={vm.dashboard?.top2}
-          progress={vm.dashboard?.top2Val}
-          topText="2 место"
-        />
-        <StatCard
-          middleText={vm.dashboard?.top3}
-          progress={vm.dashboard?.top3Val}
-          topText="3 место"
-        />
-      </div>
+      {!(vm.wasLoaded && vm.dashboard === null) && (
+        <div className="grid md:grid-cols-3 gap-3">
+          <StatCard
+            withGraph
+            progress={vm.dashboard?.avgPerc}
+            topText="Все отделения"
+          />
+          <StatCard
+            withGraph
+            progress={vm.dashboard?.topDivisionPerc}
+            topText="Лучший результат"
+            bottomText={vm.dashboard?.topDivisionName}
+          />
+          <StatCard
+            withGraph
+            progress={vm.dashboard?.lastDivisionPerc}
+            topText="Худший результат"
+            bottomText={vm.dashboard?.lastDivisionName}
+          />
+          <StatCard
+            middleText={vm.dashboard?.top1}
+            progress={vm.dashboard?.top1Val}
+            topText="1 место"
+          />
+          <StatCard
+            middleText={vm.dashboard?.top2}
+            progress={vm.dashboard?.top2Val}
+            topText="2 место"
+          />
+          <StatCard
+            middleText={vm.dashboard?.top3}
+            progress={vm.dashboard?.top3Val}
+            topText="3 место"
+          />
+        </div>
+      )}
       <div
         className="appear flex justify-between p-8 bg-status-warning/70 rounded-xl items-center mt-4 gap-4 cursor-pointer"
         onClick={() => setNotReadyReportsExpanded((p) => !p)}
@@ -189,21 +215,28 @@ const Dashboard = observer(() => {
         />
       </div>
       {notReadyReportsExpanded &&
-        vm.reports
-          .filter((r) => !r.isReady)
-          .map((r, index) => (
-            <ReportCard
-              key={index}
-              onClick={() => navigateTo(`/report/${r.id}`)}
-              r={r}
-            />
-          ))}
+        (notReadyReports.length > 0
+          ? notReadyReports.map((r, index) => (
+              <ReportCard
+                key={index}
+                onClick={() => navigateTo(`/report/${r.id}`)}
+                r={r}
+              />
+            ))
+          : vm.wasLoaded && (
+              <div className="appear flex justify-between p-8 bg-status-success/70 rounded-xl items-center mt-4 gap-4 cursor-pointer">
+                <h2 className="text-2xl md:text-3xl font-medium select-none">
+                  Все отчёты готовы!
+                </h2>
+              </div>
+            ))}
+
       <div
         className="appear flex justify-between p-8 bg-primary/70 rounded-xl items-center mt-4 gap-4 cursor-pointer"
         onClick={() => setReadyReportsExpanded((p) => !p)}
       >
         <h2 className="text-2xl md:text-3xl font-medium text-text-onPrimary select-none">
-          Составленные отчёты
+          Готовые отчёты
         </h2>
         <ChevronSvg
           className={`${
@@ -211,10 +244,10 @@ const Dashboard = observer(() => {
           } w-6 h-6 text-bg-accent`}
         />
       </div>
-      {readyReportsExpanded && vm.reports.some((r) => r.isReady)
-        ? vm.reports
-            .filter((r) => r.isReady)
-            .map((r, index) => (
+
+      {readyReportsExpanded &&
+        (readyReports.length > 0
+          ? readyReports.map((r, index) => (
               <ReportCard
                 key={index}
                 onClick={() => {
@@ -224,24 +257,24 @@ const Dashboard = observer(() => {
                 r={r}
               />
             ))
-        : vm.reports === undefined && (
-            <div className="flex flex-col items-center justify-center my-6">
-              <h2 className="text-3xl font-medium text-text-primary text-center">
-                Создайте свой первый отчёт!
-              </h2>
-              <p className="text-lg text-text-primary text-center">
-                Перед просмотром отчётов, необходимо создать первый
-              </p>
-              <Button
-                rounded="xl"
-                className="flex items-center px-4 gap-2 mt-4"
-                onClick={() => navigateTo("/upload")}
-              >
-                <PlusSvg className="w-6 h-6" />
-                Создать отчёт
-              </Button>
-            </div>
-          )}
+          : vm.wasLoaded && (
+              <div className="flex flex-col items-start p-8">
+                <h2 className="text-3xl font-medium text-text-primary">
+                  Создайте свой первый отчёт!
+                </h2>
+                <p className="text-lg text-text-primary">
+                  Перед просмотром отчёта, необходимо создать первый
+                </p>
+                <Button
+                  rounded="xl"
+                  className="flex items-center px-4 gap-2 mt-4"
+                  onClick={() => navigateTo("/upload")}
+                >
+                  <PlusSvg className="w-6 h-6" />
+                  Создать отчёт
+                </Button>
+              </div>
+            ))}
     </div>
   );
 });
