@@ -27,6 +27,7 @@ export const ReportStore = new (class {
     this.report = await ReportEndpoint.getReport(id);
     this.selectedDoctor = null;
     this.sortItems(this.selectedSort, this.reverseOrder);
+    console.log(this.report);
   };
 
   get selectedSort() {
@@ -48,7 +49,7 @@ export const ReportStore = new (class {
   }
 
   private sortItems(value: SortOption, reverse: boolean) {
-    if (!this.report) return [];
+    if (!this.report || !this.report.docMetas) return [];
     switch (value) {
       case "По алфавиту":
         this.report.docMetas.sort((a, b) => {

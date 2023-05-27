@@ -10,17 +10,11 @@ import { useEffect } from "react";
 import { ReportStore } from "@/stores/reportStore";
 import cl from "./styles.module.scss";
 
-const PatientCard = ({
-  p,
-  onClick,
-}: {
-  p: Patient;
-  onClick: (p: Patient) => void;
-}) => {
+const PatientCard = ({ p, onClick }: { p: Patient; onClick: () => void }) => {
   return (
     <div
       className={`${cardWithHover} ${cl.card} flex-wrap items-center justify-between gap-4`}
-      onClick={() => onClick(p)}
+      onClick={onClick}
     >
       <div className="flex flex-col gap-1">
         <p className="text-primary">Пациент</p>
@@ -76,7 +70,7 @@ const Doctor = observer(
           <Download />
         </div>
         {vm.selectedDoctor?.patients.map((p, index) => (
-          <PatientCard key={index} p={p} onClick={onPatientClick} />
+          <PatientCard key={index} p={p} onClick={() => onPatientClick(p)} />
         ))}
       </div>
     );

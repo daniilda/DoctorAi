@@ -103,22 +103,23 @@ const Overview = observer(() => {
           className="border-text-accent border-[1px] rounded-xl ml-auto md:flex-1 font-medium"
         />
       </div>
-      {vm.report?.docMetas
-        .filter((v) => {
-          if (!searchValue) return true;
-          return toFullName(v)
-            .toLowerCase()
-            .includes(searchValue.toLowerCase());
-        })
-        .map((doc, index) => (
-          <DoctorCard
-            key={index}
-            name={toFullName(doc)}
-            rating={doc.rate}
-            role={doc.position}
-            onClick={() => (vm.selectedDoctor = doc)}
-          />
-        ))}
+      {vm.report?.docMetas?.length !== 0 &&
+        vm.report?.docMetas
+          ?.filter((v) => {
+            if (!searchValue) return true;
+            return toFullName(v)
+              .toLowerCase()
+              .includes(searchValue.toLowerCase());
+          })
+          .map((doc, index) => (
+            <DoctorCard
+              key={index}
+              name={toFullName(doc)}
+              rating={doc.rate}
+              role={doc.position}
+              onClick={() => (vm.selectedDoctor = doc)}
+            />
+          ))}
     </div>
   );
 });

@@ -24,9 +24,9 @@ const MobileNav = observer(() => {
         </Link>
         <span className="h-full py-[5px] w-[1px] bg-text-placeholder/30"></span>
         <Link
-          to="/report/1"
+          to="/dashboard"
           className={`flex items-center justify-center gap-2 flex-1 ${
-            pathname.includes("/report/") ? "text-primary" : ""
+            pathname.includes("/dashboard") ? "text-primary" : ""
           }
           )}`}
         >
