@@ -1,7 +1,7 @@
 const toFullName = (v: {
-  lastName?: string;
-  firstName?: string;
-  middleName?: string;
+  lastName?: string | null;
+  firstName?: string | null;
+  middleName?: string | null;
   [key: string]: any;
 }) => `${v.lastName ?? ""} ${v.firstName ?? ""} ${v.middleName ?? ""}`;
 

@@ -1,6 +1,5 @@
 import { UploadStore } from "../../upload.vm";
 import { observer } from "mobx-react-lite";
-import cl from "./styles.module.scss";
 import { Button, Input } from "@/components/ui";
 import ExcelSvg from "@/assets/filetypes/excel.svg";
 import WordSvg from "@/assets/filetypes/word.svg";
@@ -21,7 +20,7 @@ const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
       className={`w-full mx-auto max-w-2xl flex flex-col items-center gap-4`}
     >
       <div className={card}>
-        <h2 className="font-medium text-xl">Название отчёта</h2>
+        <h2 className="font-medium text-xl select-none">Название отчёта</h2>
         <Input
           error={error && !vm.title}
           value={vm.title}
@@ -33,9 +32,9 @@ const Preview: React.FC<PreviewProps> = observer(({ vm }) => {
         />
       </div>
       <div className={card}>
-        <h2 className="font-medium text-xl">Выбранные файлы</h2>
+        <h2 className="font-medium text-xl select-none">Выбранные файлы</h2>
         <div className="flex flex-col">
-          {vm.files.map((file: any, index: number) => (
+          {vm.files.map((file, index) => (
             <div
               key={index}
               className="flex items-center mt-2 bg-bg-primary rounded-lg p-2 px-3 shadow-sm"

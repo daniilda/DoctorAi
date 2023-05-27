@@ -1,14 +1,15 @@
 import ChevronSvg from "@/assets/chevron.svg";
 import SearchSvg from "@/assets/search.svg";
-import { Button, Dropdown, Input } from "@/components/ui";
+import { Dropdown, Input } from "@/components/ui";
 import cl from "./styles.module.scss";
 import { card, cardWithHover } from "./tailwind";
 import { observer } from "mobx-react-lite";
-import { ReportStore, SortOption } from "./report.vm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toFullName from "@/utils/toFullName";
 import useRating from "@/utils/useRating";
 import Download from "@/components/Download";
+import { ReportStore, SortOption } from "@/stores/reportStore";
+import OrderSvg from "./assets/order.svg";
 
 const DoctorCard = ({
   name,
@@ -17,26 +18,32 @@ const DoctorCard = ({
   onClick,
 }: {
   name: string;
-  rating: number;
+  rating?: number;
   role: string;
   onClick: () => void;
 }) => {
-  const { textColor, bgColor, text } = useRating(rating);
+  const { color, backgroundColor, text } = useRating(rating);
 
   return (
     <div className={`${cardWithHover} gap-1 ${cl.card}`} onClick={onClick}>
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 select-none">
         <h3 className="text-xl text-text-secondary">{role}</h3>
         <h1 className="text-3xl font-bold mb-4">{name}</h1>
         <div
-          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto text-${textColor}`}
+          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto`}
+          style={{
+            color: color,
+          }}
         >
           <span
-            className={`text-xl font-medium px-4 py-2 rounded-lg bg-${bgColor}`}
+            className={`text-xl font-medium px-4 py-2 rounded-lg`}
+            style={{
+              backgroundColor,
+            }}
           >
             {text}
           </span>
-          <span className="text-xl font-medium">{rating} / 10</span>
+          <span className="text-xl font-medium">{rating} / 100</span>
         </div>
       </div>
       <div className="flex items-center">
@@ -46,32 +53,50 @@ const DoctorCard = ({
   );
 };
 
-const Overview = observer(({ vm }: { vm: ReportStore }) => {
+const Overview = observer(() => {
+  const vm = ReportStore;
   const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    return;
+  }, [vm.report?.reportDocs]);
 
   return (
     <div className="grid lg:grid-cols-2 gap-3">
-      <div className={`lg:col-span-2 ${card} flex-wrap gap-4`}>
-        <div className="flex flex-col flex-1">
-          <p className="text-text-secondary text-xl">Отчёт №{vm.report?.id}</p>
+      <div className={`lg:col-span-2 ${card} flex-wrap gap-4 items-center`}>
+        <div className="flex flex-col flex-1 gap-1">
           <h1 className="text-3xl font-bold">{vm.report?.reportName}</h1>
+          <p className="text-text-secondary text-md">
+            {vm.report?.createdAt &&
+              new Date(vm.report?.createdAt).toLocaleString()}
+          </p>
         </div>
-        <Download pdf={""} docx={""} />
+        <Download pdf={vm.report?.pdfUrl} docx={vm.report?.docxUrl} wide />
       </div>
-      <div className="lg:col-span-2 flex flex-wrap-reverse gap-2">
-        <Dropdown
-          className="w-full md:flex-1"
-          items={
-            [
-              "По алфавиту А-Я",
-              "По алфавиту Я-А",
-              "Сначала без соответствия",
-              "Сначала с соответствием",
-            ] as SortOption[]
-          }
-          value={vm.selectedSort}
-          onChange={(v) => (vm.selectedSort = v)}
-        />
+      <div className="lg:col-span-2 flex flex-wrap-reverse gap-2 lg:gap-3">
+        <div className="flex md:flex-1 gap-1 w-full">
+          <Dropdown
+            className="flex-1 w-full"
+            items={
+              [
+                "По алфавиту",
+                "По соответствию",
+                "По специальности",
+              ] as SortOption[]
+            }
+            value={vm.selectedSort}
+            onChange={(v) => (vm.selectedSort = v)}
+          />
+          <div
+            className="w-[56px] h-[56px] shadow-none hover:shadow-sm transition-shadow rounded-xl border-text-accent border-[1px] cursor-pointer flex justify-center items-center p-4 bg-bg-accent text-text-secondary hover:text-text-primary"
+            style={{
+              rotate: vm.reverseOrder ? "180deg" : "0deg",
+            }}
+            onClick={() => (vm.reverseOrder = !vm.reverseOrder)}
+          >
+            <OrderSvg />
+          </div>
+        </div>
         <Input
           allowClear
           placeholder="Специализация"
@@ -81,15 +106,23 @@ const Overview = observer(({ vm }: { vm: ReportStore }) => {
           className="border-text-accent border-[1px] rounded-xl ml-auto md:flex-1 font-medium"
         />
       </div>
-      {vm.report?.docMetas.map((doc, index) => (
-        <DoctorCard
-          key={index}
-          name={toFullName(doc)}
-          rating={doc.rate}
-          role={doc.position}
-          onClick={() => (vm.selectedDoctor = doc)}
-        />
-      ))}
+      {vm.report?.reportDocs?.length !== 0 &&
+        vm.report?.reportDocs
+          ?.filter((v) => {
+            if (!searchValue) return true;
+            return toFullName(v)
+              .toLowerCase()
+              .includes(searchValue.toLowerCase());
+          })
+          .map((doc, index) => (
+            <DoctorCard
+              key={index}
+              name={toFullName(doc)}
+              rating={doc.rate}
+              role={`${doc.division && doc.division}, ${doc.position}`}
+              onClick={() => (vm.selectedDoctor = doc)}
+            />
+          ))}
     </div>
   );
 });

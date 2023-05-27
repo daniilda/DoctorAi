@@ -1,7 +1,7 @@
 // Тайпскрипту очень плохо при работе с файлами, поэтому я его освобождаю
 import { makeAutoObservable } from "mobx";
 import { ReportEndpoint, UploadEndpoint } from "@/api/endpoints";
-import { GlobalReportStore } from "@/stores/globalReportStore";
+import { ReportStore } from "@/stores/reportStore";
 
 export class UploadStore {
   public files: File[] = [];
@@ -48,9 +48,9 @@ export class UploadStore {
     });
     if (result) {
       this.reportId = result.id;
-      this.status = "success";
       const report = await ReportEndpoint.getReport(result.id);
-      GlobalReportStore.report = report;
+      this.status = "success";
+      ReportStore.report = report;
     }
   }
 
