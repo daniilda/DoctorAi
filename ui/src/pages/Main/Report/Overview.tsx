@@ -30,7 +30,7 @@ const DoctorCard = ({
         <h3 className="text-xl text-text-secondary">{role}</h3>
         <h1 className="text-3xl font-bold mb-4">{name}</h1>
         <div
-          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto`}
+          className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto select-none`}
           style={{
             color: color,
           }}

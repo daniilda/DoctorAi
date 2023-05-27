@@ -16,30 +16,34 @@ const Download = ({
         wide ? "md:w-fit" : "lg:w-fit"
       }`}
     >
-      <Button
-        appearance="main"
-        fontSize="lg"
-        className="flex items-center px-4 gap-1 h-[52px] justify-center w-full md:w-auto"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (docx) window.open(docx);
-        }}
-      >
-        <DownloadSvg />
-        Скачать DOCX
-      </Button>
-      <Button
-        appearance="main"
-        fontSize="lg"
-        className="flex items-center px-4 gap-1 h-[52px] justify-center w-full md:w-auto"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (pdf) window.open(pdf);
-        }}
-      >
-        <DownloadSvg />
-        Скачать PDF
-      </Button>
+      {docx && (
+        <Button
+          appearance="main"
+          fontSize="lg"
+          className="flex items-center px-4 gap-1 h-[52px] justify-center w-full md:w-auto"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (docx) window.open(docx);
+          }}
+        >
+          <DownloadSvg />
+          Скачать DOCX
+        </Button>
+      )}
+      {pdf && (
+        <Button
+          appearance="main"
+          fontSize="lg"
+          className="flex items-center px-4 gap-1 h-[52px] justify-center w-full md:w-auto"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (pdf) window.open(pdf);
+          }}
+        >
+          <DownloadSvg />
+          Скачать PDF
+        </Button>
+      )}
     </div>
   );
 };

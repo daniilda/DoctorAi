@@ -9,19 +9,22 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const onFormSubmit = async (e: any) => {
     e.preventDefault();
+    setDisabled(true);
     setError(false);
     if (!username || !password) {
       setError(true);
-      return;
+    } else {
+      const success = await AuthStore.login(username, password);
+      if (!success) {
+        setError(true);
+      }
+      if (success) navigate("/dashboard");
     }
-    const success = await AuthStore.login(username, password);
-    if (!success) {
-      setError(true);
-    }
-    if (success) navigate("/upload");
+    setDisabled(false);
   };
 
   return (
@@ -32,14 +35,22 @@ const Login = () => {
         onSubmit={onFormSubmit}
       >
         <h2 className="text-center font-bold text-3xl mb-4">Вход на сайт</h2>
-        <Input error={error} onChange={setUsername} placeholder="Введите имя" />
         <Input
+          disabled={disabled}
+          error={error}
+          onChange={setUsername}
+          placeholder="Введите имя"
+        />
+        <Input
+          disabled={disabled}
           error={error}
           type="password"
           onChange={setPassword}
           placeholder="Введите пароль"
         />
-        <Button className="mt-4">Войти</Button>
+        <Button className="mt-4" disabled={disabled}>
+          Войти
+        </Button>
       </form>
     </div>
   );

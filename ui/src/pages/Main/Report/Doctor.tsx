@@ -25,18 +25,18 @@ function pluralize(count: number) {
 }
 
 const PatientCard = ({ p, onClick }: { p: Patient; onClick: () => void }) => {
-  const [color, text] = (() => {
-    switch (p.rate) {
-      case 1:
-        return ["var(--colors-status-ok)", "Правильные заключения"];
-      case 2:
-        return ["var(--colors-status-error)", "Недостающие заключения"];
-      case 3:
-        return ["var(--colors-status-error)", "Лишние заключения"];
-      default:
-        return ["var(--colors-status-warning)", "Нет информации"];
-    }
-  })();
+  // const [color, text] = (() => {
+  //   switch (p.rate) {
+  //     case 1:
+  //       return ["var(--colors-status-ok)", "Правильные заключения"];
+  //     case 2:
+  //       return ["var(--colors-status-error)", "Недостающие заключения"];
+  //     case 3:
+  //       return ["var(--colors-status-error)", "Лишние заключения"];
+  //     default:
+  //       return ["var(--colors-status-warning)", "Нет информации"];
+  //   }
+  // })();
   return (
     <div
       className={`${cardWithHover} ${cl.card} items-center justify-between gap-4`}
@@ -92,7 +92,7 @@ const Doctor = observer(
             </h2>
           </div>
           <div
-            className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg`}
+            className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg select-none`}
             style={{ backgroundColor, color }}
           >
             {text}

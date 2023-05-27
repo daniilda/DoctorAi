@@ -1,7 +1,7 @@
 import { Dashboard, ReportEndpoint, ReportResult } from "@/api/endpoints";
 import { makeAutoObservable, toJS } from "mobx";
 
-export class DashboardStore {
+export const DashboardStore = new (class {
   public reports: ReportResult[] = [];
   public dashboard: Dashboard | null = null;
 
@@ -15,7 +15,12 @@ export class DashboardStore {
     this.dashboard = await ReportEndpoint.getDashboard();
   }
 
+  public updateDashboard = async () => {
+    this.reports = await ReportEndpoint.getReports();
+    this.dashboard = await ReportEndpoint.getDashboard();
+  };
+
   public dispose = () => {
     return;
   };
-}
+})();

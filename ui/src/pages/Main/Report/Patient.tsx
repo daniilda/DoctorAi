@@ -9,19 +9,21 @@ import Download from "@/components/Download";
 import { useEffect } from "react";
 import { ReportStore } from "@/stores/reportStore";
 
+const parseAppointment = (state: number): [color: string, text: string] => {
+  switch (state) {
+    case 1:
+      return ["var(--colors-status-ok)", "Указано"];
+    case 2:
+      return ["var(--colors-status-warning)", "Лишнее назначение"];
+    case 3:
+      return ["var(--colors-status-error)", "Не указано"];
+    default:
+      return ["var(--colors-status-warning)", "Нет информации"];
+  }
+};
+
 const AppointmentCard = (a: Appointment) => {
-  const [color, text] = (() => {
-    switch (a.appointmentState) {
-      case 1:
-        return ["var(--colors-status-ok)", "Указано"];
-      case 2:
-        return ["var(--colors-status-warning)", "Лишнее назначение"];
-      case 3:
-        return ["var(--colors-status-error)", "Не указано"];
-      default:
-        return ["var(--colors-status-warning)", "Нет информации"];
-    }
-  })();
+  const [color, text] = parseAppointment(a.appointmentState);
 
   return (
     <div className={`${card} flex-wrap items-center justify-between gap-4`}>
@@ -43,7 +45,18 @@ const AppointmentCard = (a: Appointment) => {
 
 const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
   const vm = ReportStore;
-  const { text, color, backgroundColor } = useRating(vm.selectedDoctor?.rate);
+
+  const [patientColor, patientText] = (() => {
+    if (
+      vm.selectedPatient?.reportAppointments.some(
+        (v) => v.appointmentState !== 1
+      )
+    ) {
+      return ["var(--colors-status-warning)", "Есть замечания"];
+    } else {
+      return ["var(--colors-status-ok)", "Верные указания"];
+    }
+  })();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -65,12 +78,12 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
       <div
         className={`${card} flex-wrap items-center gap-4`}
         style={{
-          borderBottom: `4px solid ${color}`,
+          borderBottom: `4px solid rgb(${patientColor})`,
         }}
       >
         <div className="flex flex-col justify-center flex-1 gap-1">
-          <h3 className="font-medium" style={{ color }}>
-            {vm.selectedDoctor?.position}
+          <h3 className="font-medium" style={{ color: `rgb(${patientColor})` }}>
+            {vm.selectedPatient?.diagnosis}
           </h3>
           <h2 className="text-2xl font-bold">
             {toFullName(vm.selectedDoctor ?? {})}
@@ -78,9 +91,12 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
         </div>
         <div
           className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg select-none`}
-          style={{ backgroundColor, color }}
+          style={{
+            backgroundColor: `rgba(${patientColor}, 0.2)`,
+            color: `rgb(${patientColor})`,
+          }}
         >
-          {text}
+          {patientText}
         </div>
         <Download
           pdf={vm.selectedPatient?.pdfUrl}
