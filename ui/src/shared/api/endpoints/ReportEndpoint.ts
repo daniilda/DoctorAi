@@ -69,7 +69,7 @@ const mockReport = () => {
         middleName: "Doe",
         lastName: "Smith",
         position: "Doctor",
-        rate: 5,
+        rate: 4,
         reportId: "1",
         patients: [
           {

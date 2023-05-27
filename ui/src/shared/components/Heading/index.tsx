@@ -1,10 +1,12 @@
 import Logo from "@/assets/logo.svg";
 import LoginSvg from "./assets/login.svg";
+import ProfileSvg from "./assets/profile.svg";
 import { observer } from "mobx-react-lite";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthStore from "@/stores/authStore";
 import avatarSrc from "./assets/avatar.png";
-
+import { useRef, useState } from "react";
+import { useClickOutside } from "@/utils/useClickOutside";
 const NavLink = ({ to, children }: { to: string; children: string }) => {
   const { pathname } = useLocation();
   return (
@@ -23,9 +25,16 @@ const NavLink = ({ to, children }: { to: string; children: string }) => {
 
 const Heading = observer(() => {
   const navigate = useNavigate();
+  const headingRef = useRef<HTMLDivElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  useClickOutside([headingRef], () => setExpanded(false));
+
   return (
     <>
-      <nav className="h-16 z-10 fixed flex w-full overflow-hidden bg-bg-nav/70 backdrop-blur-md justify-center shadow-sm">
+      <nav
+        className="h-16 z-10 fixed flex w-full bg-bg-nav/70 backdrop-blur-md justify-center shadow-sm"
+        ref={headingRef}
+      >
         <div className="max-w-screen-max font-medium w-full items-center flex px-4 lg:px-8">
           <div className="min-w-[120px] max-w-[120px] overflow-hidden">
             <Logo />
@@ -46,18 +55,54 @@ const Heading = observer(() => {
           )}
           {AuthStore.authState === "authorized" && (
             <>
-              <div className="flex items-center ml-auto gap-2 md:gap-3">
-                <img
-                  src={avatarSrc}
-                  alt="avatar"
-                  className="w-10 h-10 rounded-full"
-                />
-                <div className="flex flex-col justify-between">
-                  Елена Блиновская
-                  <p className="text-text-secondary font-normal">
-                    Главный врач
-                  </p>
+              <div
+                className="flex relative items-center ml-auto cursor-pointer"
+                onClick={() => setExpanded((p) => !p)}
+              >
+                <div className="items-center hidden md:flex gap-2 lg:gap-3">
+                  <img
+                    src={AuthStore.user?.picUrl}
+                    alt="avatar"
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <div className="flex flex-col justify-between">
+                    {AuthStore.user?.firstName} {AuthStore.user?.lastName}
+                    <p className="text-text-secondary font-normal text-sm">
+                      {AuthStore.user?.position}
+                    </p>
+                  </div>
                 </div>
+                <div className="w-10 h-10 p-2 rounded-full bg-text-secondary/5 text-primary block md:hidden">
+                  <ProfileSvg />
+                </div>
+                {expanded && (
+                  <div className="absolute top-16 right-0 min-w-full md:w-48 bg-bg-nav backdrop-blur-md rounded-md shadow-md">
+                    <ul className="flex flex-col gap-2 p-2">
+                      <li className="gap-2 items-center flex md:hidden w-max p-1">
+                        <img
+                          src={AuthStore.user?.picUrl}
+                          alt="avatar"
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div className="flex flex-col justify-between">
+                          {AuthStore.user?.firstName} {AuthStore.user?.lastName}
+                          <p className="text-text-secondary font-normal text-sm">
+                            {AuthStore.user?.position}
+                          </p>
+                        </div>
+                      </li>
+                      <li className="hover:bg-bg-primary hidden md:flex rounded-md p-2">
+                        Профиль
+                      </li>
+                      <li
+                        className="hover:bg-bg-primary rounded-md p-2"
+                        onClick={() => AuthStore.logout()}
+                      >
+                        Выход
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             </>
           )}
