@@ -66,7 +66,7 @@ const Doctor = observer(
 
     return (
       <div className="grid gap-3 w-full">
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 mb-2">
           <div className="flex cursor-pointer items-center gap-2 select-none">
             <div
               className="flex gap-2 text-text-secondary hover:text-text-main"
