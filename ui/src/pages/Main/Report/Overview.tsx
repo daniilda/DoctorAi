@@ -4,11 +4,11 @@ import { Button, Dropdown, Input } from "@/components/ui";
 import cl from "./styles.module.scss";
 import { card, cardWithHover } from "./tailwind";
 import { observer } from "mobx-react-lite";
-import { ReportStore, SortOption } from "./report.vm";
 import { useState } from "react";
 import toFullName from "@/utils/toFullName";
 import useRating from "@/utils/useRating";
 import Download from "@/components/Download";
+import { ReportStore, SortOption } from "@/stores/reportStore";
 
 const DoctorCard = ({
   name,
@@ -52,7 +52,8 @@ const DoctorCard = ({
   );
 };
 
-const Overview = observer(({ vm }: { vm: ReportStore }) => {
+const Overview = observer(() => {
+  const vm = ReportStore;
   const [searchValue, setSearchValue] = useState("");
 
   return (

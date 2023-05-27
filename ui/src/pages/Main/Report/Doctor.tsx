@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import ChevronSvg from "@/assets/chevron.svg";
-import { ReportStore } from "./report.vm";
 import { Button } from "@/components/ui";
 import { card } from "./tailwind";
 import toFullName from "@/utils/toFullName";
@@ -8,6 +7,7 @@ import useRating from "@/utils/useRating";
 import { Patient } from "@/api/endpoints";
 import Download from "@/components/Download";
 import { useEffect } from "react";
+import { ReportStore } from "@/stores/reportStore";
 
 const PatientCard = (p: Patient) => {
   return (
@@ -20,7 +20,8 @@ const PatientCard = (p: Patient) => {
   );
 };
 
-const Doctor = observer(({ vm }: { vm: ReportStore }) => {
+const Doctor = observer(() => {
+  const vm = ReportStore;
   const { text, color, backgroundColor } = useRating(vm.selectedDoctor?.rate);
 
   useEffect(() => {
@@ -60,8 +61,8 @@ const Doctor = observer(({ vm }: { vm: ReportStore }) => {
         </div>
         <Download />
       </div>
-      {vm.selectedDoctor?.patients.map((p) => (
-        <PatientCard {...p} />
+      {vm.selectedDoctor?.patients.map((p, index) => (
+        <PatientCard key={index} {...p} />
       ))}
     </div>
   );
