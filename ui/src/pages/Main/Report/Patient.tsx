@@ -10,11 +10,32 @@ import { useEffect } from "react";
 import { ReportStore } from "@/stores/reportStore";
 
 const AppointmentCard = (a: Appointment) => {
+  const [color, text] = (() => {
+    switch (a.appointmentState) {
+      case 1:
+        return ["var(--colors-status-ok)", "Указано"];
+      case 2:
+        return ["var(--colors-status-warning)", "Лишнее назначение"];
+      case 3:
+        return ["var(--colors-status-error)", "Не указано"];
+      default:
+        return ["var(--colors-status-warning)", "Нет информации"];
+    }
+  })();
+
   return (
     <div className={`${card} flex-wrap items-center justify-between gap-4`}>
       <div className="flex flex-col gap-1">
-        <p className="text-primary">Пациент</p>
-        <h2 className="text-2xl font-bold">{a.name}</h2>
+        <h2 className="text-3xl font-bold">{a.name}</h2>
+      </div>
+      <div
+        className="px-4 py-2 rounded-lg font-medium text-xl h-[52px] md:w-auto flex justify-center items-center select-none"
+        style={{
+          color: `rgb(${color})`,
+          backgroundColor: `rgba(${color}, 0.2)`,
+        }}
+      >
+        {text}
       </div>
     </div>
   );
@@ -48,13 +69,15 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
         }}
       >
         <div className="flex flex-col justify-center flex-1 gap-1">
-          <h3 style={{ color }}>{vm.selectedDoctor?.position}</h3>
+          <h3 className="font-medium" style={{ color }}>
+            {vm.selectedDoctor?.position}
+          </h3>
           <h2 className="text-2xl font-bold">
             {toFullName(vm.selectedDoctor ?? {})}
           </h2>
         </div>
         <div
-          className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg`}
+          className={`flex px-4 py-2 w-full h-[52px] md:w-auto justify-center items-center font-medium text-xl rounded-lg select-none`}
           style={{ backgroundColor, color }}
         >
           {text}
@@ -64,9 +87,9 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
           docx={vm.selectedPatient?.docxUrl}
         />
       </div>
-      {/* {vm.selectedPatient?..map((p, index) => (
-        <DiagnosisCard key={index} {...p} />
-      ))} */}
+      {vm.selectedPatient?.reportAppointments.map((p, index) => (
+        <AppointmentCard key={index} {...p} />
+      ))}
     </div>
   );
 });

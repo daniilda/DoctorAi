@@ -3,7 +3,7 @@ import api from "@/utils/api";
 export interface Appointment {
   id: string;
   name: string;
-  state: string;
+  appointmentState: number;
 }
 
 export interface Patient {
