@@ -6,11 +6,12 @@ import WarningBg from "./assets/spiral_warning.svg";
 import { useViewModel } from "@/utils/useViewModel";
 import { DashboardStore } from "./dashboard.vm";
 import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
 import LoadingEllipsis from "@/components/LoadingEllipsis/LoadingEllipsis";
 import cl from "./styles.module.scss";
 import ChevronSvg from "@/assets/chevron.svg";
 import { useNavigate } from "react-router-dom";
+import { ReportResult } from "@/api/endpoints";
+import { useState } from "react";
 
 const cardNoPadding =
   "bg-bg-accent rounded-xl shadow-sm flex w-full overflow-hidden";
@@ -35,7 +36,7 @@ const StatCard = ({
 }) => {
   const { result, color, text } = useRating(progress);
   return (
-    <div className={`${cardNoPadding} min-h-[200px] relative`}>
+    <div className={`${cardNoPadding} select-none min-h-[200px] relative`}>
       {typeof progress === "number" ? (
         <>
           <div
@@ -71,17 +72,51 @@ const StatCard = ({
   );
 };
 
+const ReportCard = ({
+  r,
+  onClick,
+}: {
+  r: ReportResult;
+  onClick: () => void;
+}) => (
+  <div
+    className={`${r.isReady ? cardWithHover : card} ${
+      cl.card
+    } gap-4 items-center`}
+    onClick={() => {
+      r.isReady && onClick();
+    }}
+  >
+    <div className="flex flex-1 flew-wrap flex-col md:flex-row gap-4">
+      <div className="flex flex-col">
+        <h2 className="text-2xl font-bold">{r.reportName}</h2>
+        <p className="text-text-secondary text-sm font-medium">
+          {new Date(r.createdAt).toLocaleString()}
+        </p>
+      </div>
+      {r.isReady && <Download wide pdf={r.pdfUrl} docx={r.docxUrl} />}
+    </div>
+    {r.isReady && (
+      <div className="flex items-center ml-auto">
+        <ChevronSvg className={cl.card__chevron} />
+      </div>
+    )}
+  </div>
+);
+
 const Dashboard = observer(() => {
   const vm = useViewModel(() => new DashboardStore());
   const navigate = useNavigate();
+  const [readyReportsExpanded, setReadyReportsExpanded] = useState(true);
+  const [notReadyReportsExpanded, setNotReadyReportsExpanded] = useState(false);
 
   return (
     <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:my-6 lg:my-8 gap-3 appear pb-4">
       <div className={`${card} flex-wrap gap-4 items-center`}>
         <div className="flex flex-col">
-          <h2 className="text-3xl font-bold">Сводка за неделю</h2>
+          <h2 className="text-3xl font-bold">Общая сводка</h2>
         </div>
-        <Download wide />
+        {/* <Download wide pdf={vm.dashboard?.pdfUrl} docx={vm.dashboard?.docxUrl} /> */}
       </div>
       <div className="grid md:grid-cols-3 gap-3">
         <StatCard
@@ -119,64 +154,58 @@ const Dashboard = observer(() => {
       </div>
       {vm.reports.some((r) => !r.isReady) && (
         <>
-          <div className="flex flex-wrap p-8 bg-status-warning/70 rounded-xl items-center mt-4 gap-4">
-            <h2 className="text-3xl font-medium text-text-onPrimary">
+          <div
+            className="appear flex justify-between p-8 bg-status-warning/70 rounded-xl items-center mt-4 gap-4"
+            onClick={() => setNotReadyReportsExpanded((p) => !p)}
+          >
+            <h2 className="text-2xl md:text-3xl font-medium text-text-onPrimary select-none">
               Не готовые отчёты
             </h2>
+            <ChevronSvg
+              className={`${
+                notReadyReportsExpanded ? "-rotate-90" : "rotate-90"
+              } w-6 h-6 text-bg-accent`}
+            />
           </div>
-          {vm.reports
-            .filter((r) => !r.isReady)
-            .map((r, index) => (
-              <div
-                key={index}
-                className={`appear ${r.isReady ? cardWithHover : card} ${
-                  cl.card
-                } gap-4 items-center justify-between`}
-                onClick={() => {
-                  r.isReady && navigate(`/report/${r.id}`);
-                }}
-              >
-                <div className="flex flex-col">
-                  <h2 className="text-2xl font-bold">{r.reportName}</h2>
-                  <p className="text-text-secondary text-sm">{r.id}</p>
-                </div>
-                {r.isReady && (
-                  <div className="flex items-center">
-                    <ChevronSvg className={cl.card__chevron} />
-                  </div>
-                )}
-              </div>
-            ))}
+          {notReadyReportsExpanded &&
+            vm.reports
+              .filter((r) => !r.isReady)
+              .map((r, index) => (
+                <ReportCard
+                  key={index}
+                  onClick={() => navigate(`/report/${r.id}`)}
+                  r={r}
+                />
+              ))}
         </>
       )}
-      <div className="flex flex-wrap p-8 bg-primary/70 rounded-xl items-center mt-4 gap-4">
-        <h2 className="text-3xl font-medium text-text-onPrimary">
-          Сформированные отчёты
-        </h2>
-      </div>
-      {vm.reports
-        .filter((r) => r.isReady)
-        .map((r, index) => (
+      {vm.reports.some((r) => r.isReady) && (
+        <>
           <div
-            key={index}
-            className={`appear ${r.isReady ? cardWithHover : card} ${
-              cl.card
-            } gap-4 items-center justify-between`}
-            onClick={() => {
-              r.isReady && navigate(`/report/${r.id}`);
-            }}
+            className="appear flex justify-between p-8 bg-primary/70 rounded-xl items-center mt-4 gap-4"
+            onClick={() => setReadyReportsExpanded((p) => !p)}
           >
-            <div className="flex flex-col">
-              <h2 className="text-2xl font-bold">{r.reportName}</h2>
-              <p className="text-text-secondary text-sm">{r.id}</p>
-            </div>
-            {r.isReady && (
-              <div className="flex items-center">
-                <ChevronSvg className={cl.card__chevron} />
-              </div>
-            )}
+            <h2 className="text-2xl md:text-3xl font-medium text-text-onPrimary select-none">
+              Составленные отчёты
+            </h2>
+            <ChevronSvg
+              className={`${
+                readyReportsExpanded ? "-rotate-90" : "rotate-90"
+              } w-6 h-6 text-bg-accent`}
+            />
           </div>
-        ))}
+          {readyReportsExpanded &&
+            vm.reports
+              .filter((r) => r.isReady)
+              .map((r, index) => (
+                <ReportCard
+                  key={index}
+                  onClick={() => navigate(`/report/${r.id}`)}
+                  r={r}
+                />
+              ))}
+        </>
+      )}
     </div>
   );
 });
