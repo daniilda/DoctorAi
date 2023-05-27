@@ -4,6 +4,8 @@ import { makeAutoObservable } from "mobx";
 export type SortOption =
   | "По алфавиту А-Я"
   | "По алфавиту Я-А"
+  | "По специальности А-Я"
+  | "По специальности Я-А"
   | "Сначала с соответствием"
   | "Сначала без соответствия";
 
@@ -35,8 +37,6 @@ export const ReportStore = new (class {
   }
 
   private sortItems(value: SortOption) {
-    console.log(value);
-    console.log(this.report);
     if (!this.report) return [];
     switch (value) {
       case "По алфавиту А-Я":
@@ -59,6 +59,14 @@ export const ReportStore = new (class {
           if (a.rate < b.rate) return -1;
           return 0;
         });
+      case "По специальности А-Я":
+        return this.report.docMetas.sort((a, b) =>
+          a.position.localeCompare(b.position)
+        );
+      case "По специальности Я-А":
+        return this.report.docMetas.sort((a, b) =>
+          b.position.localeCompare(a.position)
+        );
       default:
         return this.report.docMetas;
     }

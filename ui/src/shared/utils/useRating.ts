@@ -11,14 +11,7 @@ const useRating = (rating?: number): useRatingResult => {
       text: "Стандарт отсутствует",
       result: "none",
       color: "rgb(var(--colors-secondary))",
-      backgroundColor: "rgba(var(--colors-secondary), 0.1)",
-    };
-  if (rating > 0 && rating <= 5)
-    return {
-      text: "Несоответствие",
-      result: "error",
-      color: "rgb(var(--colors-status-error))",
-      backgroundColor: "rgba(var(--colors-status-error), 0.1)",
+      backgroundColor: "rgba(var(--colors-bg-primary), 0.8)",
     };
   if (rating === 10) {
     return {
@@ -28,25 +21,32 @@ const useRating = (rating?: number): useRatingResult => {
       backgroundColor: "rgba(var(--colors-status-ok), 0.1)",
     };
   }
-  if (rating >= 8 && rating < 10)
+  if (rating >= 8)
     return {
       text: "Частичное соответствие",
       result: "ok",
-      color: "rgb(var(--colors-status-ok))",
-      backgroundColor: "rgba(var(--colors-status-ok), 0.1)",
+      color: "rgb(var(--colors-status-warning))",
+      backgroundColor: "rgba(var(--colors-status-warning), 0.1)",
     };
   if (rating > 5)
     return {
-      text: rating > 10 ? "Дополнительные назначения" : "Несоответствие",
+      text: "Слабое соответствие",
       result: "warning",
       color: "rgb(var(--colors-status-warning))",
       backgroundColor: "rgba(var(--colors-status-warning), 0.1)",
+    };
+  if (rating > 0)
+    return {
+      text: "Несоответствие",
+      result: "error",
+      color: "rgb(var(--colors-status-error))",
+      backgroundColor: "rgba(var(--colors-status-error), 0.1)",
     };
   return {
     text: "Стандарт отсутствует",
     result: "none",
     color: "rgb(var(--colors-secondary))",
-    backgroundColor: "rgba(var(--colors-secondary), 0.1)",
+    backgroundColor: "rgba(var(--colors-bg-primary), 0.8)",
   };
 };
 

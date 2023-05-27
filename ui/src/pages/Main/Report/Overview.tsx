@@ -56,14 +56,16 @@ const Overview = observer(() => {
   const vm = ReportStore;
   const [searchValue, setSearchValue] = useState("");
 
-  useEffect(() => {}, [vm.report?.docMetas]);
+  useEffect(() => {
+    return;
+  }, [vm.report?.docMetas]);
 
   return (
     <div className="grid lg:grid-cols-2 gap-3">
       <div className={`lg:col-span-2 ${card} flex-wrap gap-4`}>
         <div className="flex flex-col flex-1">
-          <p className="text-text-secondary text-xl">Отчёт №{vm.report?.id}</p>
           <h1 className="text-3xl font-bold">{vm.report?.reportName}</h1>
+          <p className="text-text-secondary text-md">{vm.report?.id}</p>
         </div>
         <Download pdf={""} docx={""} />
       </div>
@@ -74,6 +76,8 @@ const Overview = observer(() => {
             [
               "По алфавиту А-Я",
               "По алфавиту Я-А",
+              "По специальности А-Я",
+              "По специальности Я-А",
               "Сначала без соответствия",
               "Сначала с соответствием",
             ] as SortOption[]
