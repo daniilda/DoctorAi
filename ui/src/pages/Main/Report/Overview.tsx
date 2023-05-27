@@ -64,13 +64,16 @@ const Overview = observer(() => {
   return (
     <div className="grid lg:grid-cols-2 gap-3">
       <div className={`lg:col-span-2 ${card} flex-wrap gap-4`}>
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 gap-2">
           <h1 className="text-3xl font-bold">{vm.report?.reportName}</h1>
-          <p className="text-text-secondary text-md">{vm.report?.id}</p>
+          <p className="text-text-secondary text-md">
+            {vm.report?.createdAt &&
+              new Date(vm.report?.createdAt).toLocaleString()}
+          </p>
         </div>
         <Download pdf={vm.report?.pdfUrl} docx={vm.report?.docxUrl} wide />
       </div>
-      <div className="lg:col-span-2 flex flex-wrap-reverse gap-2 md:gap-3">
+      <div className="lg:col-span-2 flex flex-wrap-reverse gap-2 lg:gap-3">
         <div className="flex md:flex-1 gap-1 w-full">
           <Dropdown
             className="flex-1 w-full"
