@@ -26,6 +26,7 @@ export default {
               secondary: "#5C5C5C",
               placeholder: "#828397",
               onPrimary: "#FFFFFF",
+              disabled: "#BDBDBD",
             },
             status: {
               ok: "#6DB49B",
@@ -36,23 +37,11 @@ export default {
               primary: "#F6F5FC",
               accent: "#FFFFFF",
               nav: "#FFFFFF",
+              disabled: "#c3c3c3",
             },
           },
         },
       },
-      // themes: [
-      //   {
-      //     name: "dark",
-      //     extend: {
-      //       colors: {
-      //         primary: "red",
-      //         bg: {
-      //           primary: "#191919",
-      //         },
-      //       },
-      //     },
-      //   },
-      // ],
     }),
   ],
 };

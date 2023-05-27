@@ -26,7 +26,7 @@ export const Input: React.FC<InputProps> = ({
         <div className="absolute left-3 pointer-events-none">{icon}</div>
       )}
       <input
-        className={`shadow-none box-border w-full focus:shadow-md transition-shadow duration-200 px-4 py-4 rounded-${rounded} placeholder:text-text-placeholder text-base outline-none
+        className={`shadow-none box-border w-full focus:shadow-md transition-shadow duration-200 px-4 py-4 rounded-${rounded} placeholder:text-text-placeholder text-base outline-none disabled:text-text-disabled
         ${icon ? "pl-14" : ""}
         ${allowClear ? "pr-12" : ""}
         ${color === "primary" ? "bg-bg-primary" : "bg-bg-accent"}`}

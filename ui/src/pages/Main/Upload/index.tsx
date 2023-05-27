@@ -9,36 +9,39 @@ import ProgressBar from "./components/ProgressBar";
 import { Checkmark } from "@/components/ui";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ReportStore } from "@/stores/reportStore";
 
 const UploadPage = observer(() => {
   const vm = useViewModel(() => new UploadStore());
   const [navigating, setNavigating] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (vm.status === "success") {
       setTimeout(() => {
         setNavigating(true);
       }, 2200);
-      setTimeout(() => {
+      setTimeout(async () => {
         navigate(`/report/${vm.reportId}`);
       }, 2500);
     }
-  }, [vm.status]);
+  }, [vm.status, navigate, vm.reportId]);
+
   return (
     <main
-      className={`flex flex-col items-center w-full px-6 pb-6 min-h-full ${
+      className={`appear flex flex-col items-center w-full px-6 pb-6 min-h-full ${
         navigating ? "appear-exit-active" : ""
       }`}
     >
       <Logo className="sm:max-w-md mt-8 md:mt-20 w-full" />
       <SwitchTransition>
-        {vm.status === "uploading" ? (
-          <CSSTransition
-            key="uploading"
-            timeout={300}
-            classNames="appear"
-            unmountOnExit
-          >
+        <CSSTransition
+          key="uploading"
+          timeout={300}
+          classNames="appear"
+          unmountOnExit
+        >
+          {vm.status === "uploading" || vm.status === "analyzing" ? (
             <div className="flex flex-col items-center w-full max-w-md">
               <p className="text-center max-w-md mt-4 mb-12">
                 Результаты анализа будут совсем скоро — обработка может занять
@@ -46,52 +49,33 @@ const UploadPage = observer(() => {
               </p>
               <ProgressBar value={vm.progress} />
             </div>
-          </CSSTransition>
-        ) : vm.status === "success" ? (
-          <CSSTransition
-            key="idle"
-            timeout={300}
-            classNames="appear"
-            unmountOnExit
-          >
+          ) : vm.status === "success" ? (
             <div className="flex flex-col items-center mt-8 gap-6 font-medium text-2xl">
               <h2>Файлы успешно загружены!</h2>
               <Checkmark color="rgb(var(--colors-status-ok))" size={64} />
             </div>
-          </CSSTransition>
-        ) : vm.status === "error" ? (
-          <CSSTransition
-            key="error"
-            timeout={300}
-            classNames="appear"
-            unmountOnExit
-          >
-            <div className="flex flex-col w-full items-center mt-8 gap-6 font-medium text-2xl">
-              <h2>Произошла ошибка :(</h2>
+          ) : vm.status === "error" ? (
+            <div className="flex flex-col w-full items-center mt-8 gap-6">
+              <h2 className="font-medium text-2xl">
+                Ошибка: указан невереный файл
+              </h2>
               <ProgressBar value={vm.progress} error />
             </div>
-          </CSSTransition>
-        ) : (
-          <CSSTransition
-            key="idle"
-            timeout={300}
-            classNames="appear"
-            unmountOnExit
-          >
+          ) : (
             <div className="flex flex-col">
-              <p className="text-center max-w-md mt-4">
+              <p className="text-center max-w-md mt-4 select-none">
                 Сервис поможет оценить релевантность назначений специалиста на
                 основе данных из медицинской карточки пациента
               </p>
               <div className="flex flex-col mt-16 w-full max-w-lg items-center">
                 <DragDropFile onUpload={vm.addFiles} />
               </div>
-              <p className="text-center text-text-placeholder mt-6 mb-8">
+              <p className="text-center text-text-placeholder mt-4 mb-8 select-none">
                 поддерживются форматы docx и xlsx
               </p>
             </div>
-          </CSSTransition>
-        )}
+          )}
+        </CSSTransition>
       </SwitchTransition>
       <CSSTransition
         in={vm.files.length > 0 && vm.status === "idle"}
