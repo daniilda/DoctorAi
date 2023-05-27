@@ -29,15 +29,17 @@ public class ReportDoc
 
     public string LastName { get; set; } = null!;
 
-    public string Position { get; set; } = null!;
+    public string? Position { get; set; } = null!;
 
-    public int Rate { get; set; }
+    public string? Division { get; set; } = null!;
+
+    public int? Rate { get; set; }
 
     public ReportPatient[]? ReportPatients { get; set; }
 
-    public string PdfUrl { get; set; } = null!;
+    public string? PdfUrl { get; set; } = null!;
 
-    public string DocxUrl { get; set; } = null!;
+    public string? DocxUrl { get; set; } = null!;
 }
 
 public class ReportPatient
@@ -51,6 +53,8 @@ public class ReportPatient
     public string LastName { get; set; } = null!;
 
     public string Diagnosis { get; set; } = null!;
+
+    public int? Rate { get; set; } = null!;
 
     public ReportAppointment[]? ReportAppointments { get; set; }
 
