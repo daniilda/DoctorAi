@@ -8,6 +8,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import { ReportStore } from "@/stores/reportStore";
 import cl from "./styles.module.scss";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { toJS } from "mobx";
 
 const parseAppointment = (state: number): [color: string, text: string] => {
   switch (state) {
@@ -58,7 +59,8 @@ const SortCard = ({
 }) => {
   return (
     <div
-      className={`${cl.hover_card} transition-colors cursor-pointer bg-bg-accent p-4 flex-row sm:flex-col md:flex-row md:p-6 rounded-xl gap-2 flex-wrap justify-between shadow-sm flex w-full select-none`}
+      className={`${cl.hover_card} transition-colors cursor-pointer bg-bg-accent rounded-xl gap-2 flex-wrap justify-between shadow-sm flex w-full select-none
+      px-8 py-2 sm:p-4 md:px-8 md:py-6 items-center sm:items-start flex-row sm:flex-col md:flex-row`}
       style={
         {
           "--hover-color": `rgba(${color}, 0.1)`,
@@ -107,7 +109,7 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
 
   return (
     <div className="grid gap-3 w-full">
-      <div className="flex flex-col gap-3 mb-2">
+      <div className="flex flex-col gap-3 md:mb-2">
         <div className="flex flex-wrap items-center gap-4 select-none">
           <div
             className="gap-2 text-text-secondary hover:text-text-main cursor-pointer hidden md:flex"
@@ -137,9 +139,11 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
         }}
       >
         <div className="flex flex-col justify-center flex-1 gap-1">
-          <h3 className="font-medium" style={{ color: `rgb(${patientColor})` }}>
-            {vm.selectedPatient?.diagnosis}
-          </h3>
+          {vm.selectedPatient?.diagnosis && (
+            <h3 style={{ color: `rgb(${patientColor})` }}>
+              {vm.selectedPatient.diagnosis}
+            </h3>
+          )}
           <h2 className="text-2xl font-bold">
             {toFullName(vm.selectedPatient ?? {})}
           </h2>
@@ -191,10 +195,8 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
         {vm.selectedPatient?.reportAppointments
           .filter((v) => {
             if (sort.length === 0) return true;
-            if (v.appointmentState === 1 && !sort.includes("correct"))
-              return false;
-            if (v.appointmentState === 3 && !sort.includes("incorrect"))
-              return false;
+            if (v.appointmentState === 1) return sort.includes("correct");
+            if (v.appointmentState === 3) return sort.includes("incorrect");
             return sort.includes("extra");
           })
           .map((v, index) => (

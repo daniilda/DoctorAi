@@ -90,7 +90,7 @@ const Heading = observer(() => {
                           </p>
                         </div>
                       </li>
-                      <li className="hover:bg-bg-primary hidden md:flex rounded-md p-2 cursor-pointer">
+                      <li className="hover:bg-bg-primary hidden md:flex rounded-md p-2 cursor-pointer text-text-disabled">
                         Профиль
                       </li>
                       <li

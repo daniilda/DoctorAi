@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { getStoredAuthToken, removeStoredAuthToken } from "./authToken";
-import history from "./browserHistory";
 
-axios.defaults.baseURL = "http://188.72.108.108";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 // axios.defaults.headers.common["Authorization"] = getStoredAuthToken()
 //   ? `Bearer ${getStoredAuthToken()}`
 //   : undefined;

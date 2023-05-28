@@ -24,7 +24,7 @@ const Download = ({
           className="flex items-center px-4 gap-1 h-[52px] justify-center w-full md:w-auto"
           onClick={(e) => {
             e.stopPropagation();
-            if (docx) window.open(docx);
+            if (docx) window.open(docx, "_blank", "noreferrer");
           }}
         >
           <DownloadSvg />
@@ -38,7 +38,8 @@ const Download = ({
           className="flex items-center px-4 gap-1 h-[52px] justify-center w-full md:w-auto"
           onClick={(e) => {
             e.stopPropagation();
-            if (pdf) window.open(pdf);
+            console.log(pdf);
+            if (pdf) window.open(pdf, "_blank", "noreferrer");
           }}
         >
           <DownloadSvg />
