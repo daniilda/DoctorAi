@@ -40,8 +40,11 @@ RUN dotnet build "src/DoctorAi.API/DoctorAi.API.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "src/DoctorAi.API/DoctorAi.API.csproj" -c Release -o /app/publish
 
+WORKDIR /app
+
 RUN mkdir -p /usr/share/fonts/truetype/
-RUN install -m644 Resourses/arial.ttf /usr/share/fonts/truetype/
+RUN ls
+RUN install -m644 publish/Resourses/arial.ttf /usr/share/fonts/truetype/
 
 FROM base AS final
 ENV DOTNET_RUNNING_IN_CONTAINER=true
@@ -49,6 +52,5 @@ ENV ASPNETCORE_HTTP_PORT=80
 ENV ASPNETCORE_GRPC_PORT=82
 ENV ASPNETCORE_DEBUG_PORT=84
 
-WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "DoctorAi.API.dll"]
