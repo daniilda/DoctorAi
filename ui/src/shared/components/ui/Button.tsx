@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
           ? "bg-primary hover:bg-primaryLighter text-text-onPrimary"
           : appearance === "secondary"
           ? "bg-bg-accent text-text-secondary hover:text-text-main"
-          : "bg-bg-primary text-text-main"
+          : "bg-bg-primary text-text-main hover:bg-bg-lighter"
       } select-none shadow-sm duration-200 hover:shadow-md active:shadow-sm disabled:bg-bg-disabled transition-all text-${fontSize} font-medium rounded-${rounded} py-3 ${className}`}
       {...rest}
     />

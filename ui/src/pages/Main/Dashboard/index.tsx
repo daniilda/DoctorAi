@@ -202,16 +202,16 @@ const Dashboard = observer(() => {
         </div>
       )}
       <div
-        className="appear flex justify-between p-8 bg-status-warning/70 rounded-xl items-center mt-4 gap-4 cursor-pointer"
+        className="appear flex justify-between p-8 bg-status-warning/70 rounded-xl items-center mt-4 gap-4 cursor-pointer text-text-onPrimary"
         onClick={() => setNotReadyReportsExpanded((p) => !p)}
       >
-        <h2 className="text-2xl md:text-3xl font-medium text-text-onPrimary select-none">
+        <h2 className="text-2xl md:text-3xl font-medium select-none">
           Не готовые отчёты
         </h2>
         <ChevronSvg
           className={`${
             notReadyReportsExpanded ? "-rotate-90" : "rotate-90"
-          } w-6 h-6 text-bg-accent`}
+          } w-6 h-6`}
         />
       </div>
       {notReadyReportsExpanded &&
@@ -232,16 +232,16 @@ const Dashboard = observer(() => {
             ))}
 
       <div
-        className="appear flex justify-between p-8 bg-primary/70 rounded-xl items-center mt-4 gap-4 cursor-pointer"
+        className="appear flex justify-between p-8 bg-primary/70 rounded-xl items-center mt-4 gap-4 cursor-pointer text-text-onPrimary"
         onClick={() => setReadyReportsExpanded((p) => !p)}
       >
-        <h2 className="text-2xl md:text-3xl font-medium text-text-onPrimary select-none">
+        <h2 className="text-2xl md:text-3xl font-medium select-none">
           Готовые отчёты
         </h2>
         <ChevronSvg
           className={`${
             readyReportsExpanded ? "-rotate-90" : "rotate-90"
-          } w-6 h-6 text-bg-accent`}
+          } w-6 h-6`}
         />
       </div>
 

@@ -28,7 +28,7 @@ export function Dropdown<T = string>({
       }`}
     >
       <div
-        className={`h-full min-h-[56px] px-6 flex border-text-accent border-[1px] rounded-xl justify-between items-center gap-4 ${
+        className={`h-full min-h-[56px] px-6 flex border-border-main border-[1px] rounded-xl justify-between items-center gap-4 ${
           expanded ? "rounded-b-none" : ""
         }`}
         onClick={() => {
@@ -42,11 +42,11 @@ export function Dropdown<T = string>({
         />
       </div>
       {expanded ? (
-        <div className="absolute border-text-accent border-[1px] border-t-0 bg-bg-accent rounded-b-xl overflow-hidden shadow-sm left-0 right-0 flex flex-col">
+        <div className="absolute border-border-main border-[1px] border-t-0 bg-bg-accent rounded-b-xl overflow-hidden shadow-sm left-0 right-0 flex flex-col">
           {items.map((item, index) => (
             <div
               key={index}
-              className="first:border-t-0 min-h-10 whitespace-pre-wrap border-t-text-accent border-t-[1px] py-4 px-6 hover:bg-bg-primary"
+              className="first:border-t-0 min-h-10 whitespace-pre-wrap border-t-border-main border-t-[1px] py-4 px-6 hover:bg-bg-primary"
               onClick={() => {
                 onChange(item);
                 setExpanded(false);
