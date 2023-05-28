@@ -1,5 +1,7 @@
 using Amazon.Runtime;
 using Amazon.S3;
+using ClosedXML.Excel;
+using ClosedXML.Graphics;
 using DoctorAi.API;
 using DoctorAi.API.Infrastructure.Authorization.Extensions;
 using DoctorAi.API.Infrastructure.DataAccess.Extensions;
@@ -11,7 +13,7 @@ using QuestPDF.Infrastructure;
 QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
-
+LoadOptions.DefaultGraphicEngine = new DefaultGraphicEngine("Arial");
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddLinq2DbAppConnection();
