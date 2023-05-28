@@ -29,7 +29,7 @@ export default {
               disabled: "#BDBDBD",
             },
             border: {
-              main: "#FFFFFF",
+              main: "#E5E5E5",
             },
             status: {
               ok: "#6DB49B",
@@ -55,7 +55,7 @@ export default {
               primaryLighter: "#7AC5AA",
               error: "#BF5552",
               text: {
-                main: "#FFFFFF",
+                main: "#F5F5F5",
                 secondary: "#BDBDBD",
                 placeholder: "#8A8A8A",
                 onPrimary: "#FFFFFF",

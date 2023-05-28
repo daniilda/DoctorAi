@@ -10,6 +10,7 @@ import useRating from "@/utils/useRating";
 import Download from "@/components/Download";
 import { ReportStore, SortOption } from "@/stores/reportStore";
 import OrderSvg from "./assets/order.svg";
+import LoadingEllipsis from "@/components/LoadingEllipsis/LoadingEllipsis";
 
 const DoctorCard = ({
   name,
@@ -106,6 +107,11 @@ const Overview = observer(() => {
           className="border-border-main border-[1px] rounded-xl ml-auto md:flex-1 font-medium"
         />
       </div>
+      {vm.report === null && (
+        <div className="lg:col-span-2 flex justify-center mt-4">
+          <LoadingEllipsis />
+        </div>
+      )}
       {vm.report?.reportDocs?.length !== 0 &&
         vm.report?.reportDocs
           ?.filter((v) => {
