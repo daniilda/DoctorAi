@@ -44,7 +44,7 @@ public sealed class ReportController : ControllerBase
                         _db.Links.Where(z => z.ReportId.In(reportsByDate.Select(qw => qw.Id)))
                             .Select(qq => qq.ReportDocId))).ToArray();
         var hight = doctors.Select(z => z.Rate).Sum();
-        var docRatesProc = (hight ?? 0) / doctors.Length * 10;
+        var docRatesProc = (hight ?? 0) / doctors.Length;
         var byDivision = doctors.GroupBy(z => z.Division);
         var orderedGroups = byDivision
             .OrderByDescending(z => z.ToArray().Select(q => q.Rate).Sum() / z.ToArray().Length);
