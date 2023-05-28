@@ -8,7 +8,7 @@ public class MlRequest
     public Guid[] DoctorsIds { get; init; } = Array.Empty<Guid>();
 
     [JsonPropertyName("doctors_to_client")]
-    public Dictionary<Guid, Guid> DoctorsToClients { get; init; } = null!;
+    public Dictionary<Guid, Guid[]> DoctorsToClients { get; init; } = null!;
 
     [JsonPropertyName("clients")]
     public Dictionary<Guid, Client> Clients  { get; init; } = null!;
@@ -16,7 +16,7 @@ public class MlRequest
 
 public class MLResponse
 {
-    [JsonPropertyName("ouput_rates")]
+    [JsonPropertyName("output_rates")]
     public Dictionary<Guid, float> Rates { get; init; } = null!;
 
     [JsonPropertyName("referrals_info")]
