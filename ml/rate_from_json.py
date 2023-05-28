@@ -193,7 +193,7 @@ def get_summary_new(input_example: dict) -> dict:
 
         nesses_score = fbeta_score(y_true_nesses_1, y_pred_nesses_1, average='macro', beta=2)
         unnesses_score = fbeta_score(y_true_unnesses_1, y_pred_unnesses_1, average='micro', beta=0.5)
-        SCORE = (5 * nesses_score + unnesses_score) / 6 * 100
+        SCORE = (3 * nesses_score + unnesses_score) / 4 * 100
 
         error_list = []
         for i in range(len(y_true_nesses)):
