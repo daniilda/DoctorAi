@@ -170,7 +170,7 @@ def get_summary_new(input_example: dict) -> dict:
                     # data = list(desease[desease['Диагноз']==desease['Диагноз'].iloc[i]][desease['Обязательность']=='По показанию']['Направление'])
                     if client['desease'] == desease['Диагноз'].iloc[i] and unnesses[k] == desease['Направление'].iloc[
                         i]:
-                        y_pred_nesses[i] = 1
+                        y_pred_unnesses[i] = 1
 
         y_true_nesses_1 = [1]*y_true_nesses.count(1)
         y_pred_nesses_1 = []
