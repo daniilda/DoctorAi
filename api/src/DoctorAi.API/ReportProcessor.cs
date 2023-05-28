@@ -37,7 +37,7 @@ public class ReportProcessor : BackgroundService
                 .ToArrayAsync(token: stoppingToken);
             if (!notReadyReports.Any())
             {
-                await Task.Delay(5000, stoppingToken);
+                await Task.Delay(1000, stoppingToken);
             }
 
             using var client = _factory.CreateClient();
@@ -75,7 +75,8 @@ public class ReportProcessor : BackgroundService
                                     ,
                                 Ref = new Ref
                                 {
-                                    ByPoc = appoiq.Select(q => q.Name).ToArray()
+                                    ByPoc = appoiq.Select(q => q.Name).ToArray(),
+                                    Needed = appoiq.Select(q => q.Name).ToArray()
                                 }
                             });
                         foreach (var e in pttp)
@@ -160,7 +161,7 @@ public class ReportProcessor : BackgroundService
             }
 
             await db.CommitTransactionAsync(stoppingToken);
-            await Task.Delay(5000, stoppingToken);
+            await Task.Delay(1000, stoppingToken);
         }
     }
 }
