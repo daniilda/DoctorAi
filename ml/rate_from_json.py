@@ -130,6 +130,7 @@ def get_summary_new(input_example: dict) -> dict:
     doctor_stats = {}
     referrals_info = {}
 
+    print('test')
     for doctor_id in unique_ids:
         test_doctors = input_example['doctors_to_client'][doctor_id]
         cur_info = {1: [], 2: [], 3: []}

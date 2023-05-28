@@ -1,9 +1,7 @@
-using System.Security.Claims;
 using Amazon.S3;
 using DoctorAi.API.Dtos;
 using DoctorAi.API.HttpControllers;
 using DoctorAi.API.Infrastructure.DataAccess;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using LinqToDB;
 using LinqToDB.Tools;
 using QuestPDF.Fluent;
@@ -39,7 +37,7 @@ public class ReportProcessor : BackgroundService
                 .ToArrayAsync(token: stoppingToken);
             if (!notReadyReports.Any())
             {
-                await Task.Delay(5000);
+                await Task.Delay(5000, stoppingToken);
             }
 
             using var client = _factory.CreateClient();
@@ -50,17 +48,24 @@ public class ReportProcessor : BackgroundService
                 client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("PYTHON_API") ?? "localhost");
                 var links = await db.Links.Where(z => z.ReportId == nrr.Id).ToArrayAsync(token: stoppingToken);
                 var doctors = links.Select(x => x.ReportDocId).Distinct().ToArray();
-                var doctToPat = new Dictionary<Guid, Guid>();
+                var doctToPat = new Dictionary<Guid, List<Guid>>();
                 var clientqqq = new Dictionary<Guid, Client>();
                 foreach (var doc in doctors)
                 {
                     var clients = links.Where(z => z.ReportDocId == doc).Select(q => q.ReportPatientId).Distinct();
                     foreach (var cli in clients)
                     {
-                        doctToPat.TryAdd(doc, cli);
+                        if (doctToPat.TryGetValue(doc, out var value))
+                        {
+                            value.Add(cli);
+                        }
+                        else
+                        {
+                            doctToPat.Add(doc, new List<Guid>{ cli });
+                        }
                         var qqqq = await db.Appointments.Where(
                             x => x.Id.In(
-                                links.Where(z => z.ReportPatientId == cli).Select(q => q.ReportAppointmentId))).ToArrayAsync();
+                                links.Where(z => z.ReportPatientId == cli).Select(q => q.ReportAppointmentId))).ToArrayAsync(token: stoppingToken);
                         var appoiq = await  db.Appointments.Where(x => x.Id.In(qqqq.Select(q => q.Id))).ToArrayAsync(token: stoppingToken);
                         var diag = (await db.Patients.FirstAsync(q => q.Id == cli, token: stoppingToken)).Diagnosis;
                         var pttp = appoiq.Select(
@@ -68,7 +73,7 @@ public class ReportProcessor : BackgroundService
                             {
                                 Diagnosis = diag
                                     ,
-                                Ref = new Ref()
+                                Ref = new Ref
                                 {
                                     ByPoc = appoiq.Select(q => q.Name).ToArray()
                                 }
@@ -84,7 +89,7 @@ public class ReportProcessor : BackgroundService
                 var req = new MlRequest
                 {
                     DoctorsIds = doctors,
-                    DoctorsToClients = doctToPat.ToDictionary(x => x.Key, x => x.Value),
+                    DoctorsToClients = doctToPat.ToDictionary(x => x.Key, z => z.Value.ToArray()),
                     Clients = clientqqq.ToDictionary(x => x.Key, x => x.Value),
                 };
                 var response = await client.PostAsJsonAsync("calculate", req, stoppingToken);
@@ -113,7 +118,7 @@ public class ReportProcessor : BackgroundService
                             new ReportLinkDb
                             {
                                 ReportId = nrr.Id,
-                                ReportDocId = req.DoctorsToClients.First(z => z.Value == ref1.Key).Key,
+                                ReportDocId = req.DoctorsToClients.First(z => z.Value.Contains(ref1.Key)).Key,
                                 ReportPatientId = ref1.Key,
                                 ReportAppointmentId = appId
                             },
