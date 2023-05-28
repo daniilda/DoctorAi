@@ -30,13 +30,14 @@ const StatCard = ({
   bottomText,
   withGraph = false,
 }: {
-  progress?: number;
+  progress?: number | null;
   topText: string;
   middleText?: string;
   bottomText?: string;
   withGraph?: boolean;
 }) => {
   const { result, color, text } = useRating(progress);
+  if (progress === null) return <></>;
   return (
     <div className={`${cardNoPadding} select-none min-h-[200px] relative`}>
       {typeof progress === "number" ? (
