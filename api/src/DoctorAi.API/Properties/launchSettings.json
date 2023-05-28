@@ -8,12 +8,7 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DAI_API_PG_CONNECTION": "UserID=root;Password=16010105Dan;Host=178.170.196.160;Port=5432;Database=doctorai;Pooling=true;MinPoolSize=0;MaxPoolSize=100;ConnectionLifetime=0;",
-        "S3_ADDRESS": "obs.ru-moscow-1.hc.sbercloud.ru",
-        "S3_BUCKET": "doc-ai-reports",
-        "S3_ACCESS": "VZYOLYHLWDGTJSOJ8EVE",
-        "S3_SECRET": "XWvAc163a5o813P70KybKLhyAZSvk7eKg34aKX7v"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Migration": {
@@ -23,8 +18,7 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DAI_API_PG_CONNECTION": "UserID=root;Password=16010105Dan;Host=178.170.196.160;Port=5432;Database=doctorai;Pooling=true;MinPoolSize=0;MaxPoolSize=100;ConnectionLifetime=0;"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "commandLineArgs": "migrate"
     }
