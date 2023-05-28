@@ -1,0 +1,47 @@
+#docker-compose file for local development
+version: "3.3"
+services:
+  client:
+    build: ./ui
+    environment:
+      - VITE_API_URL=app:80
+    links:
+      - app:80
+    ports:
+      - "6000:80"
+  postgresql_db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=api-user
+      - POSTGRES_PASSWORD=api-user
+      - POSTGRES_DB=doc-track-api
+      - PGPORT=5432
+    ports:
+      - 6001:5432
+    restart: always
+    volumes:
+      - "database-data:/var/lib/postgresql/data/"
+  app:
+    build: ./api
+    environment:
+      - DAI_API_PG_CONNECTION=UserID=api-user;Password=api-user;Host=postgresql_db;Port=5432;Database=doc-track-api;Pooling=true;MinPoolSize=0;MaxPoolSize=100;ConnectionLifetime=0;
+      - WEB_UI_URL=https://doctracker.txcd.xyz/
+      - PYTHON_API=http://analytics.doctracker.txcd.xyz
+    ports:
+      - "6002:80"
+    links:
+      - postgresql_db:5432
+      - analytics-api:80
+    depends_on:
+      - postgresql_db
+    restart: always
+    volumes:
+      - "app-data:/root/"
+  analytics-api:
+    build: ./ml
+    ports:
+      - "6003:80"
+
+volumes:
+  app-data:
+  database-data:
