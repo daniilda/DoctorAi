@@ -5,7 +5,7 @@ interface useRatingResult {
   backgroundColor: string;
 }
 
-const useRating = (rating?: number): useRatingResult => {
+const useRating = (rating?: number | null): useRatingResult => {
   if (!rating)
     return {
       text: "Стандарт отсутствует",
