@@ -176,7 +176,9 @@ def get_summary_new(input_example: dict) -> dict:
 
         for i in range(len(desease)):
             if (y_pred_nesses[i] == 1 and y_true_nesses[i] == 1) or (
-                    y_pred_unnesses[i] == 1 and y_true_unnesses[i] == 1):
+                    y_pred_unnesses[i] == 1 and y_true_unnesses[i] == 1) or (
+                    y_pred_unnesses[i] == 1 and y_true_nesses[i] == 1) or (
+                    y_pred_nesses[i] == 1 and y_true_unnesses[i] == 1):
                 cur_info[1].append(desease['Направление'].iloc[i])
             elif y_pred_nesses[i] < y_true_nesses[i] or y_pred_unnesses[i] < y_true_unnesses[i]:
                 cur_info[2].append(desease['Направление'].iloc[i])
