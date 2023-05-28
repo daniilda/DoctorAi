@@ -169,7 +169,7 @@ def get_summary_new(input_example: dict) -> dict:
                         i]:
                         y_pred_nesses[i] = 1
 
-        nesses_score = fbeta_score(y_true_nesses, y_pred_nesses, average='macro', beta=2)
+        nesses_score = fbeta_score(y_true_nesses, y_pred_nesses, average='macro', beta=10)
         unnesses_score = fbeta_score(y_true_unnesses, y_pred_unnesses, average='micro', beta=0.5)
         SCORE = (5 * nesses_score + unnesses_score) / 6 * 100
 
