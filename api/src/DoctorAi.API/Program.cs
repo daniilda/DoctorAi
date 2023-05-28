@@ -76,13 +76,14 @@ app.UseCors(cors
     cors.AllowAnyMethod();
 });
 
-if (args.Contains("migrate"))
+if (args.Contains("migrate") || Environment.GetEnvironmentVariable("AUTO_MIGRATE") == "true")
 {
     await using var scope = app.Services.CreateAsyncScope();
     var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
     runner.ListMigrations();
     runner.MigrateUp();
-    return;
+    if (args.Contains("migrate"))
+        return;
 }
 
 await app.RunAsync();
