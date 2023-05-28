@@ -139,6 +139,8 @@ def get_summary_new(input_example: dict) -> dict:
         y_true_unnesses = [0] * len(desease)
         y_pred_unnesses = [0] * len(desease)
 
+
+
         for client_id in test_doctors:
             client = input_example['clients'][client_id]
             nesses = client['referrals']['Обязательно']
@@ -170,8 +172,27 @@ def get_summary_new(input_example: dict) -> dict:
                         i]:
                         y_pred_nesses[i] = 1
 
-        nesses_score = fbeta_score(y_true_nesses, y_pred_nesses, average='macro', beta=2)
-        unnesses_score = fbeta_score(y_true_unnesses, y_pred_unnesses, average='micro', beta=0.5)
+        y_true_nesses_1 = [1]*y_true_nesses.count(1)
+        y_pred_nesses_1 = []
+        for k in range(len(y_true_nesses)):
+            if y_true_nesses[k] == 1 and y_pred_nesses[k] == 1:
+                y_pred_nesses_1.append(1)
+
+        while len(y_pred_nesses_1) < len(y_true_nesses_1):
+            y_pred_nesses_1.append(0)
+
+        y_true_unnesses_1 = [1] * y_true_unnesses.count(1)
+        y_pred_unnesses_1 = []
+        for k in range(len(y_true_unnesses)):
+            if y_true_unnesses[k] == 1 and y_pred_unnesses[k] == 1:
+                y_pred_unnesses_1.append(1)
+
+        while len(y_pred_unnesses_1) < len(y_true_unnesses_1):
+            y_pred_unnesses_1.append(0)
+
+
+        nesses_score = fbeta_score(y_true_nesses_1, y_pred_nesses_1, average='macro', beta=2)
+        unnesses_score = fbeta_score(y_true_unnesses_1, y_pred_unnesses_1, average='micro', beta=0.5)
         SCORE = (5 * nesses_score + unnesses_score) / 6 * 100
 
         error_list = []
