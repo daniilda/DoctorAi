@@ -141,8 +141,8 @@ def get_summary_new(input_example: dict) -> dict:
 
         for client_id in test_doctors:
             client = input_example['clients'][client_id]
-            nesses = client['referrals']['По показанию']
-            unnesses = client['referrals']['Обязательно']
+            nesses = client['referrals']['Обязательно']
+            unnesses = client['referrals']['По показанию']
 
             # Заполнение y_true_nesses
             for i in range(len(desease)):
@@ -163,13 +163,14 @@ def get_summary_new(input_example: dict) -> dict:
                     y_true_unnesses[i] = 1
 
             # Заполнение y_pred_unnesses
-            for i in range(len(desease)):
+            for i in range(len(desease)): #
                 for k in range(len(unnesses)):
+                    # data = list(desease[desease['Диагноз']==desease['Диагноз'].iloc[i]][desease['Обязательность']=='По показанию']['Направление'])
                     if client['desease'] == desease['Диагноз'].iloc[i] and unnesses[k] == desease['Направление'].iloc[
                         i]:
                         y_pred_nesses[i] = 1
 
-        nesses_score = fbeta_score(y_true_nesses, y_pred_nesses, average='macro', beta=10)
+        nesses_score = fbeta_score(y_true_nesses, y_pred_nesses, average='macro', beta=2)
         unnesses_score = fbeta_score(y_true_unnesses, y_pred_unnesses, average='micro', beta=0.5)
         SCORE = (5 * nesses_score + unnesses_score) / 6 * 100
 
