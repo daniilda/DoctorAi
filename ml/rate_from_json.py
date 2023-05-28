@@ -172,6 +172,13 @@ def get_summary_new(input_example: dict) -> dict:
         nesses_score = fbeta_score(y_true_nesses, y_pred_nesses, average='macro', beta=2)
         unnesses_score = fbeta_score(y_true_unnesses, y_pred_unnesses, average='micro', beta=0.5)
         SCORE = (5 * nesses_score + unnesses_score) / 6 * 100
+
+        error_list = []
+        for i in range(len(y_true_nesses)):
+            error_list.append(y_true_nesses[i] + y_pred_nesses[i])
+
+        if error_list.count(2) == 0:
+            SCORE = 0
         doctor_stats[doctor_id] = SCORE
 
         for i in range(len(desease)):
