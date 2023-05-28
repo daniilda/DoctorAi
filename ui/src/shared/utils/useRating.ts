@@ -35,7 +35,7 @@ const useRating = (rating?: number): useRatingResult => {
       color: "rgb(var(--colors-status-warning))",
       backgroundColor: "rgba(var(--colors-status-warning), 0.1)",
     };
-  if (rating > 0)
+  if (rating >= 0)
     return {
       text: "Несоответствие",
       result: "error",
