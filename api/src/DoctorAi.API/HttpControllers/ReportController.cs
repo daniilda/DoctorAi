@@ -60,19 +60,19 @@ public sealed class ReportController : ControllerBase
         if (orderedDoctors.Length > 0)
         {
             Top1 = orderedDoctors[0].Key.Fio;
-            Top1Val = orderedDoctors[0].ToArray().Select(e => e.Rate).Sum() / orderedDoctors[0].ToArray().Length * 10?? 0;
+            Top1Val = orderedDoctors[0].ToArray().Select(e => e.Rate).Sum() / orderedDoctors[0].ToArray().Length ?? 0;
         }
 
         if (orderedDoctors.Length > 1)
         {
             Top2 = orderedDoctors[1].Key.Fio;
-            Top2Val = orderedDoctors[1].ToArray().Select(e => e.Rate).Sum() / orderedDoctors[0].ToArray().Length * 10 ?? 0;
+            Top2Val = orderedDoctors[1].ToArray().Select(e => e.Rate).Sum() / orderedDoctors[0].ToArray().Length  ?? 0;
         }
 
         if (orderedDoctors.Length > 2)
         {
             Top3 = orderedDoctors[2].Key.Fio;
-            Top3Val = orderedDoctors[2].ToArray().Select(e => e.Rate).Sum() / orderedDoctors[0].ToArray().Length * 10?? 0;
+            Top3Val = orderedDoctors[2].ToArray().Select(e => e.Rate).Sum() / orderedDoctors[0].ToArray().Length ?? 0;
         }
 
         return Ok(
