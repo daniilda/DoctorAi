@@ -16,7 +16,7 @@ public class MlRequest
 
 public class MLResponse
 {
-    [JsonPropertyName("ouput_rates")]
+    [JsonPropertyName("output_rates")]
     public Dictionary<Guid, float> Rates { get; init; } = null!;
 
     [JsonPropertyName("referrals_info")]
