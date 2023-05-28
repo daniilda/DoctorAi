@@ -49,12 +49,12 @@ const Heading = observer(() => {
           <div className="ml-auto flex items-center">
             {ThemeStore.theme === "light" ? (
               <DarkSvg
-                className="w-8 h-8 fill-text-secondary mr-4 cursor-pointer"
+                className="w-7 h-7 fill-text-secondary mr-4 cursor-pointer"
                 onClick={() => ThemeStore.setTheme("dark")}
               />
             ) : (
               <LightSvg
-                className="w-8 h-8 fill-text-secondary mr-4 cursor-pointer"
+                className="w-7 h-7 fill-text-secondary mr-4 cursor-pointer"
                 onClick={() => ThemeStore.setTheme("light")}
               />
             )}
