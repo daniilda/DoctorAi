@@ -45,6 +45,8 @@ WORKDIR /app
 RUN mkdir -p /usr/share/fonts/truetype/
 RUN ls
 RUN install -m644 publish/Resourses/arial.ttf /usr/share/fonts/truetype/
+RUN install -m644 publish/Resourses/calibri.ttf /usr/share/fonts/truetype/
+RUN install -m644 publish/Resourses/calibri_bold.ttf /usr/share/fonts/truetype/
 
 FROM base AS final
 ENV DOTNET_RUNNING_IN_CONTAINER=true
