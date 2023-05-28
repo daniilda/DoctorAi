@@ -88,7 +88,7 @@ const Overview = observer(() => {
             onChange={(v) => (vm.selectedSort = v)}
           />
           <div
-            className="w-[56px] h-[56px] shadow-none hover:shadow-sm transition-shadow rounded-xl border-text-accent border-[1px] cursor-pointer flex justify-center items-center p-4 bg-bg-accent text-text-secondary hover:text-text-primary"
+            className="w-[56px] h-[56px] shadow-none hover:shadow-sm transition-shadow rounded-xl border-border-main border-[1px] cursor-pointer flex justify-center items-center p-4 bg-bg-accent text-text-secondary hover:text-text-primary"
             style={{
               rotate: vm.reverseOrder ? "180deg" : "0deg",
             }}
@@ -103,7 +103,7 @@ const Overview = observer(() => {
           value={searchValue}
           onChange={setSearchValue}
           icon={<SearchSvg className="text-text-placeholder/70" />}
-          className="border-text-accent border-[1px] rounded-xl ml-auto md:flex-1 font-medium"
+          className="border-border-main border-[1px] rounded-xl ml-auto md:flex-1 font-medium"
         />
       </div>
       {vm.report?.reportDocs?.length !== 0 &&

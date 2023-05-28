@@ -211,7 +211,7 @@ const Dashboard = observer(() => {
         <ChevronSvg
           className={`${
             notReadyReportsExpanded ? "-rotate-90" : "rotate-90"
-          } w-6 h-6 text-bg-accent`}
+          } w-6 h-6`}
         />
       </div>
       {notReadyReportsExpanded &&
@@ -241,7 +241,7 @@ const Dashboard = observer(() => {
         <ChevronSvg
           className={`${
             readyReportsExpanded ? "-rotate-90" : "rotate-90"
-          } w-6 h-6 text-bg-accent`}
+          } w-6 h-6`}
         />
       </div>
 
