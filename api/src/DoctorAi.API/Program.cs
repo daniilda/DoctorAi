@@ -45,6 +45,7 @@ builder.Services.AddSwaggerGen(
         });
     });
 builder.Services.AddSimpleAuthorization();
+builder.Services.AddHttpClient();
 var cephOptions = new CephOptions();
 var awsConfig = new AmazonS3Config
 {

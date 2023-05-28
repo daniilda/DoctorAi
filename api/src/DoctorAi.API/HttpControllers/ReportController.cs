@@ -47,16 +47,16 @@ public sealed class ReportController : ControllerBase
         var docRatesProc = (hight ?? 0) / doctors.Length * 10;
         var byDivision = doctors.GroupBy(z => z.Division);
         var orderedGroups = byDivision
-            .OrderByDescending(z => z.ToArray().Select(q => q.Rate).Sum() / z.ToArray().Length * 10);
+            .OrderByDescending(z => z.ToArray().Select(q => q.Rate).Sum() / z.ToArray().Length);
         var top1 = orderedGroups.First().Key;
-        var top1Val = orderedGroups.First().ToArray().Select(q => q.Rate).Sum() / orderedGroups.First().ToArray().Length * 10;
+        var top1Val = orderedGroups.First().ToArray().Select(q => q.Rate).Sum() / orderedGroups.First().ToArray().Length;
         var topLast = orderedGroups.Last().Key;
-        var topLastVal = orderedGroups.Last().ToArray().Select(q => q.Rate).Sum() / orderedGroups.Last().ToArray().Length * 10;
+        var topLastVal = orderedGroups.Last().ToArray().Select(q => q.Rate).Sum() / orderedGroups.Last().ToArray().Length;
         var groupedDoctors = doctors.GroupBy(q => new {Fio = q.LastName + " " + q.FirstName + " " + q.MiddleName, Position = q.Position});
         var orderedDoctors =
-            groupedDoctors.OrderByDescending(z => z.ToArray().Select(e => e.Rate).Sum() / z.ToArray().Length * 10).ToArray();
-        string Top1 = "", Top2 = "", Top3 = "";
-        int Top1Val = 0, Top2Val = 0, Top3Val = 0;
+            groupedDoctors.OrderByDescending(z => z.ToArray().Select(e => e.Rate).Sum() / z.ToArray().Length).ToArray();
+        string? Top1 = null, Top2 = null, Top3 = null;
+        int? Top1Val = null, Top2Val = null, Top3Val = null;
         if (orderedDoctors.Length > 0)
         {
             Top1 = orderedDoctors[0].Key.Fio;
@@ -80,8 +80,8 @@ public sealed class ReportController : ControllerBase
             {
                 AvgPerc = docRatesProc,
                 TopDivisionName = top1,
-                TopDivisionPerc = top1Val ?? 0,
-                LastDivisionPerc = topLastVal ?? 0,
+                TopDivisionPerc = top1Val,
+                LastDivisionPerc = topLastVal,
                 LastDivisionName = topLast,
                 Top1 = Top1,
                 Top1Val = Top1Val,
@@ -123,7 +123,7 @@ public sealed class ReportController : ControllerBase
                     await ParseDocxAsync(file, reportId, docDbs);
                     break;
                 case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-                    await ParseXlsxAsync(file);
+                    await ParseXlsxAsync(file, reportId, docDbs);
                     break;
             }
         }
@@ -441,10 +441,100 @@ public sealed class ReportController : ControllerBase
         await _db.InsertAsync(patDb);
     }
 
-    private async Task ParseXlsxAsync(IFormFile file)
+    private async Task ParseXlsxAsync(IFormFile file, Guid reportId, List<ReportDocDb> docDbs)
     {
         await Task.Delay(1);
         using var workbook = new XLWorkbook(file.OpenReadStream());
         var ws = workbook.Worksheets.First();
+        var row = 2;
+        while (true)
+        {
+            if(ws.Cell(row, 1).Value.IsBlank)
+                break;
+
+            var sex = ws.Cell(row, 1).Value.ToString();
+            var date = ws.Cell(row, 2).Value.ToString();
+            var last = ws.Cell(row, 3).Value.ToString();
+            var first = ws.Cell(row, 4).Value.ToString();
+            var middle = ws.Cell(row, 5).Value.ToString();
+            var code = ws.Cell(row, 6).Value.ToString();
+            var diag = ws.Cell(row, 7).Value.ToString();
+            var appoint = ws.Cell(row, 8).Value.ToString().Split(";").Select(q => q.Trim()).ToArray();
+            var position = ws.Cell(row, 9).Value.ToString();
+            var division = ws.Cell(row, 10).Value.ToString();
+            var lastd = ws.Cell(row, 11).Value.ToString();
+            var firstd = ws.Cell(row, 12).Value.ToString();
+            var midld = ws.Cell(row, 13).Value.ToString();
+
+            var docDb = docDbs.FirstOrDefault(
+                x => x.MiddleName == midld &&
+                     x.LastName == lastd && x.FirstName == firstd && x.Position == position
+                     && x.Division == division) ?? new ReportDocDb
+            {
+                Id = Guid.NewGuid(),
+                FirstName = firstd,
+                LastName = lastd,
+                MiddleName = midld,
+                Division = division,
+                Position = position,
+            };
+            if (docDbs.FirstOrDefault(
+                    x => x.MiddleName == midld &&
+                         x.LastName == lastd && x.FirstName == firstd && x.Position == position
+                         && x.Division == division) is null)
+                docDbs.Add(docDb);
+
+            var patDb = new ReportPatientDb
+            {
+                LastName = last,
+                FirstName = first,
+                MiddleName = middle,
+                Date = DateOnly.FromDateTime(DateTime.Parse(date, CultureInfo.GetCultureInfo("ru-RU"))),
+                Diagnosis = diag,
+                Code = code,
+                Sex = sex,
+                Id = Guid.NewGuid()
+            };
+
+            var appointments = new List<ReportAppointmentDb>();
+            foreach (var rows in appoint)
+            {
+                appointments.Add(
+                    new ReportAppointmentDb
+                    {
+                        AppointmentState = null,
+                        Name = rows,
+                        Id = Guid.NewGuid()
+                    });
+            }
+
+            var links = new List<ReportLinkDb>();
+            foreach (var appointment in appointments)
+            {
+                links.Add(
+                    new ReportLinkDb
+                    {
+                        ReportId = reportId,
+                        ReportDocId = docDb.Id,
+                        ReportPatientId = patDb.Id,
+                        ReportAppointmentId = appointment.Id
+                    });
+            }
+
+            foreach (var app in appointments)
+            {
+                await _db.InsertAsync(app);
+            }
+
+            foreach (var link in links)
+            {
+                await _db.InsertAsync(link);
+            }
+
+            await _db.InsertAsync(patDb);
+
+            row++;
+        }
+
     }
 }
