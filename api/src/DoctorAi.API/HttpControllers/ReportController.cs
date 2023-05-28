@@ -453,18 +453,17 @@ public sealed class ReportController : ControllerBase
                 break;
 
             var sex = ws.Cell(row, 1).Value.ToString();
-            var date = ws.Cell(row, 2).Value.ToString();
-            var last = ws.Cell(row, 3).Value.ToString();
-            var first = ws.Cell(row, 4).Value.ToString();
-            var middle = ws.Cell(row, 5).Value.ToString();
-            var code = ws.Cell(row, 6).Value.ToString();
-            var diag = ws.Cell(row, 7).Value.ToString();
-            var appoint = ws.Cell(row, 8).Value.ToString().Split(";").Select(q => q.Trim()).ToArray();
-            var position = ws.Cell(row, 9).Value.ToString();
-            var division = ws.Cell(row, 10).Value.ToString();
-            var lastd = ws.Cell(row, 11).Value.ToString();
-            var firstd = ws.Cell(row, 12).Value.ToString();
-            var midld = ws.Cell(row, 13).Value.ToString();
+            var last = ws.Cell(row, 2).Value.ToString();
+            var first = ws.Cell(row, 3).Value.ToString();
+            var middle = ws.Cell(row, 4).Value.ToString();
+            var code = ws.Cell(row, 5).Value.ToString();
+            var diag = ws.Cell(row, 6).Value.ToString();
+            var appoint = ws.Cell(row, 7).Value.ToString().Split(";").Select(q => q.Trim()).ToArray();
+            var position = ws.Cell(row, 8).Value.ToString();
+            var division = ws.Cell(row, 9).Value.ToString();
+            var lastd = ws.Cell(row, 10).Value.ToString();
+            var firstd = ws.Cell(row, 11).Value.ToString();
+            var midld = ws.Cell(row, 12).Value.ToString();
 
             var docDb = docDbs.FirstOrDefault(
                 x => x.MiddleName == midld &&
@@ -489,7 +488,6 @@ public sealed class ReportController : ControllerBase
                 LastName = last,
                 FirstName = first,
                 MiddleName = middle,
-                Date = DateOnly.FromDateTime(DateTime.Parse(date, CultureInfo.GetCultureInfo("ru-RU"))),
                 Diagnosis = diag,
                 Code = code,
                 Sex = sex,
