@@ -18,11 +18,15 @@ export const ThemeStore = new (class {
       setStoredTheme(this.theme);
     }
     document.documentElement.setAttribute("data-color-scheme", this.theme);
+    document.body.style.backgroundColor =
+      this.theme === "dark" ? "#282828" : "#F6F5FC";
   }
 
   public setTheme = (newTheme: AppTheme) => {
     this.theme = newTheme;
     setStoredTheme(newTheme);
     document.documentElement.setAttribute("data-color-scheme", this.theme);
+    document.body.style.backgroundColor =
+      this.theme === "dark" ? "#282828" : "#F6F5FC";
   };
 })();
