@@ -58,4 +58,11 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resourses\arial.ttf" />
+      <AdditionalFiles Include="Resourses\arial.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+    </ItemGroup>
+
 </Project>
