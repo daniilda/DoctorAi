@@ -175,11 +175,11 @@ public sealed class ReportController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Report>> GetReport([FromRoute] Guid id)
     {
-        var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-        var creator = await _db.Users.FirstAsync(z => z.Id == Guid.Parse(userId));
+
         var report = await _db.Reports.FirstOrDefaultAsync(x => x.Id == id);
         if (report is null)
             return NotFound();
+        var creator = await _db.Users.FirstAsync(z => z.Id == report.CreatorId);
         var linksDb = _db.Links.Where(y => y.ReportId == report.Id).Select(x => x.ReportDocId);
         var docsDb = _db.Docs.Where(
             x => x.Id.In(linksDb));
@@ -208,7 +208,7 @@ public sealed class ReportController : ControllerBase
                 {
                     Id = z.Id,
                     FirstName = z.FirstName,
-                    LastName = z.FirstName,
+                    LastName = z.LastName,
                     PdfUrl = z.PdfUrl!,
                     DocxUrl = z.DocxUrl!,
                     MiddleName = z.MiddleName,
@@ -445,5 +445,6 @@ public sealed class ReportController : ControllerBase
     {
         await Task.Delay(1);
         using var workbook = new XLWorkbook(file.OpenReadStream());
+        var ws = workbook.Worksheets.First();
     }
 }

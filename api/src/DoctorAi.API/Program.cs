@@ -1,8 +1,14 @@
+using Amazon.Runtime;
+using Amazon.S3;
+using DoctorAi.API;
 using DoctorAi.API.Infrastructure.Authorization.Extensions;
 using DoctorAi.API.Infrastructure.DataAccess.Extensions;
 using DoctorAi.API.Infrastructure.DataAccess.Migrations;
 using FluentMigrator.Runner;
 using Microsoft.OpenApi.Models;
+using QuestPDF.Infrastructure;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddLinq2DbAppConnection();
 builder.Services.AddMigrator(typeof(InitMigration).Assembly);
+builder.Services.AddSingleton<CephOptions>();
 builder.Services.AddSwaggerGen(
     opt =>
     {
@@ -38,8 +45,20 @@ builder.Services.AddSwaggerGen(
         });
     });
 builder.Services.AddSimpleAuthorization();
+var cephOptions = new CephOptions();
+var awsConfig = new AmazonS3Config
+{
+    ServiceURL = $"https://{cephOptions.S3Address}",
+};
 
+var awsClient = new AmazonS3Client(
+    new BasicAWSCredentials(
+        cephOptions.AccessKey,
+        cephOptions.SecretKey),
+    awsConfig);
 
+builder.Services.AddSingleton<IAmazonS3>(awsClient);
+builder.Services.AddHostedService<ReportProcessor>();
 var app = builder.Build();
 
 app.UseSwagger();
