@@ -65,7 +65,7 @@ public class ReportTemplate : IDocument
 
                                         var qrGenerator = new QRCodeGenerator();
                                         var qrCodeData = qrGenerator.CreateQrCode(
-                                            $"{Environment.GetEnvironmentVariable("WEB_UI_URL") ?? "localhost"}/preview/{_report.Id}",
+                                            $"{Environment.GetEnvironmentVariable("WEB_UI_URL") ?? "localhost/"}preview/{_report.Id}",
                                             QRCodeGenerator.ECCLevel.Q);
                                         var qrCode = new PngByteQRCode(qrCodeData);
                                         byte[] qrCodeImage = qrCode.GetGraphic(20);
@@ -130,7 +130,7 @@ public class ReportTemplate : IDocument
                                                                 $"Соответствие {(doc.Rate != null ? doc.Rate.Value : "--")} %")
                                                             .FontSize(20);
                                                         if (doc.Rate is null)
-                                                            text.FontColor(Colors.Grey.Lighten4);
+                                                            text.FontColor(Colors.Grey.Darken1);
                                                         if (doc.Rate >= 80)
                                                             text.FontColor(Colors.Green.Darken3);
                                                         if (doc.Rate < 80)
@@ -171,6 +171,12 @@ public class ReportTemplate : IDocument
                                                                 .BorderColor(Colors.Red.Darken1).PaddingLeft(10)
                                                                 .PaddingRight(10).Text($"Есть замечания")
                                                                 .FontColor(Colors.White).FontSize(16);
+                                                        if (patient.Rate is null)
+                                                            qwe.RelativeItem().AlignCenter().Container()
+                                                                .Background(Colors.Grey.Darken1)
+                                                                .BorderColor(Colors.Grey.Darken1).PaddingLeft(10)
+                                                                .PaddingRight(10).Text($"Не определенно")
+                                                                .FontColor(Colors.White).FontSize(16);
                                                         qwe.RelativeItem().Container().Text($"").FontSize(16);
                                                     });
                                                 c.Item().Container().Text($"Диагноз: {patient.Diagnosis}").FontSize(10);
@@ -208,7 +214,11 @@ public class ReportTemplate : IDocument
                                                                     .Text("Дополнительнительное назначение")
                                                                     .FontColor(Colors.White);
                                                             if (appoint.AppointmentState == null)
-                                                                table.Cell();
+                                                                table.Cell().Background(Colors.Grey.Darken1)
+                                                                    .BorderColor(Colors.Grey.Darken1).AlignMiddle()
+                                                                    .Container().AlignCenter()
+                                                                    .Text("Не определенно")
+                                                                    .FontColor(Colors.White);
                                                         }
                                                     });
                                             }
