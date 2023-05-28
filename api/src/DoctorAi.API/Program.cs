@@ -1,5 +1,7 @@
 using Amazon.Runtime;
 using Amazon.S3;
+using ClosedXML.Excel;
+using ClosedXML.Graphics;
 using DoctorAi.API;
 using DoctorAi.API.Infrastructure.Authorization.Extensions;
 using DoctorAi.API.Infrastructure.DataAccess.Extensions;
@@ -11,7 +13,7 @@ using QuestPDF.Infrastructure;
 QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
-
+LoadOptions.DefaultGraphicEngine = new DefaultGraphicEngine("Arial");
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddLinq2DbAppConnection();
@@ -45,6 +47,7 @@ builder.Services.AddSwaggerGen(
         });
     });
 builder.Services.AddSimpleAuthorization();
+builder.Services.AddHttpClient();
 var cephOptions = new CephOptions();
 var awsConfig = new AmazonS3Config
 {
@@ -73,13 +76,14 @@ app.UseCors(cors
     cors.AllowAnyMethod();
 });
 
-if (args.Contains("migrate"))
+if (args.Contains("migrate") || Environment.GetEnvironmentVariable("AUTO_MIGRATE") == "true")
 {
     await using var scope = app.Services.CreateAsyncScope();
     var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
     runner.ListMigrations();
     runner.MigrateUp();
-    return;
+    if (args.Contains("migrate"))
+        return;
 }
 
 await app.RunAsync();
