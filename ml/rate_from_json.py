@@ -183,7 +183,8 @@ def get_summary_new(input_example: dict) -> dict:
             elif y_pred_nesses[i] > y_true_nesses[i] or y_pred_unnesses[i] > y_true_unnesses[i]:
                 cur_info[3].append(desease['Направление'].iloc[i])
 
-        referrals_info[input_example['doctors_to_client'][doctor_id]] = cur_info
+        for client_id in test_doctors:
+            referrals_info[client_id] = cur_info
 
     output = {'output_rates': doctor_stats, 'referrals_info': referrals_info}
     return output
