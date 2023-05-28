@@ -41,7 +41,7 @@ FROM build AS publish
 RUN dotnet publish "src/DoctorAi.API/DoctorAi.API.csproj" -c Release -o /app/publish
 
 RUN mkdir -p /usr/share/fonts/truetype/
-RUN install -m644 arial.ttf /usr/share/fonts/truetype/
+RUN install -m644 Resourses/arial.ttf /usr/share/fonts/truetype/
 
 FROM base AS final
 ENV DOTNET_RUNNING_IN_CONTAINER=true
