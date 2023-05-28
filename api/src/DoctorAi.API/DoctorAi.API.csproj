@@ -41,10 +41,21 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resourses\**" />
-      <Resource Include="Resourses\**">
+      <Resource Include="Resourses/Frame.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Resource>
+      <Resource Include="Resourses/Frame1.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <Resource Include="Resourses/QR.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Resourses\**">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
