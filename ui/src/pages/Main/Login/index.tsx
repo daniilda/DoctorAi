@@ -28,7 +28,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full px-4">
+    <main className="flex flex-col items-center w-full px-4">
       <Logo className="max-w-xs sm:max-w-md mt-20" />
       <form
         className="flex flex-col mt-16 w-full sm:max-w-[368px] gap-4 px-6"
@@ -52,7 +52,7 @@ const Login = () => {
           Войти
         </Button>
       </form>
-    </div>
+    </main>
   );
 };
 

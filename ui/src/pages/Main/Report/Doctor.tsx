@@ -24,36 +24,22 @@ function pluralize(count: number) {
   }
 }
 
-const PatientCard = ({ p, onClick }: { p: Patient; onClick: () => void }) => {
-  // const [color, text] = (() => {
-  //   switch (p.rate) {
-  //     case 1:
-  //       return ["var(--colors-status-ok)", "Правильные заключения"];
-  //     case 2:
-  //       return ["var(--colors-status-error)", "Недостающие заключения"];
-  //     case 3:
-  //       return ["var(--colors-status-error)", "Лишние заключения"];
-  //     default:
-  //       return ["var(--colors-status-warning)", "Нет информации"];
-  //   }
-  // })();
-  return (
-    <div
-      className={`${cardWithHover} ${cl.card} items-center justify-between gap-4 select-none`}
-      onClick={onClick}
-    >
-      <div className="flex flex-col gap-1">
-        <h2 className="text-2xl font-bold">{toFullName(p)}</h2>
-        <p className="text-primary text-lg">
-          {pluralize(p.reportAppointments.length)}
-        </p>
-      </div>
-      <div className="flex items-center">
-        <ChevronSvg className={cl.card__chevron} />
-      </div>
+const PatientCard = ({ p, onClick }: { p: Patient; onClick: () => void }) => (
+  <div
+    className={`${cardWithHover} ${cl.card} items-center justify-between gap-4 select-none`}
+    onClick={onClick}
+  >
+    <div className="flex flex-col gap-1">
+      <h2 className="text-2xl font-bold">{toFullName(p)}</h2>
+      <p className="text-primary text-lg">
+        {pluralize(p.reportAppointments.length)}
+      </p>
     </div>
-  );
-};
+    <div className="flex items-center">
+      <ChevronSvg className={cl.card__chevron} />
+    </div>
+  </div>
+);
 
 const Doctor = observer(
   ({ onPatientClick }: { onPatientClick: (p: Patient) => void }) => {

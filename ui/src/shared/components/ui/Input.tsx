@@ -33,13 +33,13 @@ export const Input: React.FC<InputProps> = ({
         style={{
           boxShadow: error ? "0 0 0 1px rgb(var(--colors-error))" : "",
         }}
-        onChange={(e) => onChange && onChange(e.target.value)}
+        onChange={(e) => onChange?.(e.target.value)}
         {...rest}
       />
       {allowClear && rest.value && (
         <button
           className="absolute w-5 text-gray-500/50 right-4 focus:outline-none hover:text-gray-500/80"
-          onClick={() => onChange && onChange("")}
+          onClick={() => onChange?.("")}
         >
           <ClearSvg />
         </button>

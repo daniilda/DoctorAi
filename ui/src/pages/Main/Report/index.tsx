@@ -9,10 +9,17 @@ import { useEffect, useState } from "react";
 import Patient from "./Patient";
 import { Patient as PatientModel } from "@/api/endpoints";
 
+/**
+ * Refetch processing report every 10 seconds
+ */
+const REPORT_REFRESH_INTERVAL_MS = 10_000;
+
 const Report = observer(() => {
   const { id } = useParams();
   const vm = ReportStore;
-  const [doctorClass, setDoctorClass] = useState("slide-right");
+  const [animationClass, setAnimationClass] = useState<
+    "slide-right" | "slide-left"
+  >("slide-right");
 
   useEffect(() => {
     if (id && id !== vm.report?.id) {
@@ -25,18 +32,17 @@ const Report = observer(() => {
   }, [id, vm]);
 
   useEffect(() => {
-    // refetch report every 5 seconds
     const interval = setInterval(() => {
       if (vm.report && !vm.report?.isReady) {
         vm.getReport(vm.report.id, false);
       }
-    }, 10000);
+    }, REPORT_REFRESH_INTERVAL_MS);
 
     return () => clearInterval(interval);
   }, [vm]);
 
   const onPatientSelect = (p: PatientModel) => {
-    setDoctorClass("slide-left");
+    setAnimationClass("slide-left");
     setTimeout(() => {
       vm.selectedPatient = p;
     }, 10);
@@ -45,12 +51,12 @@ const Report = observer(() => {
   const onPatientReturn = () => {
     vm.selectedPatient = null;
     setTimeout(() => {
-      setDoctorClass("slide-right");
+      setAnimationClass("slide-right");
     }, 300);
   };
 
   return (
-    <div className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:mt-6 lg:mt-8 gap-3 appear pb-4">
+    <main className="flex flex-col max-w-screen-max w-full px-4 lg:px-8 mt-4 md:mt-6 lg:mt-8 gap-3 pb-4">
       {vm.report && !vm.report.isReady && (
         <div className="select-none w-full p-8 rounded-xl bg-status-warning/10 flex flex-col gap-3 shadow-sm mb-2 flex-wrap">
           <div className="flex items-center flex-wrap gap-3">
@@ -78,7 +84,7 @@ const Report = observer(() => {
           <CSSTransition
             key="doctor"
             timeout={150}
-            classNames={doctorClass}
+            classNames={animationClass}
             unmountOnExit
           >
             <Doctor onPatientClick={onPatientSelect} />
@@ -94,7 +100,7 @@ const Report = observer(() => {
           </CSSTransition>
         )}
       </SwitchTransition>
-    </div>
+    </main>
   );
 });
 

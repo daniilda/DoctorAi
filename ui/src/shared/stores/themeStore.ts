@@ -14,19 +14,19 @@ export const ThemeStore = new (class {
     makeAutoObservable(this);
     if (getStoredTheme()) {
       this.theme = getStoredTheme() as AppTheme;
-    } else {
-      setStoredTheme(this.theme);
     }
-    document.documentElement.setAttribute("data-color-scheme", this.theme);
-    document.body.style.backgroundColor =
-      this.theme === "dark" ? "#282828" : "#F6F5FC";
+    this.updateTheme();
   }
 
   public setTheme = (newTheme: AppTheme) => {
     this.theme = newTheme;
-    setStoredTheme(newTheme);
+    this.updateTheme();
+  };
+
+  private updateTheme = () => {
     document.documentElement.setAttribute("data-color-scheme", this.theme);
     document.body.style.backgroundColor =
       this.theme === "dark" ? "#282828" : "#F6F5FC";
+    setStoredTheme(this.theme);
   };
 })();

@@ -1,23 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, { ReactNode, useRef, useState } from "react";
 import Chevron from "@/assets/dropdown_chevron.svg";
 import { useClickOutside } from "@/utils/useClickOutside";
 
-interface DropdownProps<T = string> {
+interface DropdownProps<T, K extends keyof T> {
   items: T[];
-  value?: string;
+  value: T | null;
   onChange: (item: T) => void;
+  placeholder?: string;
   className?: string;
+  displayKey?: K;
 }
 
-export function Dropdown<T = string>({
+export const Dropdown = <T, K extends keyof T, V extends ReactNode>({
   items,
   value,
   onChange,
   className,
-}: DropdownProps<T>) {
+  displayKey,
+  placeholder = "Выбрать",
+}: DropdownProps<T, K>) => {
   const [expanded, setExpanded] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   useClickOutside<HTMLDivElement>([dropdownRef], () => setExpanded(false));
+
   return (
     <div
       ref={dropdownRef}
@@ -35,13 +40,17 @@ export function Dropdown<T = string>({
           setExpanded((prev) => !prev);
         }}
       >
-        {value}
+        {value
+          ? displayKey
+            ? (value[displayKey] as V)
+            : (value as unknown as V)
+          : placeholder}
         <Chevron
           width={16}
           className={`${expanded ? "" : "rotate-180"} ml-auto`}
         />
       </div>
-      {expanded ? (
+      {expanded && (
         <div className="absolute border-border-main border-[1px] border-t-0 bg-bg-accent rounded-b-xl overflow-hidden shadow-sm left-0 right-0 flex flex-col">
           {items.map((item, index) => (
             <div
@@ -52,13 +61,11 @@ export function Dropdown<T = string>({
                 setExpanded(false);
               }}
             >
-              {item as React.ReactNode}
+              {displayKey ? (item[displayKey] as V) : (item as unknown as V)}
             </div>
           ))}
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );
-}
+};

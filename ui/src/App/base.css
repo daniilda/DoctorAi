@@ -16,6 +16,10 @@ body,
   min-height: 100%;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 [data-color-scheme="dark"] {
   color-scheme: dark !important;
 }

@@ -32,7 +32,6 @@ export const ReportStore = new (class {
       this.report = await ReportEndpoint.getReport(id);
       this.sortItems(this.selectedSort, this.reverseOrder);
     } catch (e) {
-      console.log(e);
       window.location.replace("/login");
     }
   };

@@ -89,13 +89,14 @@ const Overview = observer(() => {
             onChange={(v) => (vm.selectedSort = v)}
           />
           <div
-            className="w-[56px] h-[56px] shadow-none hover:shadow-sm transition-shadow rounded-xl border-border-main border-[1px] cursor-pointer flex justify-center items-center p-4 bg-bg-accent text-text-secondary hover:text-text-primary"
-            style={{
-              rotate: vm.reverseOrder ? "180deg" : "0deg",
-            }}
+            className="w-[56px] h-[56px] shadow-none hover:shadow-sm transition-shadow rounded-xl border-border-main border-[1px] cursor-pointer flex justify-center items-center p-4 bg-bg-accent text-text-secondary"
             onClick={() => (vm.reverseOrder = !vm.reverseOrder)}
           >
-            <OrderSvg />
+            <OrderSvg
+              style={{
+                rotate: vm.reverseOrder ? "180deg" : "0deg",
+              }}
+            />
           </div>
         </div>
         <Input
