@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import ChevronSvg from "@/assets/chevron.svg";
-import { Button } from "@/components/ui";
 import { card, cardWithHover } from "./tailwind";
 import toFullName from "@/utils/toFullName";
 import useRating from "@/utils/useRating";
@@ -10,18 +9,26 @@ import { useEffect } from "react";
 import { ReportStore } from "@/stores/reportStore";
 import cl from "./styles.module.scss";
 
+const pluralForms = {
+  one: 'заключение',
+  few: 'заключения',
+  many: 'заключений'
+};
+
 function pluralize(count: number) {
+  let form: keyof typeof pluralForms;
   if (count % 10 === 1 && count % 100 !== 11) {
-    return count + " заключение";
+    form = 'one';
   } else if (
     count % 10 >= 2 &&
     count % 10 <= 4 &&
     (count % 100 < 10 || count % 100 >= 20)
   ) {
-    return count + " заключения";
+    form = 'few';
   } else {
-    return count + " заключений";
+    form = 'many';
   }
+  return `${count} ${pluralForms[form]}`;
 }
 
 const PatientCard = ({ p, onClick }: { p: Patient; onClick: () => void }) => (
@@ -72,7 +79,7 @@ const Doctor = observer(
           <div className="flex flex-col justify-center flex-1 gap-1">
             <h3 style={{ color }}>{vm.selectedDoctor?.position}</h3>
             <h2 className="text-2xl font-bold">
-              {toFullName(vm.selectedDoctor ?? {})}
+              {vm.selectedDoctor ? toFullName(vm.selectedDoctor) : ""}
             </h2>
           </div>
           <div
@@ -86,8 +93,8 @@ const Doctor = observer(
             docx={vm.selectedDoctor?.docxUrl}
           />
         </div>
-        {vm.selectedDoctor?.reportPatients.map((p, index) => (
-          <PatientCard key={index} p={p} onClick={() => onPatientClick(p)} />
+        {vm.selectedDoctor?.reportPatients.map((p) => (
+          <PatientCard key={p.id} p={p} onClick={() => onPatientClick(p)} />
         ))}
       </div>
     );

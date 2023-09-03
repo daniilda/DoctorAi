@@ -4,11 +4,16 @@ import { card } from "./tailwind";
 import toFullName from "@/utils/toFullName";
 import { Appointment } from "@/api/endpoints";
 import Download from "@/components/Download";
-import { CSSProperties, useEffect, useState } from "react";
+import {
+  CSSProperties,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { ReportStore } from "@/stores/reportStore";
 import cl from "./styles.module.scss";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { toJS } from "mobx";
 
 const parseAppointment = (state: number): [color: string, text: string] => {
   switch (state) {
@@ -27,8 +32,8 @@ const AppointmentCard = (a: Appointment) => {
   const [color, text] = parseAppointment(a.appointmentState);
 
   return (
-    <div className={`${card} flex-wrap items-center justify-between gap-4`}>
-      <div className="flex flex-col gap-1">
+    <div className={`${card} items-center justify-between gap-4 flex-wrap`}>
+      <div className="flex flex-col gap-1 sm:flex-1">
         <h2 className="text-3xl font-bold">{a.name}</h2>
       </div>
       <div
@@ -81,31 +86,27 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
   const vm = ReportStore;
   const [sort, setSort] = useState<("correct" | "incorrect" | "extra")[]>([]);
 
-  const [patientColor, patientText] = (() => {
-    if (
+  const [patientColor, patientText] = useMemo(
+    () =>
       vm.selectedPatient?.reportAppointments.some(
         (v) => v.appointmentState !== 1
       )
-    ) {
-      return ["var(--colors-status-warning)", "Есть замечания"];
-    } else {
-      return ["var(--colors-status-ok)", "Верные указания"];
-    }
-  })();
+        ? ["var(--colors-status-warning)", "Есть замечания"]
+        : ["var(--colors-status-ok)", "Верные указания"],
+    [vm.selectedPatient]
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const updateSort = (sort: "correct" | "incorrect" | "extra") => {
-    setSort((prev) => {
-      if (prev.includes(sort)) {
-        return prev.filter((v) => v !== sort);
-      } else {
-        return [...prev, sort];
-      }
-    });
-  };
+  const updateSort = useCallback(
+    (sort: "correct" | "incorrect" | "extra") =>
+      setSort((prev) =>
+        prev.includes(sort) ? prev.filter((v) => v !== sort) : [...prev, sort]
+      ),
+    [setSort]
+  );
 
   return (
     <div className="grid gap-3 w-full">
@@ -199,9 +200,9 @@ const Patient = observer(({ onReturn }: { onReturn: () => void }) => {
             if (v.appointmentState === 3) return sort.includes("incorrect");
             return sort.includes("extra");
           })
-          .map((v, index) => (
+          .map((v) => (
             <CSSTransition
-              key={index}
+              key={v.name}
               timeout={150}
               classNames="fade"
               unmountOnExit

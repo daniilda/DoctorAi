@@ -22,7 +22,7 @@ const get = (path: string, config?: any) =>
         if (error.response) {
           if (error.response.status === 401) {
             removeStoredAuthToken();
-            if (window && window.location) {
+            if (window?.location) {
               window.location.replace("/login");
             }
           }
@@ -49,7 +49,7 @@ const post = (path: string, variables?: any, config?: any) =>
         if (error.response) {
           if (error.response.status === 401) {
             removeStoredAuthToken();
-            if (window && window.location) {
+            if (window?.location) {
               window.location.replace("/login");
             }
           }

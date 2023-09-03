@@ -1,5 +1,5 @@
 const ProgressBar = ({ value, error }: { value: number; error?: boolean }) => (
-  <div className="relative flex bg-text-main h-16 w-full max-w-sm rounded-xl overflow-hidden shadow-xl">
+  <div className="relative flex bg-gray-900 h-16 w-full max-w-sm rounded-xl overflow-hidden shadow-xl">
     <div
       className={`transition-all duration-100 ${
         error ? "bg-status-error" : "bg-primary"

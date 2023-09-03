@@ -1,29 +1,22 @@
 import Logo from "@/assets/logo.svg";
 import { Button, Input } from "@/components/ui";
 import AuthStore from "@/stores/authStore";
-import { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("housemd");
+  const [username, setUsername] = useState("housemd");
   const [error, setError] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const onFormSubmit = async (e: any) => {
+  const onFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setDisabled(true);
-    setError(false);
-    if (!username || !password) {
-      setError(true);
-    } else {
-      const success = await AuthStore.login(username, password);
-      if (!success) {
-        setError(true);
-      }
-      if (success) navigate("/dashboard");
-    }
+    const success = await AuthStore.login(username, password);
+    if (success) navigate("/dashboard");
+    setError(!success);
     setDisabled(false);
   };
 
@@ -36,19 +29,21 @@ const Login = () => {
       >
         <h2 className="text-center font-bold text-3xl mb-4">Вход на сайт</h2>
         <Input
+          value={username}
           disabled={disabled}
-          error={error}
+          error={error && !disabled}
           onChange={setUsername}
           placeholder="Введите имя"
         />
         <Input
+          value={password}
           disabled={disabled}
-          error={error}
+          error={error && !disabled}
           type="password"
           onChange={setPassword}
           placeholder="Введите пароль"
         />
-        <Button className="mt-4" disabled={disabled}>
+        <Button className="mt-4" disabled={disabled || !username || !password}>
           Войти
         </Button>
       </form>

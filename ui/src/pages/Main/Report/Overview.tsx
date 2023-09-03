@@ -33,7 +33,7 @@ const DoctorCard = ({
         <div
           className={`flex flex-wrap-reverse items-center self-start gap-3 mt-auto`}
           style={{
-            color: color,
+            color,
           }}
         >
           <span
@@ -126,7 +126,7 @@ const Overview = observer(() => {
               key={index}
               name={toFullName(doc)}
               rating={doc.rate}
-              role={`${doc.division && doc.division}, ${doc.position}`}
+              role={`${doc.division}, ${doc.position}`}
               onClick={() => (vm.selectedDoctor = doc)}
             />
           ))}

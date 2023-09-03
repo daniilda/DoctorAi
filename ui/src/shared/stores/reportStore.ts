@@ -14,6 +14,7 @@ export const ReportStore = new (class {
   public selectedPatient: Patient | null = null;
   private _reverseOrder = false;
   private _selectedSort: SortOption = "По алфавиту";
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -56,30 +57,28 @@ export const ReportStore = new (class {
 
   private sortItems(value: SortOption, reverse: boolean) {
     if (!this.report || !this.report.reportDocs) return [];
-    switch (value) {
-      case "По алфавиту":
-        this.report.reportDocs.sort((a, b) => {
-          if (a.lastName > b.lastName) return 1;
-          else if (a.lastName < b.lastName) return -1;
-          return 0;
-        });
-        break;
-      case "По специальности":
-        this.report.reportDocs.sort((a, b) => {
-          if (a.position > b.position) return 1;
-          else if (a.position < b.position) return -1;
-          return 0;
-        });
-        break;
-      case "По соответствию":
-        this.report.reportDocs.sort((a, b) => {
-          if (!a.rate || !b.rate) return 0;
-          if (a.rate < b.rate) return 1;
-          else if (a.rate > b.rate) return -1;
-          return 0;
-        });
-        break;
+    const order = reverse ? -1 : 1;
+    const sortFunctions = {
+      "По алфавиту": (a, b) => {
+        if (a.lastName > b.lastName) return order;
+        else if (a.lastName < b.lastName) return -order;
+        return 0;
+      },
+      "По специальности": (a, b) => {
+        if (a.position > b.position) return order;
+        else if (a.position < b.position) return -order;
+        return 0;
+      },
+      "По соответствию": (a, b) => {
+        if (!a.rate || !b.rate) return 0;
+        if (a.rate < b.rate) return order;
+        else if (a.rate > b.rate) return -order;
+        return 0;
+      },
+    } as Record<SortOption, (a: DocMeta, b: DocMeta) => number>;
+    const sortFunction = sortFunctions[value];
+    if (sortFunction) {
+      this.report.reportDocs.sort(sortFunction);
     }
-    if (reverse) this.report.reportDocs.reverse();
   }
 })();

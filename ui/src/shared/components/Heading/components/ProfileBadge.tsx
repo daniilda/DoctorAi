@@ -35,7 +35,7 @@ export const ProfileBadge = observer(() => {
         <img
           src={AuthStore.user?.picUrl}
           alt="avatar"
-          className="w-10 h-10 rounded-full select-none"
+          className="w-10 h-10 rounded-full select-none object-cover"
         />
         <div className="flex flex-col justify-between">
           {AuthStore.user?.firstName} {AuthStore.user?.lastName}
@@ -48,8 +48,8 @@ export const ProfileBadge = observer(() => {
         <ProfileSvg />
       </div>
       {expanded && (
-        <div className="appear absolute top-16 right-0 min-w-full md:w-48 bg-bg-nav backdrop-blur-md rounded-lg shadow-md">
-          <ul className="flex flex-col gap-2 p-2">
+        <div className="appear absolute top-12 right-0 min-w-full md:w-48 bg-bg-nav backdrop-blur-md rounded-lg shadow-md">
+          <ul className="flex flex-col p-2">
             <li className="gap-2 items-center flex md:hidden w-max p-1">
               <img
                 src={AuthStore.user?.picUrl}

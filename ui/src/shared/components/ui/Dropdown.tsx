@@ -11,7 +11,7 @@ interface DropdownProps<T, K extends keyof T> {
   displayKey?: K;
 }
 
-export const Dropdown = <T, K extends keyof T, V extends ReactNode>({
+export const Dropdown = <T, K extends keyof T>({
   items,
   value,
   onChange,
@@ -40,11 +40,13 @@ export const Dropdown = <T, K extends keyof T, V extends ReactNode>({
           setExpanded((prev) => !prev);
         }}
       >
-        {value
-          ? displayKey
-            ? (value[displayKey] as V)
-            : (value as unknown as V)
-          : placeholder}
+        {
+          (value
+            ? displayKey
+              ? value[displayKey]
+              : value
+            : placeholder) as string
+        }
         <Chevron
           width={16}
           className={`${expanded ? "" : "rotate-180"} ml-auto`}
@@ -61,7 +63,7 @@ export const Dropdown = <T, K extends keyof T, V extends ReactNode>({
                 setExpanded(false);
               }}
             >
-              {displayKey ? (item[displayKey] as V) : (item as unknown as V)}
+              {(displayKey ? item[displayKey] : item) as string}
             </div>
           ))}
         </div>

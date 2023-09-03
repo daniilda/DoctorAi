@@ -2,9 +2,11 @@ import { AuthEndpoint, UserResult } from "@/api/endpoints/AuthEndpoint";
 import { removeStoredAuthToken } from "@/utils/authToken";
 import { makeAutoObservable } from "mobx";
 
+type AuthState = "loading" | "anonymous" | "authorized";
+
 const AuthStore = new (class {
   public user: UserResult | null = null;
-  public authState: "loading" | "anonymous" | "authorized" = "loading";
+  public authState: AuthState = "loading";
 
   constructor() {
     makeAutoObservable(this);
@@ -12,13 +14,18 @@ const AuthStore = new (class {
   }
 
   public async login(username: string, password: string) {
-    const user = await AuthEndpoint.login(username, password);
-    if (user) {
-      this.user = user;
-      this.authState = "authorized";
-      return true;
+    if (!username || !password) return false;
+    try {
+      const user = await AuthEndpoint.login(username, password);
+      if (user) {
+        this.user = user;
+        this.authState = "authorized";
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
     }
-    return false;
   }
 
   public logout() {
@@ -30,11 +37,17 @@ const AuthStore = new (class {
   public async checkAuth() {
     try {
       const user = await AuthEndpoint.getUser();
-      if (user) {
-        this.user = user;
-        this.authState = "authorized";
-      }
+      this.setUserAndAuthState(user);
     } catch {
+      this.setUserAndAuthState(null);
+    }
+  }
+
+  private setUserAndAuthState(user: UserResult | null) {
+    if (user) {
+      this.user = user;
+      this.authState = "authorized";
+    } else {
       this.user = null;
       this.authState = "anonymous";
     }

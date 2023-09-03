@@ -9,9 +9,10 @@ const MobileNav = observer(() => {
   if (AuthStore.authState !== "authorized") {
     return <></>;
   }
+
   return (
     <>
-      <div className="fixed left-0 border-t-text-placeholder/30 border-t-[1px] bottom-0 right-0 h-16 bg-bg-nav/70 backdrop-blur-md flex">
+      <nav className="fixed left-0 border-t-text-placeholder/30 border-t-[1px] bottom-0 right-0 h-16 bg-bg-nav/70 backdrop-blur-md flex">
         <Link
           to="/upload"
           className={`flex items-center justify-center gap-2 w-full ${
@@ -31,9 +32,9 @@ const MobileNav = observer(() => {
           <ReportsSvg width={24} />
           <span className="font-medium select-none">Все отчёты</span>
         </Link>
-      </div>
+      </nav>
       {/* measurer */}
-      <div className="h-16"></div>
+      <div className="h-16" />
     </>
   );
 });

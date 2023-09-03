@@ -9,7 +9,6 @@ import ProgressBar from "./components/ProgressBar";
 import { Checkmark } from "@/components/ui";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ReportStore } from "@/stores/reportStore";
 
 const UploadPage = observer(() => {
   const vm = useViewModel(() => new UploadStore());

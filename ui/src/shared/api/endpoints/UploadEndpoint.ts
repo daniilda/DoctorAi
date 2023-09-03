@@ -1,15 +1,29 @@
 import api from "@/utils/api";
 
+const IS_MOCK = import.meta.env.VITE_IS_MOCK === "true";
+
 interface UploadResult {
   id: string;
 }
 
-export const UploadEndpoint = new (class {
-  async upload(
+export namespace UploadEndpoint {
+  export const upload = async (
     files: File[],
     title: string,
     onProgress?: (progress: number) => void
-  ) {
+  ) => {
+    if (IS_MOCK) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      for (let i = 1; i <= 10; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 150));
+
+        onProgress?.(i * 10);
+      }
+
+      return { id: "mock1" } as UploadResult;
+    }
+
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("FileCollection", file);
@@ -24,5 +38,5 @@ export const UploadEndpoint = new (class {
       },
     });
     return { id: result } as UploadResult;
-  }
-})();
+  };
+}

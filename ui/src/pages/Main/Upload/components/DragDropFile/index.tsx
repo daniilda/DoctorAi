@@ -32,10 +32,10 @@ const DragDropFile = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
   return (
     <form
       className="w-full"
-      onDragStart={(e) => onDragStart(e)}
-      onDragLeave={(e) => onDragLeave(e)}
-      onDragOver={(e) => onDragStart(e)}
-      onDrop={(e) => onDrop(e)}
+      onDragStart={onDragStart}
+      onDragLeave={onDragLeave}
+      onDragOver={onDragStart}
+      onDrop={onDrop}
     >
       <input
         className="hidden"

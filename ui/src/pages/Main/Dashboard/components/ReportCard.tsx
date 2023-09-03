@@ -12,7 +12,7 @@ export const ReportCard = ({
   onClick: () => void;
 }) => (
   <div
-    className={`${cardWithHover} gap-4 items-center select-none`}
+    className={`${cardWithHover} ${cl.card} gap-4 items-center select-none`}
     onClick={onClick}
   >
     <div className="flex flex-1 flew-wrap flex-col md:flex-row gap-4">

@@ -16,10 +16,10 @@ export class UploadStore {
   }
 
   addFiles = (files: File[]) => {
-    for (let i = 0; i < files.length; i++) {
-      const extention = files[i].name.split(".").pop()?.toLowerCase();
+    for (const file of files) {
+      const extention = file.name.split(".").pop()?.toLowerCase();
       if (extention !== "docx" && extention !== "xlsx") return;
-      this.files.push(files[i]);
+      this.files.push(file);
     }
     // this.files = [...this.files, ...files];
   };
@@ -46,12 +46,12 @@ export class UploadStore {
     ).catch(() => {
       this.status = "error";
     });
-    if (result) {
-      this.reportId = result.id;
-      const report = await ReportEndpoint.getReport(result.id);
-      this.status = "success";
-      ReportStore.report = report;
-    }
+    if (!result) return;
+
+    this.reportId = result.id;
+    const report = await ReportEndpoint.getReport(result.id);
+    this.status = "success";
+    ReportStore.report = report;
   }
 
   public dispose = () => {

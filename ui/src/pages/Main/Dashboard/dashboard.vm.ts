@@ -12,8 +12,7 @@ export const DashboardStore = new (class {
   }
 
   private async _init() {
-    this.reports = await ReportEndpoint.getReports();
-    this.dashboard = await ReportEndpoint.getDashboard();
+    await this.updateDashboard();
     this.wasLoaded = true;
   }
 
