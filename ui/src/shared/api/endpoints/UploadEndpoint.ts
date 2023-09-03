@@ -13,13 +13,15 @@ export namespace UploadEndpoint {
     onProgress?: (progress: number) => void
   ) => {
     if (IS_MOCK) {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       for (let i = 1; i <= 10; i++) {
         await new Promise((resolve) => setTimeout(resolve, 150));
 
         onProgress?.(i * 10);
       }
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       return { id: "mock1" } as UploadResult;
     }

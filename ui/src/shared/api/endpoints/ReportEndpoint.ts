@@ -1,6 +1,6 @@
 import api from "@/utils/api";
 import { UserResult } from "./AuthEndpoint";
-import { MOCK_DASHBOARD, MOCK_REPORTS, MOCK_REPORT_PENDING } from "./mocks";
+import { MOCK_DASHBOARD, MOCK_REPORTS } from "./mocks";
 
 const IS_MOCK = import.meta.env.VITE_IS_MOCK === "true";
 

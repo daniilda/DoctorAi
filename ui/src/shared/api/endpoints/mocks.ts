@@ -182,15 +182,15 @@ export const MOCK_REPORT_PENDING: ReportResult = {
 };
 
 export const MOCK_DASHBOARD: Dashboard = {
-  avgPerc: 4,
+  avgPerc: 64,
   topDivisionName: "Терапия",
-  topDivisionPerc: 63,
-  lastDivisionName: "",
+  topDivisionPerc: 95,
+  lastDivisionName: "Дерматология",
   lastDivisionPerc: 21,
   top1: "Антонов Илья Олегович",
   top1Val: 100,
   top2: "Корнева Дарья Сергеевна",
-  top2Val: 42,
+  top2Val: 64,
   top3: "Данильчук Денис Александрович",
   top3Val: 27,
 };
