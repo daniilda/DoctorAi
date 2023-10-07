@@ -70,7 +70,7 @@ const UploadPage = observer(() => {
                 <DragDropFile onUpload={vm.addFiles} />
               </div>
               <p className="text-center text-text-placeholder mt-4 mb-8 select-none">
-                поддерживются форматы docx и xlsx
+                поддерживаются форматы docx и xlsx
               </p>
             </div>
           )}
